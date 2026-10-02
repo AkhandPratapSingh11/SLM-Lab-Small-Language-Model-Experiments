@@ -4,21 +4,6 @@
 
 ---
 
-## 📌 Repo Name Suggestion
-
-```
-SLM-Lab
-```
-or
-```
-slm-experiments
-```
-
-> **About (GitHub description):**
-> *"End-to-end experiments with Small & Large Language Models — Hugging Face ecosystem, BERT fine-tuning, knowledge distillation, quantization (INT8/INT4), and domain-specific LLM fine-tuning with LoRA, SFT & DPO. Includes detailed notes in every module."*
-
----
-
 ## 🗂️ Repository Structure
 
 ```
