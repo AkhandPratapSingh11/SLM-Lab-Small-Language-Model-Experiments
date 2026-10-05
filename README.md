@@ -1,6 +1,6 @@
 # 🧠 SLM-Lab — Small Language Model Experiments
 
-> **A structured, hands-on lab notebook series** for learning and experimenting with Small Language Models (SLMs) and Large Language Models (LLMs) — covering the full pipeline from model loading to fine-tuning, distillation, quantization, alignment, and no-code/CLI fine-tuning frameworks.
+> **A structured, hands-on lab notebook series** for learning and experimenting with Small Language Models (SLMs) and Large Language Models (LLMs) — covering the full pipeline from model loading to fine-tuning, distillation, quantization, alignment, LLaMA Factory, and ultra-fast Unsloth acceleration.
 
 ---
 
@@ -35,10 +35,15 @@ SLM_Experiment/
 │   ├── non_Instruction_pretrain_llm_finetuning_on_domain_specific_data.ipynb
 │   └── content/                     ← Domain datasets (Metformin.pdf)
 │
-└── 06_lammafactory/         ← LLaMA Factory (WebUI + CLI + YAML Engine)
-    ├── llamafactory.ipynb           ← Master notebook (WebUI, CLI, QLoRA, Export)
-    ├── LLAMA_FACTORY_NOTES.md       ← 2,300+ line comprehensive reference notes
-    └── *.pdf                        ← Visual lecture notes & parameter cheatsheets
+├── 06_lammafactory/         ← LLaMA Factory Framework (WebUI + CLI Engine)
+│   ├── llamafactory.ipynb           ← Master notebook (WebUI, YAML configs, QLoRA)
+│   ├── LLAMA_FACTORY_NOTES.md       ← 2,300+ line comprehensive reference notes
+│   └── *.pdf                        ← Visual lecture notes & parameter cheatsheets
+│
+└── 07_unsloth/              ← Unsloth Ultra-Fast & Memory-Efficient Fine-Tuning 🦥
+    ├── unsloth_practical.ipynb      ← Master tutorial notebook (LoRA, SFT, Export)
+    ├── UNSLOTH_NOTES.md             ← 800+ line comprehensive architectural guide
+    └── *.pdf                        ← Lecture slides & handwritten notes
 ```
 
 ---
@@ -120,23 +125,38 @@ Domain Specialist Assistant  (Pharmacology: Metformin, Atorvastatin, mRNA)
 ### `06` — LLaMA Factory Framework (WebUI + CLI) 🚀
 > Industrial-grade, all-in-one fine-tuning engine supporting 100+ open-source LLMs.
 
+- **WebUI & CLI:** Train via browser GUI (LlamaBoard) or reproducible YAML configuration scripts
+- **Supported Formats:** Alpaca (Instruction), ShareGPT (Chat), DPO (Preference), KTO
+- **Training Stages:** Pretraining, SFT, Reward Modeling, PPO (RLHF), DPO, KTO
+- **PEFT Methods:** LoRA, QLoRA (4-bit BitsAndBytes / HQQ), Freeze Tuning, Full FT
+- **Accelerators:** Unsloth kernels, GaLore (gradient projection), FlashAttention-2
+- **Model Export & Serving:** LoRA weights merge (`merge_and_unload`), GGUF conversion, and OpenAI-compatible REST API server
+- Accompanied by **`LLAMA_FACTORY_NOTES.md`** (2,300+ lines complete guide covering all parameters and training stages)
+
+---
+
+### `07` — Unsloth Fine-Tuning & Inference Engine 🦥
+> 2× to 5× faster training with 50% to 80% less VRAM on a single GPU.
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                        LLAMA FACTORY PLATFORM                          │
+│                        UNSLOTH ACCELERATION ENGINE                     │
 ├────────────────────┬───────────────────────────────────────────────────┤
-│  LlamaBoard WebUI  │  CLI Engine (YAML-Driven Automation)              │
-│  - Browser GUI     │  - llamafactory-cli train / chat / eval / export  │
-│  - Zero code       │  - OpenAI-compatible REST API server              │
+│  Custom Kernels    │  Hand-written OpenAI Triton & CUDA kernels        │
+│  Operator Fusion   │  RMSNorm, RoPE, and MLP fused in single GPU pass  │
+│  Manual Backprop   │  Bypasses PyTorch autograd graph for zero bloat   │
+│  Neat Packing      │  Packs sequences without cross-attention leakage  │
+│  Extreme Context   │  Enables up to 300K+ token context windows        │
+│  Reasoning RL      │  Cuts GRPO (DeepSeek-R1 style) VRAM by 80%        │
 └────────────────────┴───────────────────────────────────────────────────┘
 ```
 
 **Key capabilities covered:**
-- **Supported Formats:** Alpaca (Instruction), ShareGPT (Chat), DPO (Preference), KTO
-- **Training Stages:** Pretraining, SFT, Reward Modeling, PPO (RLHF), DPO, KTO
-- **PEFT Methods:** LoRA, QLoRA (4-bit BitsAndBytes / HQQ), Freeze Tuning, Full FT
-- **Accelerators:** Unsloth kernels (2x faster, 50% less VRAM), GaLore (gradient projection), FlashAttention-2
-- **Model Export & Serving:** LoRA weights merge (`merge_and_unload`), GGUF conversion, and OpenAI-compatible API serving
-- Accompanied by **`LLAMA_FACTORY_NOTES.md`** (2,300+ lines complete guide covering all parameters, hyperparameters, and troubleshooting)
+- **Exact Mathematics:** 0% accuracy degradation — identical loss curves to standard FP16/BF16
+- **Context Scaling:** Train 40,000+ tokens on a 16GB GPU (vs 2,048 in standard PyTorch)
+- **Fast Inference:** Built-in 2× inference speedup with `FastLanguageModel.for_inference()`
+- **Deployment Freedom:** Direct export to GGUF (llama.cpp/Ollama), vLLM, and Hugging Face Hub
+- Accompanied by **`UNSLOTH_NOTES.md`** (in-depth architectural guide, mathematical derivations, and memory economics)
 
 ---
 
@@ -150,12 +170,13 @@ Domain Specialist Assistant  (Pharmacology: Metformin, Atorvastatin, mRNA)
 | `peft` | latest | LoRA, QLoRA — parameter-efficient fine-tuning |
 | `bitsandbytes` | 0.50.2 | INT8/INT4 quantization kernels |
 | `accelerate` | 1.15.0 | Multi-GPU & mixed precision management |
-| `trl` | latest | DPO, PPO, SFT trainers |
+| `trl` | latest | DPO, PPO, SFT, and GRPO trainers |
+| `unsloth` | latest | Triton/CUDA fused kernels & memory acceleration |
 | `PyMuPDF` (fitz) | latest | PDF text extraction |
 | `llamafactory` | latest | Unified WebUI & CLI fine-tuning framework |
 | `gradio` | latest | Web UI for model interaction & LlamaBoard |
 
-**Hardware Tested:** NVIDIA H100 80GB HBM3 (all notebooks configured to easily scale down to consumer GPUs like RTX 3060 / 3090 / 4090 / T4)
+**Hardware Tested:** NVIDIA H100 80GB HBM3 (all notebooks configured to scale down to consumer GPUs like RTX 3060 / 3090 / 4090 / Colab T4)
 
 ---
 
@@ -172,9 +193,8 @@ python3 -m venv .venv && source .venv/bin/activate
 # Install core dependencies
 pip install -U transformers datasets peft bitsandbytes accelerate trl PyMuPDF
 
-# (Optional) For LLaMA Factory module:
-git clone https://github.com/hiyouga/LLaMA-Factory.git
-pip install -e ./LLaMA-Factory
+# (Optional) For Unsloth module:
+pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
 ---
@@ -187,7 +207,8 @@ Level 2 (Intermediate) →  02_bert_tasks    (Encoder fine-tuning, 4 NLP tasks)
 Level 3 (Advanced)     →  03_distillation  (Teacher-student, dark knowledge)
 Level 4 (Advanced)     →  04_quantization  (INT8/INT4, GPTQ, AWQ, GGUF)
 Level 5 (Expert)       →  05_funetuing     (LoRA, SFT, Response Masking, DPO)
-Level 6 (Production)   →  06_lammafactory  (WebUI, CLI configs, Unsloth, GaLore, API)
+Level 6 (Production)   →  06_lammafactory  (WebUI, CLI configs, YAML automation)
+Level 7 (High-Perf)    →  07_unsloth       (Triton kernels, 80% VRAM savings, GRPO)
 ```
 
 ---
@@ -196,8 +217,8 @@ Level 6 (Production)   →  06_lammafactory  (WebUI, CLI configs, Unsloth, GaLor
 
 Each module ships with exhaustive Markdown notes (`*_NOTES.md`) covering:
 - Intuitions & analogies for complex deep learning concepts
-- Rigorous mathematical formulations (derivations of Loss functions, LoRA decomposition, DPO objective)
-- Real-world production code snippets with detailed comments
+- Rigorous mathematical formulations (derivations of loss functions, LoRA decomposition, DPO, GRPO)
+- Real-world production code snippets with line-by-line commentary
 - Decision matrices & hardware trade-off tables
 - Common error diagnoses and debugging checklists (NCCL errors, OOMs, label masking)
 
@@ -206,9 +227,9 @@ Each module ships with exhaustive Markdown notes (`*_NOTES.md`) covering:
 ## 🙏 Acknowledgements
 
 - [Hugging Face](https://huggingface.co) — transformers, datasets, peft, trl
+- [Unsloth](https://github.com/unslothai/unsloth) — ultra-fast LLM fine-tuning by Daniel & Michael Han
 - [LLaMA Factory](https://github.com/hiyouga/LLaMA-Factory) — unified fine-tuning engine by hiyouga
 - [TinyLlama](https://github.com/jzhang38/TinyLlama) — compact 1.1B foundation LLM
 - [Stanford Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html) — instruction tuning format
 - [LoRA paper](https://arxiv.org/abs/2106.09685) — Hu et al. 2021
-- [QLoRA paper](https://arxiv.org/abs/2305.14314) — Dettmers et al. 2023
-- [DPO paper](https://arxiv.org/abs/2305.18290) — Rafailov et al. 2023
+- [DeepSeek-R1 / GRPO](https://arxiv.org/abs/2501.12948) — DeepSeek AI 2025
