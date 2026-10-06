@@ -28,7 +28,7 @@ SLM_Experiment/
 │   ├── LLM_Quantization_Notes.md
 │   └── structured_quantization_notes.md
 │
-├── 05_funetuing/            ← Domain-specific LLM Fine-Tuning (alias: 05_finetune)
+├── 05_funetuing/            ← Domain-specific LLM Fine-Tuning
 │   ├── finetune.ipynb               ← Master notebook (end-to-end)
 │   ├── FINETUNING_NOTES.md          ← 2,000+ line reference notes
 │   ├── Instruction_finetuning_on_domain_specific_dataset.ipynb
@@ -233,3 +233,4 @@ Each module ships with exhaustive Markdown notes (`*_NOTES.md`) covering:
 - [Stanford Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html) — instruction tuning format
 - [LoRA paper](https://arxiv.org/abs/2106.09685) — Hu et al. 2021
 - [DeepSeek-R1 / GRPO](https://arxiv.org/abs/2501.12948) — DeepSeek AI 2025
+
