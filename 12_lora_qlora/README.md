@@ -14,3 +14,4 @@
   - **rsLoRA (Rank-Stabilized LoRA):** Scaling factor $\frac{\alpha}{\sqrt{r}}$ for high-rank stability.
   - **PiSSA (Principal Singular values and Singular vectors Adaptation):** SVD-based parameter initialization.
   - **LongLoRA:** Shifted sparse attention for context extension.
+

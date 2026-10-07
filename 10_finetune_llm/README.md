@@ -14,3 +14,4 @@
   - **Hugging Face Accelerate** with multi-GPU DDP (Distributed Data Parallel).
   - **DeepSpeed ZeRO Stages 1, 2, and 3** with CPU offloading.
   - **FSDP (Fully Sharded Data Parallel)** native in PyTorch.
+

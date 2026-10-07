@@ -15,3 +15,4 @@
   - **ORPO (Odds Ratio Preference Optimization):** Monolithic instruction tuning + odds ratio penalty without a reference model.
 - **Reasoning Alignment:**
   - **GRPO (Group Relative Policy Optimization):** DeepSeek-R1 style rule-based mathematical and reasoning alignment without a value critic model.
+

@@ -1,5 +1,5 @@
 # 🧠 LLM Fine-Tuning — Complete In-Depth Notes
-### Source: 05_funetuing — Instruction Finetuning + Non-Instruction Pretraining Notebooks
+### Source: 05_finetuning — Instruction Finetuning + Non-Instruction Pretraining Notebooks
 
 ---
 
@@ -2015,6 +2015,6 @@ RESULT: A specialized, instruction-following, safe domain expert!
 
 ---
 
-*Source: `05_funetuing/Instruction_finetuning_on_domain_specific_dataset.ipynb` + `non_Instruction_pretrain_llm_finetuning_on_domain_specific_data.ipynb`*
+*Source: `05_finetuning/Instruction_finetuning_on_domain_specific_dataset.ipynb` + `non_Instruction_pretrain_llm_finetuning_on_domain_specific_data.ipynb`*
 *Topics: Data engineering → Causal LM → Full FT vs LoRA → SFT → Response Masking → DPO/RLHF → Production*
 

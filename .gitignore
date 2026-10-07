@@ -23,9 +23,9 @@ bert-finetuned-imdb/
 bert_finetuned_imdb/
 model/
 checkpoints/
-05_funetuing/llama-pharma-domain/
-05_funetuing/tinyllama-pharma-*/
-05_funetuing/tinyllama-lora/
+05_finetuning/llama-pharma-domain/
+05_finetuning/tinyllama-pharma-*/
+05_finetuning/tinyllama-lora/
 
 # OS & Editor Artifacts
 .DS_Store

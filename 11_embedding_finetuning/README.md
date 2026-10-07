@@ -16,3 +16,4 @@
 - **RAG & Search Evaluation:**
   - MTEB (Massive Text Embedding Benchmark) evaluation metrics.
   - Hit Rate@K, MRR@K, and NDCG@K scoring.
+

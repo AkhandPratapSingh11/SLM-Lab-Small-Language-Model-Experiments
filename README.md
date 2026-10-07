@@ -28,14 +28,14 @@ SLM_Experiment/
 │   ├── LLM_Quantization_Notes.md
 │   └── structured_quantization_notes.md
 │
-├── 05_funetuing/            ← Domain-specific LLM Fine-Tuning
+├── 05_finetuning/           ← Domain-specific LLM Fine-Tuning
 │   ├── finetune.ipynb               ← Master notebook (end-to-end)
 │   ├── FINETUNING_NOTES.md          ← 2,000+ line reference notes
 │   ├── Instruction_finetuning_on_domain_specific_dataset.ipynb
 │   ├── non_Instruction_pretrain_llm_finetuning_on_domain_specific_data.ipynb
 │   └── content/                     ← Domain datasets (Metformin.pdf)
 │
-├── 06_lammafactory/         ← LLaMA Factory Framework (WebUI + CLI Engine)
+├── 06_llama_factory/        ← LLaMA Factory Framework (WebUI + CLI Engine)
 │   ├── llamafactory.ipynb           ← Master notebook (WebUI, YAML configs, QLoRA)
 │   ├── LLAMA_FACTORY_NOTES.md       ← 2,300+ line comprehensive reference notes
 │   └── *.pdf                        ← Visual lecture notes & parameter cheatsheets
@@ -45,11 +45,11 @@ SLM_Experiment/
 │   ├── UNSLOTH_NOTES.md             ← 800+ line comprehensive architectural guide
 │   └── *.pdf                        ← Lecture slides & handwritten notes
 │
-├── 08_gemini_GPT_fintuings/ ← Gemini & GPT API-based fine-tuning
-├── 09_finetuneanyslm/       ← Universal Small Language Model (<3B) fine-tuning
-├── 10_finetunellm/          ← Large Language Model (7B–70B) fine-tuning at scale
-├── 11_embeddingand_embeddingfinetuing/ ← Embeddings & Sentence Transformers fine-tuning
-├── 12_loraqlora/            ← LoRA & QLoRA deep dive (DoRA, rsLoRA, PiSSA)
+├── 08_gemini_gpt_finetuning/← Gemini & GPT API-based fine-tuning
+├── 09_finetune_any_slm/     ← Universal Small Language Model (<3B) fine-tuning
+├── 10_finetune_llm/         ← Large Language Model (7B–70B) fine-tuning at scale
+├── 11_embedding_finetuning/ ← Embeddings & Sentence Transformers fine-tuning
+├── 12_lora_qlora/           ← LoRA & QLoRA deep dive (DoRA, rsLoRA, PiSSA)
 └── 13_rlhf_ppo_dpo_orpo/    ← Alignment: RLHF, PPO, DPO, ORPO & GRPO
 ```
 
@@ -213,15 +213,15 @@ Level 1 (Beginner)     →  01_huggingface   (Hub, pipelines, AutoClasses)
 Level 2 (Intermediate) →  02_bert_tasks    (Encoder fine-tuning, 4 NLP tasks)
 Level 3 (Advanced)     →  03_distillation  (Teacher-student, dark knowledge)
 Level 4 (Advanced)     →  04_quantization  (INT8/INT4, GPTQ, AWQ, GGUF)
-Level 5 (Expert)       →  05_funetuing     (LoRA, SFT, Response Masking, DPO)
-Level 6 (Production)   →  06_lammafactory  (WebUI, CLI configs, YAML automation)
-Level 7 (High-Perf)    →  07_unsloth       (Triton kernels, 80% VRAM savings, GRPO)
-Level 8 (Cloud/API)    →  08_gemini_GPT    (OpenAI & Gemini API-based SFT)
-Level 9 (Edge/SLM)     →  09_finetuneanyslm(Phi-4, Gemma 2, Qwen 2.5, SmolLM)
-Level 10 (Scale)       →  10_finetunellm   (LLaMA-3 70B, DeepSpeed ZeRO, FSDP)
-Level 11 (Retrieval)   →  11_embeddings    (BGE, ModernBERT, Contrastive & MRL)
-Level 12 (PEFT Deep)   →  12_loraqlora     (DoRA, rsLoRA, PiSSA, Rank Dynamics)
-Level 13 (Alignment)   →  13_alignment     (RLHF, PPO, DPO, ORPO, GRPO Reasoning)
+Level 5 (Expert)       →  05_finetuning            (LoRA, SFT, Response Masking, DPO)
+Level 6 (Production)   →  06_llama_factory         (WebUI, CLI configs, YAML automation)
+Level 7 (High-Perf)    →  07_unsloth               (Triton kernels, 80% VRAM savings, GRPO)
+Level 8 (Cloud/API)    →  08_gemini_gpt_finetuning (OpenAI & Gemini API-based SFT)
+Level 9 (Edge/SLM)     →  09_finetune_any_slm      (Phi-4, Gemma 2, Qwen 2.5, SmolLM)
+Level 10 (Scale)       →  10_finetune_llm          (LLaMA-3 70B, DeepSpeed ZeRO, FSDP)
+Level 11 (Retrieval)   →  11_embedding_finetuning  (BGE, ModernBERT, Contrastive & MRL)
+Level 12 (PEFT Deep)   →  12_lora_qlora            (DoRA, rsLoRA, PiSSA, Rank Dynamics)
+Level 13 (Alignment)   →  13_rlhf_ppo_dpo_orpo     (RLHF, PPO, DPO, ORPO, GRPO Reasoning)
 ```
 
 ---
