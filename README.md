@@ -40,10 +40,17 @@ SLM_Experiment/
 │   ├── LLAMA_FACTORY_NOTES.md       ← 2,300+ line comprehensive reference notes
 │   └── *.pdf                        ← Visual lecture notes & parameter cheatsheets
 │
-└── 07_unsloth/              ← Unsloth Ultra-Fast & Memory-Efficient Fine-Tuning 🦥
-    ├── unsloth_practical.ipynb      ← Master tutorial notebook (LoRA, SFT, Export)
-    ├── UNSLOTH_NOTES.md             ← 800+ line comprehensive architectural guide
-    └── *.pdf                        ← Lecture slides & handwritten notes
+├── 07_unsloth/              ← Unsloth Ultra-Fast & Memory-Efficient Fine-Tuning 🦥
+│   ├── unsloth_practical.ipynb      ← Master tutorial notebook (LoRA, SFT, Export)
+│   ├── UNSLOTH_NOTES.md             ← 800+ line comprehensive architectural guide
+│   └── *.pdf                        ← Lecture slides & handwritten notes
+│
+├── 08_gemini_GPT_fintuings/ ← Gemini & GPT API-based fine-tuning
+├── 09_finetuneanyslm/       ← Universal Small Language Model (<3B) fine-tuning
+├── 10_finetunellm/          ← Large Language Model (7B–70B) fine-tuning at scale
+├── 11_embeddingand_embeddingfinetuing/ ← Embeddings & Sentence Transformers fine-tuning
+├── 12_loraqlora/            ← LoRA & QLoRA deep dive (DoRA, rsLoRA, PiSSA)
+└── 13_rlhf_ppo_dpo_orpo/    ← Alignment: RLHF, PPO, DPO, ORPO & GRPO
 ```
 
 ---
@@ -209,6 +216,12 @@ Level 4 (Advanced)     →  04_quantization  (INT8/INT4, GPTQ, AWQ, GGUF)
 Level 5 (Expert)       →  05_funetuing     (LoRA, SFT, Response Masking, DPO)
 Level 6 (Production)   →  06_lammafactory  (WebUI, CLI configs, YAML automation)
 Level 7 (High-Perf)    →  07_unsloth       (Triton kernels, 80% VRAM savings, GRPO)
+Level 8 (Cloud/API)    →  08_gemini_GPT    (OpenAI & Gemini API-based SFT)
+Level 9 (Edge/SLM)     →  09_finetuneanyslm(Phi-4, Gemma 2, Qwen 2.5, SmolLM)
+Level 10 (Scale)       →  10_finetunellm   (LLaMA-3 70B, DeepSpeed ZeRO, FSDP)
+Level 11 (Retrieval)   →  11_embeddings    (BGE, ModernBERT, Contrastive & MRL)
+Level 12 (PEFT Deep)   →  12_loraqlora     (DoRA, rsLoRA, PiSSA, Rank Dynamics)
+Level 13 (Alignment)   →  13_alignment     (RLHF, PPO, DPO, ORPO, GRPO Reasoning)
 ```
 
 ---
