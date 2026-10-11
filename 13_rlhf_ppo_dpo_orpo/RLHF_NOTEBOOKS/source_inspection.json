@@ -1,0 +1,77 @@
+[
+  {
+    "source": "LLM-Finetuning-ORPO.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "a1313f50d25c50cf0088ac8b79faca79db9f8fb067e307db5ab5ac26df2aa047"
+  },
+  {
+    "source": "GRPO-Handwritten-Final-Notes.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "27a2b8270d53842b39e474145bbec91d9b40bfd2cd376c66c4498a6f419ae63a"
+  },
+  {
+    "source": "Final_ORPO_Practical.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "2d494f4faf858d75fe5c58d0f838174088001d8111da3f559241f2a4555aaa69"
+  },
+  {
+    "source": "DPO-Handwritten-Notes.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "36c5102332ac445049709e45b9a5694712c3557d6425c894aa8551fd7dc30b6f"
+  },
+  {
+    "source": "Final_GRPO_Practical.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "840ffba80558db69d3c7a63f81d390134475016b8b94f14972273c5c5b85a92b"
+  },
+  {
+    "source": "DPO_Training.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "6eab4d8303ad7649246d82ea3be52146f0263bd21397b52abbaf888ac6a6f6a1"
+  },
+  {
+    "source": "DPO_Training_Final.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "6b78d66f171442a8997d85a8b175b3c03f0251cfa023cbd774d527d92041ccd8"
+  },
+  {
+    "source": "reward_preferences_dataset.jsonl",
+    "read_from": "HEAD Git blob",
+    "sha256": "7f67fb12f514031e2c291167716b1351d990f0ad1c722433cead4dd7a2d4d7a8"
+  },
+  {
+    "source": "README.md",
+    "read_from": "HEAD Git blob",
+    "sha256": "263c4cb45e79e68eaf03ea4a2755b54f2ef9cf9a8f8e7c2b252822c40e0c5552"
+  },
+  {
+    "source": "RLHF-Updated-Recent-Latest.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "888a567bac9810e5e11252b557bee5983b04f8c96e1ba7090be852b94a5b1e21"
+  },
+  {
+    "source": "DPO-Updated-handwritten-notes.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "856f731bce89dd0a5f6fd3910055318c178cd87a13f22693c65891207613fb59"
+  },
+  {
+    "source": "DPO-Handwritten-final-update-Notes.pdf",
+    "read_from": "HEAD Git blob",
+    "sha256": "69d4303a51503fc137f7fc8ec80e56249cb4c547ccf30aca24817897ea61d0ee"
+  },
+  {
+    "source": "RLHF_with_PPO_Final_Code.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "d8a577fe7dbb51f2d972ad3102f67ba3a5752a66ace9e99129b452901fd0ff15"
+  },
+  {
+    "source": "RL_Fundamental.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "bb85142408d5bd9d621c9bab213702049e4c5f462bdffa1b58d34699a56cefdf"
+  },
+  {
+    "source": "Final_DPO.ipynb",
+    "read_from": "HEAD Git blob",
+    "sha256": "25b88813d89591c57e440c226d7f4c32fe09c010ca1d908e62471d4ad4fbb8c9"
+  }
+]

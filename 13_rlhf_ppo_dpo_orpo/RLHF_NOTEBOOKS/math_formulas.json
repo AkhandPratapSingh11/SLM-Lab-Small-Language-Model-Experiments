@@ -1,0 +1,728 @@
+[
+  {
+    "notebook": "13_End_to_End_LLM_Alignment.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\mathcal L_{SFT}=-\\mathbb E\\bar\\ell_w,\\quad \\mathcal L_{DPO}=\\operatorname{softplus}(-\\beta m),\\quad\n\\mathcal L_{ORPO}=\\mathcal L_{SFT}+\\lambda_{OR}\\operatorname{softplus}(-\\Delta_{OR})."
+  },
+  {
+    "notebook": "13_End_to_End_LLM_Alignment.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\bar\\ell_w"
+  },
+  {
+    "notebook": "13_End_to_End_LLM_Alignment.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "m"
+  },
+  {
+    "notebook": "13_End_to_End_LLM_Alignment.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\Delta_{OR}"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\nabla_\\theta J=\\mathbb E_\\tau\\left[G_0\\sum_t\\nabla_\\theta\\log\\pi_\\theta(a_t\\mid s_t)\\right]."
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "J"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\theta"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\tau"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\pi"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\nabla p=p\\nabla\\log p"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "t"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\gamma^t"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\gamma=1"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "A^\\pi(s,a)=Q^\\pi(s,a)-V^\\pi(s),\\qquad \\mathcal L_{actor}=-\\mathbb E[\\log\\pi_\\theta(a\\mid s)\\hat A]."
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "Q"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "V"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "A"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": true,
+    "formula": "\\delta_t=R_t+\\gamma(1-d_t)V_{old}(s_{t+1})-V_{old}(s_t),\\qquad\n\\hat A_t=\\delta_t+\\gamma\\lambda(1-b_t)\\hat A_{t+1},\\qquad \\hat G_t=\\hat A_t^{raw}+V_{old}(s_t)."
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "\\delta"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "d"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "b"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "\\lambda"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "\\hat G"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "V_{old}"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "[0,1]"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "[.4,.5]"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "\\gamma=1"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "\\lambda=.95"
+  },
+  {
+    "notebook": "02_Policy_Gradients_Actor_Critic.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "[.575,.5]"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\bar\\ell_y=\\frac{\\sum_t m_t\\log\\pi_\\theta(y_t\\mid x,y_{<t})}{\\sum_t m_t},\\quad p_y=e^{\\bar\\ell_y},\\quad o_y=\\frac{p_y}{1-p_y}."
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\bar\\ell"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "m"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "p"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "o"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\Delta_{OR}=\\log o_w-\\log o_l,\\qquad \\mathcal L=\\mathcal L_{SFT}+\\lambda_{OR}[-\\log\\sigma(\\Delta_{OR})]."
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "w/l"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\lambda_{OR}=.1"
+  },
+  {
+    "notebook": "10_ORPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "p_w=.75,p_l=.25"
+  },
+  {
+    "notebook": "05_PPO_LLM_Finetuning.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "R_t=-\\kappa[\\log\\pi_{old}(a_t\\mid s_t)-\\log\\pi_{ref}(a_t\\mid s_t)]+\\mathbf1_{t=T-1}r_\\psi(x,y)."
+  },
+  {
+    "notebook": "05_PPO_LLM_Finetuning.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\kappa"
+  },
+  {
+    "notebook": "05_PPO_LLM_Finetuning.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "r_\\psi"
+  },
+  {
+    "notebook": "05_PPO_LLM_Finetuning.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "T"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "x"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\mathbb E_{y\\sim\\pi}r(x,y)-\\beta D_{KL}(\\pi\\Vert\\pi_{ref})"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\sum_y\\pi(y\\mid x)=1"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "r"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\beta>0"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\pi_{ref}"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\pi^*(y\\mid x)=\\frac{\\pi_{ref}(y\\mid x)e^{r(x,y)/\\beta}}{Z(x)},\\qquad r=\\beta\\log\\frac{\\pi^*}{\\pi_{ref}}+\\beta\\log Z(x)."
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "Z"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\beta\\log Z(x)"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\mathcal L_{DPO}=-\\mathbb E\\log\\sigma\\left(\\beta[(\\ell_w-\\ell_{ref,w})-(\\ell_l-\\ell_{ref,l})]\\right)."
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "w/l"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\ell=\\sum_t m_t\\log\\pi(y_t\\mid x,y_{<t})"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "m_t"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "j"
+  },
+  {
+    "notebook": "06_DPO_From_Scratch.ipynb",
+    "cell": 5,
+    "display": false,
+    "formula": "j+1"
+  },
+  {
+    "notebook": "09_GRPO_Using_TRL.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "G=4"
+  },
+  {
+    "notebook": "12_PPO_DPO_GRPO_ORPO_Comparison.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\mathcal L_{DPO}=\\operatorname{softplus}(-\\beta m),\\quad m=(\\ell_w-\\ell_l)-(\\ell_{ref,w}-\\ell_{ref,l}),\\quad\n\\mathcal L_{ORPO}=-\\bar\\ell_w+\\lambda_{OR}\\operatorname{softplus}(-\\Delta_{OR})."
+  },
+  {
+    "notebook": "12_PPO_DPO_GRPO_ORPO_Comparison.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\ell"
+  },
+  {
+    "notebook": "12_PPO_DPO_GRPO_ORPO_Comparison.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\bar\\ell"
+  },
+  {
+    "notebook": "12_PPO_DPO_GRPO_ORPO_Comparison.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "m"
+  },
+  {
+    "notebook": "12_PPO_DPO_GRPO_ORPO_Comparison.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\Delta_{OR}"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\mu_x=\\frac1G\\sum_iR_i,\\quad s_x=\\sqrt{\\frac1G\\sum_i(R_i-\\mu_x)^2},\\quad \\hat A_i=\\frac{R_i-\\mu_x}{s_x+\\varepsilon_{norm}}."
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "G"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "R_i"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\mu_x"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "s_x"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\varepsilon_{norm}"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "[1,0,1,0]"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "[1,-1,1,-1]"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "J=\\mathbb E\\frac1G\\sum_i\\frac1{T_i}\\sum_t\\left[\\min(\\rho_{i,t}\\hat A_i,\\operatorname{clip}(\\rho_{i,t},1-\\epsilon,1+\\epsilon)\\hat A_i)-\\kappa\\hat K_{i,t}\\right]."
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "T_i"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\rho"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\epsilon"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\kappa"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "T=1"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "q-\\log q-1"
+  },
+  {
+    "notebook": "08_GRPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "q=\\pi_{ref}/\\pi_\\theta"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "\\rho_t=\\frac{\\pi_\\theta(a_t\\mid s_t)}{\\pi_{old}(a_t\\mid s_t)}=\\exp(\\ell_{new,t}-\\ell_{old,t}),"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "L^{clip}=\\mathbb E\\min\\left(\\rho_t\\hat A_t,\\operatorname{clip}(\\rho_t,1-\\epsilon,1+\\epsilon)\\hat A_t\\right),\\qquad\n\\mathcal L=-L^{clip}+c_V\\tfrac12\\mathbb E(V_\\phi-\\hat G)^2-c_H\\mathbb E H(\\pi_\\theta)."
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\theta"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\ell"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\hat A"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\epsilon=.2"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "V_\\phi"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\hat G"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "c_V=.5"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "c_H=.01"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "A=2,\\rho=1.5"
+  },
+  {
+    "notebook": "04_PPO_From_Scratch.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "A=-2,\\rho=.5"
+  },
+  {
+    "notebook": "03_RLHF_Reward_Modeling.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "P(y_w\\succ y_l\\mid x)=\\sigma(r_\\psi(x,y_w)-r_\\psi(x,y_l)),\\quad\n\\mathcal L_{RM}=-\\mathbb E\\log\\sigma(r_w-r_l)."
+  },
+  {
+    "notebook": "03_RLHF_Reward_Modeling.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "x"
+  },
+  {
+    "notebook": "03_RLHF_Reward_Modeling.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "y_w/y_l"
+  },
+  {
+    "notebook": "03_RLHF_Reward_Modeling.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "r_\\psi"
+  },
+  {
+    "notebook": "03_RLHF_Reward_Modeling.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\sigma(z)=1/(1+e^{-z})"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "(S,A,P,r,d_0,\\gamma)"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "S"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "A"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "P(s'\\mid s,a)"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "r(s,a)"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "d_0"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\gamma"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "G_t=\\sum_{k=0}^{T-1-t}\\gamma^kR_{t+k},\\qquad V^\\pi(s)=\\mathbb E[G_t\\mid s_t=s],\\qquad Q^\\pi(s,a)=\\mathbb E[G_t\\mid s_t=s,a_t=a]."
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "R_t"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "t"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "T"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "G_t"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "V"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\pi"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "Q"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\gamma"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "[0,0,10]"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\gamma=.9"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "G_0=8.1"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": true,
+    "formula": "Q^\\pi(s,a)=r(s,a)+\\gamma\\sum_{s'}P(s'\\mid s,a)V^\\pi(s'),\\qquad V^\\pi(s)=\\sum_a\\pi(a\\mid s)Q^\\pi(s,a)."
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "G_t=R_t+\\gamma G_{t+1}"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 3,
+    "display": false,
+    "formula": "\\max_{a'}Q^*(s',a')"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 6,
+    "display": true,
+    "formula": "Q(s,a)\\leftarrow Q(s,a)+\\alpha\\left[R+\\gamma(1-d)\\max_{a'}Q(s',a')-Q(s,a)\\right]."
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 6,
+    "display": false,
+    "formula": "\\alpha"
+  },
+  {
+    "notebook": "01_RL_Fundamentals.ipynb",
+    "cell": 6,
+    "display": false,
+    "formula": "d"
+  }
+]

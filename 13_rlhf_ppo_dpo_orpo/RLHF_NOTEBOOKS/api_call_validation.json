@@ -1,0 +1,126 @@
+{
+  "calls_checked": 20,
+  "errors": [],
+  "checks": [
+    {
+      "notebook": "07_DPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "DPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "07_DPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "DPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "07_DPO_Using_TRL.ipynb",
+      "cell": 9,
+      "constructor": "DPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "07_DPO_Using_TRL.ipynb",
+      "cell": 9,
+      "constructor": "DPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 6,
+      "constructor": "RewardConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 6,
+      "constructor": "RewardTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 6,
+      "constructor": "PPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 6,
+      "constructor": "PPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 8,
+      "constructor": "RewardConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 8,
+      "constructor": "RewardTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 8,
+      "constructor": "PPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "05_PPO_LLM_Finetuning.ipynb",
+      "cell": 8,
+      "constructor": "PPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "09_GRPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "GRPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "09_GRPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "GRPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "09_GRPO_Using_TRL.ipynb",
+      "cell": 8,
+      "constructor": "GRPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "09_GRPO_Using_TRL.ipynb",
+      "cell": 8,
+      "constructor": "GRPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "11_ORPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "ORPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "11_ORPO_Using_TRL.ipynb",
+      "cell": 6,
+      "constructor": "ORPOTrainer",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "11_ORPO_Using_TRL.ipynb",
+      "cell": 9,
+      "constructor": "ORPOConfig",
+      "unknown_keywords": []
+    },
+    {
+      "notebook": "11_ORPO_Using_TRL.ipynb",
+      "cell": 9,
+      "constructor": "ORPOTrainer",
+      "unknown_keywords": []
+    }
+  ]
+}

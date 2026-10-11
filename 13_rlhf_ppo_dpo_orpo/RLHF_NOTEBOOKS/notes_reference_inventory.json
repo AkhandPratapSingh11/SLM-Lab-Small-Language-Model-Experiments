@@ -1,0 +1,74 @@
+[
+  {
+    "file": "RLHF_COMPLETE_NOTES/CORRECTIONS_AND_LIMITATIONS.md",
+    "bytes": 10593
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/08_ALGORITHM_COMPARISON.md",
+    "bytes": 10459
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/04_PPO_IN_DEPTH.md",
+    "bytes": 15945
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/07_ORPO_IN_DEPTH.md",
+    "bytes": 14442
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/EXTERNAL_REFERENCES.md",
+    "bytes": 5354
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/02_LLM_ALIGNMENT_AND_RLHF.md",
+    "bytes": 10190
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/06_GRPO_IN_DEPTH.md",
+    "bytes": 14732
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/11_INTERVIEW_PREPARATION.md",
+    "bytes": 28151
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/README.md",
+    "bytes": 5591
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/05_DPO_IN_DEPTH.md",
+    "bytes": 17780
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/01_REINFORCEMENT_LEARNING_FUNDAMENTALS.md",
+    "bytes": 16138
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/SOURCE_INVENTORY.md",
+    "bytes": 6634
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/03_PREFERENCE_DATA_AND_REWARD_MODELS.md",
+    "bytes": 9693
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/QA_REPORT.md",
+    "bytes": 5486
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/10_EVALUATION_DEBUGGING_AND_BEST_PRACTICES.md",
+    "bytes": 11694
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/00_LEARNING_ROADMAP.md",
+    "bytes": 4131
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/09_PRACTICAL_IMPLEMENTATION_GUIDE.md",
+    "bytes": 16860
+  },
+  {
+    "file": "RLHF_COMPLETE_NOTES/12_GLOSSARY_AND_FORMULA_CHEATSHEET.md",
+    "bytes": 16418
+  }
+]
