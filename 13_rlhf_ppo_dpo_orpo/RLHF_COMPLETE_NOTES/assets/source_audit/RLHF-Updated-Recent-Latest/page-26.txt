@@ -1,0 +1,79 @@
+Example Game: The robot is in a grid world.
+
+Actions: Left, Right, Up, Down
+
+Goal: Reach the box with a reward of +10.
+
+Step 1: The robot is in the current state
+
+State = $1
+
+Step 2: The Q-Network makes a prediction
+
+The Q-network receives $1 as input.
+
+The Q-network outputs:
+
+Q(SI, Left)
+
+Q(S1, Right)
+
+4
+
+2
+
+Q(st, Up)
+
+Q(S1, Down) =
+
+Meaning: The Right action seems to be the best action.
+
+Because: Q(S!, Right) = 4 is the highest value.
+
+The robot chooses:
+
+Action = Right
+
+Step 3: The environment gives a reward
+
+The robot moves Right.
+
+The environment returns:
+
+Reward = +5
+
+Next State = $2
+
+The following experience is stored in the Replay Buffer:
+
+(1, Right, +5, $2)
+
+Step 4: During training, we use the same stored data
+
+A sample is taken from the Replay Buffer:
+
+(1, Right, +5, $2)
+
+Now DQN needs to learn:
+
+“What should be the correct value of taking the Right action in state $1?"
+
+Step 5: The Q-Network gives the current prediction
+
+The Q-network looks at S1 again:
+
+Q(S1, Left)
+
+4
+
+Q(S1, Right)
+
+(SI, Up)
+
+a2
+
+Q(S1, Down)
+
+Since the action taken was Right, we only use:
+
+Current Prediction = Q(S1, Right) = 4

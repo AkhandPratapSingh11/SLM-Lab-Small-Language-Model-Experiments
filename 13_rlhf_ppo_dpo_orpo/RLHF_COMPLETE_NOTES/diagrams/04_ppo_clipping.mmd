@@ -1,0 +1,7 @@
+flowchart TD
+    R["Ratio rho = exp(current logp - old logp)"] --> A{"Advantage sign"}
+    A -->|Positive| P["min(rho, 1 + epsilon) times A"]
+    A -->|Negative| N["max(rho, 1 - epsilon) times A"]
+    P --> O["Cap incentive for beneficial ratio changes"]
+    N --> O
+    O --> U["Optimize surrogate; no hard probability bound"]

@@ -1,0 +1,23 @@
+Major Benefits of DPO
+
+1. No Separate Reward Model: DPO does not require training or maintaining an explicit Reward Model. The Policy
+
+Model's probabilities relative to the Reference Model act as an implicit reward signal.
+
+2. No PPO or Reinforcement Learning Loop
+
+3. No Value/Critic Model
+
+4, Simpler Training: DPO uses a supervised-learning-style objective based on chosen and rejected response pairs. Its
+
+implementation is similar to standard fine-tuning.
+
+5. Lower Computational Complexity
+
+6. More Stable and Easier to Tune
+
+7. Strong Performance
+
+In the original paper's experiments, DPO achieved performance comparable to or better than PPO-based RLHF on
+
+several preference-learning tasks.

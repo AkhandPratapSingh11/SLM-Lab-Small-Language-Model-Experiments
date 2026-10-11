@@ -1,0 +1,37 @@
+Step 3: Relative score of the chosen response
+
+Felve | 2)
+
+Sane = A (
+
+Arete | 2),
+
+)
+
+‘Simple meaning:
+
+How much does the policy model prefer the chosen response compared withthe reference model?
+
+Step 4: Relative score of the rejected response
+
+(w lz)
+
+Srjcted
+
+Blog
+
+t(u | 2)
+
+‘Simple meaning:
+
+How much does the policy model prefer the rejected response compared with the reference model?
+
+Step 5: Compare both scores
+
+Schosen-Srejected
+
+DPO wants this difference to be positive and large:
+
+Chosen relative score 1
+
+Rejected relative score |

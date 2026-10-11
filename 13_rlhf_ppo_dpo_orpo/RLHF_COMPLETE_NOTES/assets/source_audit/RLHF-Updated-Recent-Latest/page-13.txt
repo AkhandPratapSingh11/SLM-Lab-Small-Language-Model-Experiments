@@ -1,0 +1,87 @@
+Difference between Supervised Learning and Reinforcement Learning
+
+“Supervised learning optimizes against correct answers, while reinforcement learning optimizes based on s
+
+without knowing the correct answer.”
+
+1-Supenised Learning (Simple Form)
+
+Objective (Simple)
+
+“Loss"='
+
+‘Average Error between Prediction and True Answer"
+
+‘Update Rule Simple)
+
+— wld
+
+=0— learning rate”*" gradient”
+
+ning rat
+
+radient™
+
+=_
+
+can l
+
+Meaning:
+
++ Agar error zyada hai + weights change karo
+
+rediction = correct answer
+
++ Goal
+
+2 Reinforcement Learning (Simple Form)
+
+Objective (Simple)
+
+Goal:
+
+“Maximize Total Reward”
+
+MA
+
+JO) = Bin trates
+
+Symbol
+
+Meaning
+
+State caret situation)
+
+‘ation (decision taken)
+
+(a4)
+
+Probability of taking action ain sate #
+
+Reward / feedback
+
+Mode! parameters
+
+~~
+
+Total expected reward
+
+Goal:
+
+“Increase probability of good actions”
+
+simple intuition:
+
+&
+
+Update Rewardxlog(Probability of action)
+
+Meaning
+
+If reward is high:
+
+@ Increase probability of taking that action again.
+
+If reward is lor
+
+>< Reduce probability of that action.

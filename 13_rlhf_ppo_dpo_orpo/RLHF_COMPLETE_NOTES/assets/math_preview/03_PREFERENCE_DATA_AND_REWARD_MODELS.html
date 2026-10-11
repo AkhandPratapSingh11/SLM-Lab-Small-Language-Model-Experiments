@@ -1,0 +1,146 @@
+<!doctype html><html><head><meta charset="utf-8"><title>03_PREFERENCE_DATA_AND_REWARD_MODELS.md</title><link rel="stylesheet" href="../tooling/node_modules/katex/dist/katex.min.css"><style>body{max-width:1000px;margin:40px auto;padding:20px;font:16px/1.6 system-ui}.katex-display{overflow:auto}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:6px}pre{overflow:auto;background:#eee;padding:12px}</style></head><body><h1>03 — Preference data and reward models</h1>
+<p><a href="README.md">Home</a> · <a href="02_LLM_ALIGNMENT_AND_RLHF.md">Previous: LLM alignment and RLHF</a> · <a href="04_PPO_IN_DEPTH.md">Next: PPO in depth</a></p>
+<h2>1. From human judgment to a pair</h2>
+<p>For one prompt x, annotate a preferred response yw and a less preferred response yl. “Chosen” means preferred <strong>within the presented comparison</strong>, not an absolute correctness certificate. The gravity example in the DPO notes ranks clarity for a child; the local exam example ranks structured advice above panic. Candidate generation and label generation are separate processes: AI-generated answers can still receive human labels, and AI labels can rank human-written answers.</p>
+<p>A useful rubric specifies correctness, relevance, tone, safety, completeness and allowed uncertainty. Compare answers under the same prompt and context. Retain annotator disagreement rather than forcing false certainty, and decide explicitly how to represent ties. The provided JSONL has no tie or confidence fields, so those properties cannot be recovered.</p>
+<p>Filter malformed pairs, empty answers, contradictory contexts, truncated answers and label mistakes. Deduplicate before splitting. Group paraphrases or related conversations into the same split so a validation answer cannot leak through a nearby training prompt. Use topic/task stratification and separate test prompts that are never used for reward tuning or checkpoint selection.</p>
+<h2>2. A scalar reward model and Bradley–Terry loss</h2>
+<p>A transformer can represent the full prompt+response and pass its final relevant representation through a scalar head. Let <code>rψ(x,y)</code> be the real-valued score, with ψ the trainable reward parameters. Under a Bradley–Terry model at unit preference scale,</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>w</mi></msub><mo>≻</mo><msub><mi>y</mi><mi>l</mi></msub><mo>∣</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>σ</mi><mo stretchy="false">(</mo><msub><mi>r</mi><mi>ψ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>w</mi></msub><mo stretchy="false">)</mo><mo>−</mo><msub><mi>r</mi><mi>ψ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>l</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo separator="true">,</mo><mspace width="1em"></mspace><mi>σ</mi><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>z</mi></mrow></msup></mrow></mfrac><mo separator="true">,</mo></mrow><annotation encoding="application/x-tex">P(y_w\succ y_l\mid x)=\sigma(r_\psi(x,y_w)-r_\psi(x,y_l)),\quad
+\sigma(z)=\frac1{1+e^{-z}},</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≻</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ψ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ψ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0908em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6973em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.044em;">z</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span></span></span></span></span>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="script">L</mi><mrow><mi>R</mi><mi>M</mi></mrow></msub><mo stretchy="false">(</mo><mi>ψ</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><msub><mi mathvariant="double-struck">E</mi><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>w</mi></msub><mo separator="true">,</mo><msub><mi>y</mi><mi>l</mi></msub><mo stretchy="false">)</mo><mo>∼</mo><mi>D</mi></mrow></msub><mi>log</mi><mo>⁡</mo><mi>σ</mi><mo stretchy="false">(</mo><msub><mi>r</mi><mi>ψ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>w</mi></msub><mo stretchy="false">)</mo><mo>−</mo><msub><mi>r</mi><mi>ψ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>l</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\mathcal L_{RM}(\psi)=-\mathbb E_{(x,y_w,y_l)\sim D}
+\log\sigma(r_\psi(x,y_w)-r_\psi(x,y_l)).</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0077em;">R</span><span class="mord mathnormal mtight" style="margin-right:0.109em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">ψ</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1052em;vertical-align:-0.3552em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathbb">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5198em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mclose mtight">)</span><span class="mrel mtight">∼</span><span class="mord mathnormal mtight" style="margin-right:0.0278em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3552em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ψ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0269em;">w</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ψ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span><span class="mord">.</span></span></span></span></span>
+<p>D is the comparison dataset; <code>≻</code> means preferred. A sigmoid converts a score difference into a modeled pairwise probability. This assumes a scalar utility representation and logistic pairwise noise; real preferences can violate these assumptions.</p>
+<p>Why this loss? The observed label says the winner wins. Its Bernoulli likelihood is the sigmoid value; negative log-likelihood gives the minimization loss. If chosen score=2 and rejected=−1, difference=3, modeled win probability≈0.9526 and loss≈0.0486. Reversing them gives difference=−3 and loss≈3.0486. This same comparison logic underlies the implicit reward derivation of DPO.</p>
+<p>Adding any prompt-only constant c(x) to both rewards leaves the comparison unchanged. The DPO PDFs preserve the useful example <code>(8,3)</code> and <code>(108,103)</code>: both differences are 5 and induce the same pairwise probability. Absolute score levels cannot be uniquely recovered from pairwise labels alone.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant D as Preference dataset
+    participant RM as Scalar reward model
+    participant O as Optimizer
+    D->>RM: Same prompt plus chosen full response
+    RM-->>O: Chosen score
+    D->>RM: Same prompt plus rejected full response
+    RM-->>O: Rejected score
+    O->>O: Negative log sigmoid of reward difference
+    O->>RM: Gradient update to reward parameters
+</code></pre>
+<p>Reusable source: <a href="diagrams/13_reward_pair.mmd">diagram</a>.</p>
+<h2>3. Normalization, calibration and generalization</h2>
+<p>Pairwise accuracy measures ranking, not whether a score is an absolute quality probability. Check validation pairwise likelihood and reliability of modeled win probabilities on new comparisons. Mean/std normalization can control score scale for RL, but it changes the effective strength relative to KL. Compute normalization statistics on an appropriate fixed training/calibration distribution, document them, and avoid mixing raw and normalized scores in actor/critic targets.</p>
+<p>A reward head initialized from a causal LM is usually newly initialized. The PPO notebook's saved load report names <code>score.weight</code> as missing; this is expected and requires training. Four preference pairs and one epoch cannot establish broad scorer generalization. Overfitting can manifest as excellent training ranking but poor ranking on policy-generated answers.</p>
+<h2>4. Measured audit of your JSONL</h2>
+<p>Source: <a href="../reward_preferences_dataset.jsonl">reward_preferences_dataset.jsonl</a>. Full machine-readable report: <a href="assets/source_audit/dataset_report.json">dataset_report.json</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th align="right">Measured result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nonempty records parsed</td>
+<td align="right">20</td>
+</tr>
+<tr>
+<td>Invalid JSON lines</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Field set per record</td>
+<td align="right">Exactly <code>prompt</code>, <code>chosen</code>, <code>rejected</code></td>
+</tr>
+<tr>
+<td>Types</td>
+<td align="right">All three fields are strings in all records</td>
+</tr>
+<tr>
+<td>Missing/blank values</td>
+<td align="right">0 / 0</td>
+</tr>
+<tr>
+<td>Identical chosen/rejected pairs</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Exact duplicate records</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Duplicate prompts after lowercase/strip</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Chosen longer than rejected in characters</td>
+<td align="right">20 of 20</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Character min / max / mean</th>
+<th>Whitespace-word min / max / mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prompt</td>
+<td>11 / 54 / 33.8</td>
+<td>3 / 9 / 6.1</td>
+</tr>
+<tr>
+<td>chosen</td>
+<td>75 / 131 / 96.75</td>
+<td>10 / 19 / 14.2</td>
+</tr>
+<tr>
+<td>rejected</td>
+<td>32 / 76 / 58.1</td>
+<td>7 / 13 / 8.8</td>
+</tr>
+</tbody>
+</table>
+<p>These are Python string lengths and <code>str.split()</code> counts, <strong>not tokenizer lengths</strong>. Token counts depend on model tokenizer and formatting and were not measured by loading a model here.</p>
+<p>A verified representative record is:</p>
+<pre><code class="language-json">{
+  "prompt": "What is AI?",
+  "chosen": "AI is the ability of machines to perform tasks that usually require human intelligence.",
+  "rejected": "AI is random magic with no real meaning."
+}
+</code></pre>
+<p>The rows cover study advice, fitness, teaching, productivity, coding, stress and elementary ML concepts. All chosen answers are visibly sensible relative to deliberately weak or false alternatives. This is useful demonstration material but weak evidence for subtle preference learning. No annotator IDs, numeric scores, timestamps, provenance, explicit label field, reference answer or predefined split exists. The schema encodes the preference by column assignment.</p>
+<p>All winners are longer in characters. This creates a strong possible length shortcut. The audit establishes the correlation, not that any model actually learned it. Add length-matched hard negatives, correctly scoped responses and topic diversity before serious training. Review medical/fitness advice under a suitable rubric; syntactic cleanliness does not validate every domain claim.</p>
+<h2>5. Actual usage and transformations</h2>
+<p>The PPO notebook cells 6–7 contain a <strong>commented</strong> local JSONL loader for <code>/content/reward_preferences_dataset.jsonl</code>. Active cell 8 uses four inline rows matching the first four records. None of the active DPO/ORPO/GRPO paths directly loads this local JSONL by default.</p>
+<p>For the robust DPO notebooks, select <code>DATA_SOURCE="json"</code> and set <code>JSON_PATH</code> to the actual JSONL filename in a separate run. Hugging Face's JSON loader supports JSONL. The notebook default <code>preference_data.json</code> is not the provided filename. The plain-text conversion wraps prompt as user messages and chosen/rejected as assistant completions.</p>
+<p>For <strong>ORPO</strong>, the same plain preference schema is structurally suitable after the installed trainer's supported formatting. It does not need a reference answer field or separate reward scores.</p>
+<p>For <strong>reward training</strong>, render each full conversation <code>[user prompt, assistant answer]</code> for both candidates so the scalar scorer sees x and y. Confirm the installed <code>RewardTrainer</code> joins or extracts prompts as intended; answer-only tokenization is not interchangeable with prompt-conditioned scoring.</p>
+<p>For <strong>PPO rollout training</strong>, keep prompts and tokenize them with the policy's template; pairwise labels train an RM separately. A frozen trained RM must score new answers. Simply assigning the chosen response's label to every generated answer is invalid.</p>
+<p>For <strong>GRPO</strong>, prompts can be reused, but a reliable scorer for newly generated completions is still necessary. You may deliberately transform <code>chosen</code> to <code>reference_answer</code> for the notebook's similarity demo; this is a new metadata field, not a field originally present. A single chosen answer is not an exhaustive oracle for all valid answers, and text similarity is not mathematical verification.</p>
+<h2>6. Executable loading and validation</h2>
+<p>This stdlib-only example runs from the source directory, reads the originals, and writes nothing:</p>
+<pre><code class="language-python">from pathlib import Path
+import json
+
+path = Path("reward_preferences_dataset.jsonl")
+rows = []
+required = {"prompt", "chosen", "rejected"}
+with path.open(encoding="utf-8") as handle:
+    for line_number, line in enumerate(handle, 1):
+        if not line.strip():
+            raise ValueError(f"Blank line {line_number}")
+        row = json.loads(line)
+        if not isinstance(row, dict) or set(row) != required:
+            raise ValueError(f"Unexpected schema at line {line_number}")
+        if not all(isinstance(row[k], str) and row[k].strip() for k in required):
+            raise ValueError(f"Invalid string at line {line_number}")
+        if row["chosen"].strip() == row["rejected"].strip():
+            raise ValueError(f"Identical answers at line {line_number}")
+        rows.append(row)
+print(len(rows), rows[0])
+</code></pre>
+<p>The reusable <a href="assets/validate_dataset.py">validator</a> also measures lengths and duplicates. It reports defects rather than silently inventing or renaming fields.</p>
+<h2>Revision</h2>
+<p>Good data must have correct context, meaningful labels, hard comparisons and leakage-resistant splits. The local file is clean JSONL with 20 pairs, but its small size and universal winner-length correlation limit conclusions. Reward models learn comparisons; their scores need validation before driving online optimization.</p></body></html>

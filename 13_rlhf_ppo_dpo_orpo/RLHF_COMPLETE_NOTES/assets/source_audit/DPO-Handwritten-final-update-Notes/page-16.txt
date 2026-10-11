@@ -1,0 +1,75 @@
+Step 1: Training data
+
+Each sample contains three things:
+
+x = Prompt
+
+yw = Chosen / preferred response
+
+yl = Rejected / dispreferred response
+
+Example:
+
+Prom,
+
+Explain Al simply.
+
+Chosen:
+
+Al enables machines to learn patterns and perform intelligent tasks.
+
+Rejected:
+
+Al means machines are completely conscious like humans.
+
+Step 2: There are two models
+
+m6
+
+olicy model, which needs to be trained
+
+mrref
+
+rozen reference model
+
+The reference model represents the original behaviour.
+
+DPO does not look at how much absolute probability the policy model assigns to an answer. It looks at:
+
+How much has the policy model promoted or suppressed the response compared with the reference model?
+
+Step 3: Relative score of the chosen response
+
+ole | 2)
+
+Sane = Bg (
+
+Fete | 2),
+
+)
+
+Simple meaning:
+
+How much does the policy model prefer the chosen response compared withthe reference model?
+
+Step 4: Relative score of the rejected response
+
+e(ui| 2)
+
+Sete = Boe
+
+Fev [2
+
+Simple meaning:
+
+How much does the policy model prefer the rejected response compared with the reference model?
+
+Step 5: Compare both scores
+
+Schosen-Srejected
+
+DPO wants this difference to be positive and large:
+
+Chosen relative score
+
+Rejected relative score |

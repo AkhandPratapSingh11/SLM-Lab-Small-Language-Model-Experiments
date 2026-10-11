@@ -1,0 +1,23 @@
+Equation ke har symbol ka meaning
+
+‘symbol Meaning
+
+x Prompt
+
+y_w Chosen/preferred response
+
+yl
+
+Rejected response
+
+1. Trainable policy model
+
+Tt_"ref" Frozen reference model
+
+B Reference constraint/preference strength control
+
+© Sigmoid, score ko 0-1 probability mein convert karta ha
+
+(\log \pi(yx))
+
+E Dataset ke sab examples ka average

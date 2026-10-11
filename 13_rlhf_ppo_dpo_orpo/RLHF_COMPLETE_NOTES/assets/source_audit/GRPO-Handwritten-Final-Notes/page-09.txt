@@ -1,0 +1,47 @@
+Very Important Point
+
+GRPO does not mean “no reward”,
+
+Wrong: GRPO = no reward
+
+Correct: GRPO still needs a reward signal.
+
+The reward signal can come from:
+
+ase"
+
+_-Rule-based rewards ©
+
+S
+
+— Heuristic rewards
+
+Task-specific rewards
+
+-
+
+<——
+
+___ Reward model scores
+
+(Gea)
+
+For example:
+
+wv
+
+wwe
+
+Math problem — check final answer correctness
+
+Coding problem Stun test cases >
+
+Reasoning task ~ Teward correct structure or logic
+
+Reward ane
+
+So the correct understanding is:
+
+Reward Model may be removed in some setups.
+
+Reward signal cannot be removed.

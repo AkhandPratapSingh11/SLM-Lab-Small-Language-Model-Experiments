@@ -1,0 +1,41 @@
+Overall Experimental Findings
+
+With virtually no hyperparameter tuning, the original DPO paper found that DPO:
+
++ Performed similarly to or better than PPO-based RLHF across the tested preference-learning tasks.
+
++ Achieved a better reward-KL trade-off than PPO in controlled sentiment generation. In this experiment, DPO's
+
+reward-KL frontier also outperformed PPO-GT, which had access to the ground-truth reward.
+
++ Outperformed PPO on TL:DR summarization, achieving an approximately 61% win rate, compared with PPO's best
+
+result of approximately 57%. DPO was also more robust to changes in sampling temperature.
+
++ Showed strong performance on single-turn dialogue. It was the only computationally efficient method in the
+
+experiment that improved over the preferred responses in the Anthropic HH dataset and achieved performance
+
+similar to or better than the computationally expensive Best-of-128 baseline.
+
++ Was evaluated on language models with up to 6 billion parameters.
+
+In the original paper's experiments, DPO matched or outperformed PPO-based RLHF on sentiment control,
+
+summarization, and single-turn dialogue, while requiring minimal hyperparameter tuning and using models of up to.
+
+68 parameters.
+
+Important Note
+
+Do not say:
+
+“DPO is always better than PPO.”
+
+Say:
+
+“DPO performed similarly to or better than PPO on the tasks evaluated in the original paper.”
+
+The experimental results showed that DPO could achieve PPO-level or better preference alignment with much
+
+simpler training. However, these results were limited to the models and tasks tested in the original paper.

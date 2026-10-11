@@ -1,0 +1,19 @@
+preference alignment ensure the model is:
+
+@ Helpful
+
+@ Harmless
+
+@ Honest
+
+@ Polite
+
+@ Safe
+
+@ Non-toxicity
+
+@ Consistency with human expectations
+
+In short:
+
+Preference alignment bridges the gap between “knows language” and “behaves well”.

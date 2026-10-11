@@ -1,0 +1,51 @@
+What is RLHF?
+
+RLHF is a training method or process that uses reinforcement learning algorithms like PPO, along with human
+
+feedback, to align language models(LLM) with human preferences.
+
+SFT teach LLMs: “This is the correct answer”
+
+RLHF teach LLMs: “This answer is better than the other one”
+
+Since in the real world: There can be multiple correct answers.
+
+Prompt: Explain Al
+
+Output A — simple and clear:
+
+Al means machines that can learn, think, or make decisions like humans. For example, chatbots, self-driving cars,
+
+and recommendation systems use Al.
+
+Output B — complex and confusing:
+
+Al is a computational paradigm involving algorithmic approximations of cognitive processes through statistical
+
+inference, representation learning, and optimization over high-dimensional data distributions.
+
+Both can be technically correct.
+
+but Human prefers A
+
+What is Reward Modeling?
+
+Reward Modeling is the process of training a model to evaluate, score, or rank responses according to human
+
+preferences.
+
+In RLHF: Reward Model = A proxy for human judgment
+
+Why is Reward Modeling Needed?
+
+An LLM does not naturally know:
+
++ what is “better”
+
++ what is "safe"
+
++ what is "clear"
+
+The Reward Model acts as a proxy for human feedback. It learns human preferences from chosen/rejected examples
+
+and then approximates how a human would score a response.

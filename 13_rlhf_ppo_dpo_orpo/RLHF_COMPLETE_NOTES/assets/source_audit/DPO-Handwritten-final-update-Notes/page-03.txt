@@ -1,0 +1,31 @@
+irst Stage: Pretraining
+
+A LLM is pretrained on a very large amount of internet data. Therefore, it has a lot of knowledge. but its behavior
+
+may not always as human expected.
+
+During pretraining, the model learns language structure, meaning, general knowledge, reasoning patterns, writing
+
+styles, coding, mathematics, and multiple languages.
+
+Example
+
+Prompt: "Explain gravity to a 10-year-old.”
+
+The model generates two answers:
+
++ Answer A: Simple, clear, and correct
+
++ Answer B: Very technical, confusing, and unnecessarily long
+
+Then human :
+
+Chosen answer
+
+=A
+
+Rejected answer = B
+
+So, we want to teach the model that, in the future, it should increase the probability of answers like A and decrease
+
+the probability of answers like B.

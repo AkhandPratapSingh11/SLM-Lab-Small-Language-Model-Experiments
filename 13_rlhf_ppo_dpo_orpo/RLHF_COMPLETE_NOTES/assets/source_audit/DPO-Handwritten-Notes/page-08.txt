@@ -1,0 +1,153 @@
+No Separate Reward Model Concept
+
+DPO Usually Uses Two Model Copies
+
+1 Policy Model
+
+The Policy Model is trained on the preference data.
+
+The purpose of the Reference Model is to prevent the Policy Model from changing too much.
+
+2 Reference Model
+
+The Reference Model remains frozen and is not updated.
+
+it is the SFT model(copy of the policy model)
+
+Example
+
+Reference Model: generates normal, fluent, and useful answers.
+
+Policy Model: earns human preferences.
+
+Without a Reference Model, the Policy Model may keep optimizing the preference score and eventually generate
+
+unnatural or broken language.
+
+Therefore, the DPO objective roughly says: ake the chosen response more likely than the rejected response, but do
+
+not move too far away from the original Reference Model.
+
+The paper mathematically shows that an implicit reward score can be derived from the probabilities of the Language
+
+Model.
+
+Implicit Reward
+
+= Current Model's Probability
+
+compared with
+
+Reference Model's Probability
+
+Therefore, there is no need to train a separate Reward Model.
+
+The probability ratio between the Language Model and the Reference Model acts like a reward.
+
+Interview Question: How Many Models Are Used in DPO?
+
+tstnhadeahratediloat
+
+a)
+
+(C Answer::DPO mainly uses two models during train
+
+)
+
+1. Policy Model
+
+S
+
+2. Reference Model
+
+‘+ This the trainable mode
+
+Be
+
++ This made mains frozen
+
+«ts weights are undated
+
++ ts weights are not updated,
+
+sing the DPO loss.
+
+vA
+
++ tis usualy a copy ofthe
+
++ Iteams to assign a higher
+
+od
+
+ciginal SFT model
+
+TIT
+
+‘elative probity to the
+
+chosen response than tothe
+
+He Two
+
++ Reprevents the Policy Model
+
+from moving too faraway rom
+
+TTRAINABLE
+
+rejected response.
+
+MODELS USED
+
+FROZEN
+
+the orginal model's behaviou
+
+PO
+
+Policy Model
+
+Reference Model
+
+Teanale
+
+*) SS
+
+Weights are updated
+
+= Weights are not updated
+
+.
+
+‘Traditional PPO-based RLHF may additionally require:
+
+A separate Reward Model
+
+‘A Volue/Critie Model
+
+Orolo and
+
+) ined eae reszorses
+
+) estates value of states
+
+mR
+
+aN
+
+BS) Compiex ppaine ineing rolls,
+
+‘bdvartage-caleulation machinery
+
+| (
+
+\ 25) eed on hanan preferences.
+
+toreauce varanes
+
+@
+
+‘ovomageslipong et
+
+(Ge DPO removes these explicit components and directly trains the Policy Model using chosen and rejected response pas.)

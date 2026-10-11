@@ -1,0 +1,29 @@
+What is Q-learning?
+
+Q-Learning is a value-based Reinforcement Learning algorithm
+
+Q-Learning learns "how good" each action is in a particular state. It stores these values in a Q-Table and chooses the
+
+action with the highest Q-value.
+
+Treasure Hunt Game
+
+Current State
+
+You are standing at a crossroad.
+
+Available Actions
+
+Go Left
+
+Go Right
+
+Go Straight
+
+Goal
+
+Find the treasure.
+
+Ei!
+
+ee

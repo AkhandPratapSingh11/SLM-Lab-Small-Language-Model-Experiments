@@ -1,0 +1,103 @@
+Mathematics Behind the ORPO
+
+on
+
+ce
+
+ie
+
+Question: What is 2 + 2?
+
+Two answers were given:
+
+Chosen answer: 4 ~
+
+-
+
+@) S  Prectop - Actral oP 2 \es]
+
+Rejected answer: 5
+
+ot
+
+AY
+
+ORPO teaches the model two things: -
+
+Learn to write the correct answer “4” ~
+
+Understand that “4” is better than “5”
+
+That is why: Lonpo
+
+srt + Alon
+
+<
+
+=
+
+In ORPO, the SFT loss teaches the model to generate the chosen answer, while the Odds Ratio loss teaches
+
+it to rank the chosen answer higher than the rejected answer.
+
+Lorpo = Lsrr + ALon
+
+A
+
+-
+
+* Lepr: Teaches the model to generate the chosen response.
+
+* Log: Teaches the model to prefer the chosen response over the rejected response
+
++ 4: Controls how much importance is given to the preference loss.
+
+A controls how much importance preference learning receives.
+
+* Chosen score higher -> OR loss small
+
+* Rejected score higher > OR loss large
+
+-
+
+_
+
+ow ie
+
+odes m2
+
+wd
+
+=
+
+aroy
+
+(ie
+
+}
+
+85h P
+
+ited into odds:
+
+ProfratMy Ts comves
+
+|
+
+odds(P) =
+
+Scnosen = log (chosen odds)
+
+Srejectea = log(rejected odds)
+
+or = Seni
+
+as
+
+Lor = og @ )
+
+Loss is small > the model is performing well
+
+Loss is large > the model is performing incorrectly
+
+stim O8PO Page

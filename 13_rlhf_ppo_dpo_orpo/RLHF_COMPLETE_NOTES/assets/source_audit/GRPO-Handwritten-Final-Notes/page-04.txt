@@ -1,0 +1,81 @@
+Re
+
+What is GRPO?
+
+GRPO, or}
+
+rou!
+
+Opt
+
+zation, is a reinforcement learning method used to align LLMs by comparing
+
+multiple responses generated for the same prompt.
+
+GRPO improves an LLM by generating multiple responses for the same prompt, scoring them, and updating the
+
+model based on which responses are better or worse than the group average, without needing a separate
+
+value(critic ) model
+
+It wep alte
+
+2(Grtoy
+
+Gnrove PPO
+
+Prompt - Solve: 2 + 2
+
+ic
+
+N
+
+Model generates 4 responses
+
+Aa
+
+Reward
+
+—
+
+RS
+
+Reward
+
+c47
+
+Reward
+
+D:6~
+
+Reward = 0 €——
+
+\
+
+5 ee
+
+Group average reward:
+
+A=V, 820,06
+
+=
+
+Now GRPO learns:
+
+ae
+
+- AC) BS Bes)
+
+Responses above average — increase probability
+
+“Responses below average
+
+decrease probability
+
+Instead of using a separate value(critic) model like PPO.
+
+GRPO collect a group of responses
+
+scores them
+
+[and checks which responses are better or worse than the group average.

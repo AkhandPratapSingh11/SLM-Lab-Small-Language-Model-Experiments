@@ -1,0 +1,37 @@
+Why GRPO Is Better:
+
+1. No Value/Critic Model
+
+GRPO removes the separate critic/value model used in PPO.
+
+This saves memory and compute.
+
+2. Group-Based Comparison
+
+GRPO compares multiple responses for the same prompt.
+
+Example:
+
+Prompt: Solve 2 + 2
+
++ good
+
+— bad
+
+= good
+
+D:6 — bad
+
+The model learns:
+
+Responses better than group average ~ increase probability
+
+Responses worse than group average ~ decrease probability
+
+3. More Efficient for Reasoning Tasks
+
+For math and coding, rewards can be verified using rules.
+
+So we do not always need a human preference reward model.
+
+This makes the training pipeline cheaper and simpler.

@@ -1,0 +1,87 @@
+*
+
+Let’s Revise RLHF_
+
+LHF generally requires
+
+. A @ Human Preference Data
+
+"
+
+{a
+
+‘multiple components:
+
+@
+
+Reference Model
+
+U
+
+°4
+
+2) Tn Separte Rover edt
+
+™
+
+@ao
+
+Policy Model
+
+(O81 D warp]
+
+Reward Model
+
+087
+
+@yP
+
+iz
+
+cs
+
+_
+
+4)
+
+al
+
+\Value/Critc Model
+
+(5) Theale eel Gents te net S|
+
+®t
+
+PPO Training Loop
+
+PPO / Reinforcement
+
+an
+
+wT
+
+6)
+
+‘Updates the Language Mode!
+
+-”
+
+~
+
+RLHF uses multiple models and a reinforcement learning loop to align
+
+Ss
+
+the language model with human preferences.
+
+J
+
+Problems with RLHF Using PPO
+
++ Itis complex.
+
++ Its computationally expensive.
+
++ Multiple models must be loaded, trained, and managed.
+
++ Poor Reward Model or Critic estimates can produce noisy or incorrect updates.

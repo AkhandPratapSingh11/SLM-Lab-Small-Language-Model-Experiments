@@ -1,0 +1,63 @@
+How GRPO Works in LLM
+
+nment — Step by Step Example
+
+Ge
+
+Reward /
+
+Policy M
+
+Matti
+
+Tr)
+
+Evaluates Eacl
+
+-oring Signal
+
+4)
+
+o toon Prompt
+
+‘oe
+
+» fhe
+
++ Reward = 6
+
+(5) Group Average Reward =
+
+EE
+
+94+642)/3 = 5.67
+
+Mac
+
+Medel
+
+oy
+
+Updates the Policy
+
+© ‘Arter Man Eats
+
+"
+
+R- a
+
+=
+
+*
+
+Full Loop for One Example (GRPO)
+
+>| it
+
+-@
+
+79
+
+Key Takeaways
+
+°

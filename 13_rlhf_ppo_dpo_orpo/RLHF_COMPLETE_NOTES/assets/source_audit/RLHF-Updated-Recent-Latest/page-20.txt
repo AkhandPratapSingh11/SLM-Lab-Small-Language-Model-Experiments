@@ -1,0 +1,107 @@
+Value-Based RL says:
+
+“Let's learn how good each action is in a given state.”
+
+State = Crossroad
+
+Go Left
+
++10 points
+
+Go Right
+
++50 points
+
+Go Straight = +20 points
+
+The agent learns and stores these values in a table called a|
+
+How Does the Agent Choose an Action?
+
+simple.
+
+The agent looks at all Q-values for the current state and selects the action with the highest Q-value.
+
+Go Left
+
+=10-
+
+Go Right
+
+0-
+
+Go Straight = 20 —
+
+Maximum Q-Value: 50 =
+
+Corresponding Action:Go Rit
+
+fe
+
+Therefore, the agent chooses: Action = Go Right
+
+What is Q(s,a)’
+
+The Q-value represents:
+
+“If lam in state s and take action a, how much total future reward can | expect to receive?"
+
+Mathematically:Q(s,a)
+
+Where:
+
+s= State ~
+
+2
+
+a= Action
+
+Example
+
+For our crossroad example:
+
+Q(Crossroad, Go Left)
+
+10
+
+—
+
+Q(Crossroad, Go Right)
+
+= 50
+
+ae
+
+=
+
+Q(Crossroad, Go Straight)
+
+20
+
+—_—
+
+This means:
+
+\
+
+Going Left is expected to give a future reward of 10.
+
+Going Right is expected to give a future reward of 50.
+
+Going Straight is expected to give a future reward of 20. <—
+
+Q-Table
+
+Q-value
+
+Crossroad
+
+cotstt
+
+0
+
+Gofight
+
+Crossroad
+
+Go Straight

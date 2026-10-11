@@ -1,0 +1,99 @@
+Step 2: Train a Reward Model
+
+We do not start PPO immediately.
+
+First, we train a Reward Model.
+
+Input:
+
+Prompt
+
+Response A
+
+Response B
+
+Human Preference
+
+The Reward Model learns:
+
+A Reward = 8
+
+B = Reward = 3
+
+The Reward Model is now learning to imitate human preferences.
+
+Reward Modeling Pipeline
+
+Step 1: Generate multiple responses
+
+Prompt + LLM + multiple outputs
+
+Step 2: Human labeling (VERY IMPORTANT)
+
+Human compares:
+
+A>B
+
+dataset Banega:
+
+(prompt, chosen, rejected)
+
+Step 3: Train Reward Model
+
+input:
+
+(prompt + response)
+
+output:
+
+score (scalar value)
+
+Objective
+
+Reward(chosen) > Reward(rejected)
+
+Core Idea
+
+instead of:
+
+correct vs incorrect
+
+we learn:
+
+better vs worse
+
+Step 4: Human Feedback Appears Indirectly
+
+Who provides the reward now?
+
+Human?
+
+No
+
+The Reward Model does.
+
+Reward = 8
+
+But who trained the Reward Model?
+
+Human Feedback.
+
+Therefore:
+
+Human
+
+L
+
+Preference Data
+
+L
+
+Reward Model
+
+L
+
+Reward Score
+
+4
+
+PPO

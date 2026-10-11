@@ -1,0 +1,13 @@
+flowchart TD
+    X["Sample prompts"] --> G["Old policy generates responses"]
+    G --> B["Store tokens, masks, old logps and values"]
+    B --> R["Score response and compute reference logps"]
+    R --> K["Token KL shaping plus terminal reward"]
+    K --> A["GAE and value targets; detach rollout targets"]
+    A --> M["Shuffle rollout minibatches"]
+    M --> N["Current policy logps and current values"]
+    N --> L["Clipped actor loss plus critic loss"]
+    L --> U["Backward, clip gradients, optimizer step"]
+    U --> T{"More optimization epochs?"}
+    T -->|Yes| M
+    T -->|No| X

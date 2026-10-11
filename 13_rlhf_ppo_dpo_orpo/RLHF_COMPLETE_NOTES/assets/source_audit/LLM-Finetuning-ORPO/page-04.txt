@@ -1,0 +1,37 @@
+ORPO Trai
+
+ing Flow
+
+Prompt + Chosen Response + Rejected Response
+
+Calculate Chosen Response Probability
+
+Calculate Rejected Response Probability
+
+SFT Loss on the Chosen Response
+
++
+
+Odds Ratio Loss between Chosen and Rejected
+
+——
+
+Combined ORPO Loss
+
+Update the Same Model
+
+ORPO does not require:
+
+* Separate Reward Model
+
+© Value/Critic Model
+
+© PPO or reinforcement learning
+
+Frozen Reference Model
+
+ORPO: Research Results and Real-World Usage
+
+The original ORPO experiments trained several models, including:
+
+Lent Fincaning ORPO Page 4

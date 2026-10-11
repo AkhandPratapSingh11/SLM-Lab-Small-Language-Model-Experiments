@@ -1,0 +1,11 @@
+flowchart LR
+    D["Offline preference pair"] --> P["One trainable language model"]
+    P --> W["Chosen masked token logps"]
+    P --> L["Rejected masked token logps"]
+    W --> S["Chosen supervised NLL"]
+    W --> O["Length-normalized log odds difference"]
+    L --> O
+    O --> R["Negative log sigmoid preference loss"]
+    S --> T["NLL plus lambda times preference loss"]
+    R --> T
+    T --> U["Update same model; no frozen reference"]

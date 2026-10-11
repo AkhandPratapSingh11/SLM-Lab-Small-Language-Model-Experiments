@@ -1,0 +1,135 @@
+GRPO
+
+Group Relative Policy Optimization
+
+GRPO was introduced in the DeepSeekMath paper. The authors proposed GRPO as a variant of PPO for
+
+reinforcement learning.
+
+Model Family
+
+Date
+
+Use
+
+deepseck-Coder v1 / DecySeek LM
+
+= 2023
+
+General LLM + coding
+
+DeepSeekMoE —
+
+Jan 2024
+
+Efficient MoE model
+
+A beaseaka-————— Feb 2028
+
+Math reasoning
+
+DeepSeek-VL —
+
+Mar 2024
+
+Vision-language tasks
+
+DeepSeek-v2 —
+
+May 2024
+
+Efficient general LLM
+
+Jun 2024
+
+DeepSeek-Coder-v2 ~
+
+‘Advanced coding
+
+DeepSeek-v2.5 -
+
+Sep-Dec 2024
+
+Improved chat/coding.
+
+DeepSeek-vi2
+
+Dec 2024
+
+Better vision-language
+
+DeepSeek-V3,
+
+Dec 2024
+
+Flagship MoE LLM
+
+[Deepseek-Ri / Ri-Zero / Distill | ——? Jan 2025
+
+Reasoning model —~———
+
+URPO
+
+jana
+
+Jan 2025
+
+‘Multimodal + image generation
+
+DeepSeek-Prover-V2
+
+Apr 2025
+
+Formal theorem proving
+
+DeepSeek-V3.1
+
+‘Aug 2025
+
+Hybrid thinking/chat
+
+DeepSeek-V3.2 / V3.2-Exp
+
+Sep-Dec 2025
+
+Agentic reasoning
+
+DeepSeek-V4 Preview
+
+Apr 2026
+
+Latest flagship preview
+
+DeepSeek-Coder-Base-v1.5 7B
+
+T
+
+Math Continued Pre-training; 120B math tokens + code + natural language
+
+4
+
+DeepSeekMath-Base 7B
+
+"
+
+Math SFT; CoT + PoT + Tool-integrated reasoning
+
++
+
+DeepSeekMath-Instruct 7B
+
+T
+
+GRPO Reinforcement Learning
+
+t
+
+DeepSeekMath-RL 7B
+
+DeepSeek-LLM and DeepSeek-Coder v1 are not the same model. DeepSeek-LLM is a general model family, while
+
+DeepSeek-Coder is a coding-focused family, DeepSeek-Coder-Bas
+
+-V1.5 7B is a specific coder checkpoint, and
+
+DeepSeekMath was initialized from this checkpoint.

@@ -1,0 +1,87 @@
+RL Evolution Timeline
+
+RL evolved from tables -> neural networks -> human-aligned intelligence.”
+
+Phase
+
+Description
+
+‘+ Reinforcement Learning is based on Markov Decision Process (MDP) + Core idea: State > Action >
+
+@ 1. 1950s ~ Foundations (MDP)
+
+‘owar
+
+Tate
+
+Sea
+
+me
+
+—
+
+:
+
+ay
+
+@ 2. 19805-19905 ~ Classical RL
+
++ Key algorithms introduced:
+
+cy
+
+ing © Temporal Difference (TD Learning) Learning usit
+
+les
+
+oss
+
+Not scalable to large problems
+
+@ 3. 2000s - Slow Progress
+
+‘> Mostly theoretical work = Limited real-world applications Reagon: # Low compute power * No deep
+
+——
+
+learning support
+
+—<
+
+@ 4. 2013-2015 - Deep
+
++ Introduction of Deep Q-Network (DAN) 7 Neural networks +RL v7 Solved Atari games Thisis where
+
+Reinforcement Learning
+
+RL bec:
+
+1e practies—————
+
+(Breakthrough)
+
+@ 5. 2016 — Policy Gradient
+
+‘Actor- * Shift from value-based > policy:
+
+d learning 7 Instead of Q-values, we directly
+
+en: n(a | 3)
+
+crite
+
+© 6.2017 ~ PPO (Most Important =eFoximal Policy Optimization (PPO) introduced / Stable training «7 Controlled updates v Widely
+
+Phase
+
+sed in industry This isthe core RL algorithm used in many systems
+
+© 7.2018-2020 - An Real Systems + Used in: © Robotics © Game Al (AlphaGo, AlphaZero) v Complex decision-making tasks
+
+‘* Reinforcement Learning applied to LLMs RLHF (Reinforcement Learning with Human Feedback)
+
+@ 8.202 202020 | sa Larus)
+
+Pipeline: Pretraining - SFT > Reward Model -> PPO ¥/ Used to train ChatGPT-like models
+
+a

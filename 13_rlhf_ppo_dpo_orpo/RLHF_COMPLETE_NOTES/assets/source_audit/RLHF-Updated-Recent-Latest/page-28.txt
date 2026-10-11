@@ -1,0 +1,55 @@
+Step 8: Compare Prediction vs Target
+
+The Q-network predicted:
+
+Q(S1, Right) = 4
+
+The target value says:
+
+Correct Value = 10.4
+
+Error:
+
+10.4-4=6.4
+
+This means the Q-network underestimated the value of taking the Right action.
+
+Step 9: Compute the Loss
+
+Loss = (Target - Prediction)?
+
+Loss = (10.4 - 4)?
+
+Loss = 6.4”
+
+Loss = 40.96
+
+Step 10: Update the Q-Network
+
+After training, the Q-network improves its prediction.
+
+Before Training:
+
+Q(S1, Right) = 4
+
+After Some Training:
+
+Q(S1, Right) = 7
+
+After More Training:
+
+Q(S1, Right) = 9
+
+Eventually:
+
+Q(S1, Right) = 10.4
+
+The Q-network gradually adjusts its weights so that its predicted
+
+Q-value gets closer and closer to the target value.
+
+Over time:
+
+Prediction = Target
+
+3739-104

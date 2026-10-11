@@ -1,0 +1,11 @@
+flowchart TD
+    D["Verified local prompt, chosen, rejected strings"] --> PA["DPO or ORPO preference formatting"]
+    PA --> OFF["Offline teacher-forced optimization"]
+    D --> RM["Full prompt plus response pairs for reward model"]
+    RM --> PPO["PPO: prompt rollouts scored by reward model"]
+    D --> X["Prompt-only rollout dataset"]
+    X --> PPO
+    X --> GR["GRPO: groups of generated responses"]
+    GOLD["Gold answer metadata or external reward oracle"] --> GR
+    GR --> ONLINE["Online policy updates"]
+    PPO --> ONLINE

@@ -1,0 +1,93 @@
+Dor = 2497
+
+Meaning of Delta:
+
+Delta positive -> chosen is better
+
+Delta zero > both are equal
+
+Delta negative > rejected is better
+
+Part 5: What does Sigmoid do?
+
+Now we have:
+
+on = 22897
+
+Sigmoid converts any number into a value between 0 and 1:
+
+1+
+
+)
+
+p(c)2 ort 1
+
+(a
+
+CR) = OS
+
+[o-v}
+
+o(2.197) $9
+
+-
+
+Think of sigmoid as a judge meter:
+
+Value close to 1 > chosen is strongly better
+
+Value 0.5 > bothrare equal
+
+Value close to 0 > rej
+
+In our example:0.9
+
+This means the ORPO objective strongly prefers the chasen answer.
+
+Itis not necessary to call this calibrated real-world confidence; it is better to understand it as a preference
+
+score.
+
+Part
+
+What does OR Loss do?
+
+OR loss:
+
+Lor
+
+=
+
+=
+
+= logs (Aer)
+
+In our examplk the sigmoid value was 0.9:
+
+Lor = sonia)
+
+Lop SDAOS
+
+The loss is small because the model is correctly ranking the chosen answer above the rejected answer.
+
+Simple rule of negative log:
+
+Sigmoid close to 1 > loss close to 0
+
+Sigmoid close to 0 > loss becomes very large—
+
+This means:
+
+Small punishment for correct ranking, large punishment for wrong ranking.
+
+Part 7: Final ORPO Loss
+
+Now we combine both losses:
+
+Lorpo =Lse¢ +-ALon,
+
+We have:
+
+Lspp =AL2BE
+
+sting OPO Pape

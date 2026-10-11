@@ -1,0 +1,19 @@
+In the original paper's experiments, DPO matched or outperformed PPO-based RLHF on sentiment control,
+
+summarization, and single-turn dialogue, while requiring minimal hyperparameter tuning and using models of up to
+
+68 parameters.
+
+Important Note
+
+Do not say:
+
+“DPO is always better than PPO.”
+
+Say:
+
+“DPO performed similarly to or better than PPO on the tasks evaluated in the original paper.”
+
+The experimental results showed that DPO could achieve PPO-level or better preference alignment with much
+
+simpler training. However, these results were limited to the models and tasks tested in the original paper.

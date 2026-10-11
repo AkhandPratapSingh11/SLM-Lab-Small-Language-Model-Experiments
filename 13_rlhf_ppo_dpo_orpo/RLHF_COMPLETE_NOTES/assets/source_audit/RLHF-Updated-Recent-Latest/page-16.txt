@@ -1,0 +1,17 @@
+Reinforcement-Learning
+
+Value-Based RL
+
+Nw
+
+A
+
+Policy-Based RL
+
+Main focus:Q\s.a)
+
+Main focus: mals)
+
+Example: Q-Learning,DQ\
+
+Example: PPO

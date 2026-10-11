@@ -1,0 +1,69 @@
+What Does “Reference-Model-Free” Mean?
+
+In DPO, two models are used:
+
+Policy Model
+
+> Trainable
+
+Reference Model + Frozen
+
+The Reference Model acts as a baseline and limits how far the Policy Model moves from its original behavior.
+
+A Reward Model does not directly provide a score; instead, the reward signal is automatically derived by comparing the
+
+probabilities of the Policy Model and the Reference Model.
+
+Chosen implicit reward high
+
+Rejected implicit reward low
+
+v
+
+Loss low
+
+Rejected implicit reward high
+
+Chosen implicit reward low
+
+Vv
+
+v
+
+Model is corrected
+
+ORPO uses only one trainable Policy Model. It does not require an additional frozen Reference Model during preference
+
+training.
+
+Therefore, ORPO requires less memory and computation than DPO.
+
+ORPO does not use a Reward Model or a Reference Model. The preference signal is derived by comparing the odds of
+
+chosen and rejected responses from the same Policy Model, while SFT loss trains the chosen response.
+
+ee
+
+Chosen odds high —
+
+Rejected odds low
+
+=
+
+orTen |
+
+Rejected odds high
+
+Chosen odds low
+
+v
+
+OR loss high
+
+v
+
+Model is corrected
+
+SO
+
+Lat incning 0880 Page

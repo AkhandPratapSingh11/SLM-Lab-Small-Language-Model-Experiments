@@ -1,0 +1,57 @@
+Step 6: The Target Network looks into the future
+
+The Target Network receives the next state:
+
+s2
+
+The Target Network outputs:
+
+Q target(S2, Left)
+
+Q target(s2, Right
+
+=
+
+Q target(S2, Up)
+
+=
+
+Q target(S2, Down)
+
+Best future value:
+
+max =
+
+Meaning:
+
+If the agent takes the best possible action from S2, it expects to receive a future reward of 6
+
+Step 7: Calculate the Target Value
+
+Formula:
+
+Target = Reward + gamma x Best Future Value
+
+‘Suppose:
+
+Reward = +5
+
+gamma = 0.9
+
+Best Future Value = 6
+
+Then:
+
+Target
+
++096
+
+Target
+
++54
+
+Target = 10.4
+
+Meaning:
+
+The correct value of taking the Right action in state S1 should be approximately 10.4.

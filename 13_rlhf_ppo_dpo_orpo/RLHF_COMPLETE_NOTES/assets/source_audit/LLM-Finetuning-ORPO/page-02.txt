@@ -1,0 +1,33 @@
+Quick Background of ORPO.
+
+L
+
+ORPO: Odd Ratio Preference optimization
+
+Research paper of ORPO: https://arxiv.org/pdf/2403.07691
+
+ORPO was introduced by Jiwoo Hong, Noah Lee, and James Thorne in 2024
+
+It was introduced in Korea Advanced Institute of Science and Technology(KAIST Al) it is a
+
+research university in South Korea
+
+¢ Jiwoo Hong currently: Al Engineer at LinkedIn
+
+¢ James Thorne: faculty member at KAIST’s
+
+¢ The ORPO paper first appeared on arXiv in March 2024 and was later published at EMNLP
+
+2024.
+
+¢ EMNLP stands for the Conference on Empirical Methods in Natural Language Processing. It is a
+
+major international research conference in the fields of NLP and Large Language Models.
+
+¢ EMNLP 2024 was held in Miami, USA, from November 12 to 16, 2024.
+
+¢ The Main Conference acceptance rate approximately 20%, roughly one out of every five
+
+submitted papers accepting.
+
+LLM-Finetuning-ORPO Page 2

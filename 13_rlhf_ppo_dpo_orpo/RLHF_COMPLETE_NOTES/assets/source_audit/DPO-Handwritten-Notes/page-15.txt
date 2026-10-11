@@ -1,0 +1,57 @@
+Equation 5 vs Equation 7
+
+Students pooch sakte hain ki DPO ki asli equation kaunsi hai.
+
+Equation 5: DPO ka core insight
+
+18 (x@,y)=Blogffi
+
+(018 (ylxy)/e_"ref" (ylx) J
+
+Ye batati hai:
+
+Policy aur reference model ka probability ratio ek implicit reward ki tarah kaam karta hai
+
+Equation 7: Actual training loss
+
+_
+
+LDPO:
+
+-lor
+
+(18 (x@,y_w )-r8 (x@y_1))
+
+Ye actual equation hai jiske through model train hota hai.
+
+Isliye class mein bolo:
+
+Equation 5 DPO ka main idea hai, lekin Equation 7 DPO ka main training objective hai.
+
+Board par simplest representation
+
+Class mein pehle ye likho:
+
+Chosen score
+
+= Policy chosen log-prob ~ Reference chosen log-prob
+
+Rejected score
+
+= Policy rejected log-prob ~ Reference rejected log-prob
+
+Phir:
+
+DPO Goal:
+
+Chosen score > Rejected score
+
+Finally full equation dikhao:
+
+C(L_DPO= -lo
+
+[B(log:
+
+(00 (y_wix))/(m_"ref" (y_wlx) )] -log}
+
+Ke_8 (y_Iboyr_"ref" (y_Iix) 1)

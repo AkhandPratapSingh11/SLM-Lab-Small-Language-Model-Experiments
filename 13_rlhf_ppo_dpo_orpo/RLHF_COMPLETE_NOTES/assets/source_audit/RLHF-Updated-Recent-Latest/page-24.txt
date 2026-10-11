@@ -1,0 +1,49 @@
+Data Prepration Phase
+
+Q-Network
+
+Experience Replay Buffer
+
+(stright)
+
+(S,A,R, S')
+
+Qistieft)
+
+State(.——>
+
+Q(stup)
+
+Q(st,down)
+
+S1)
+
+Training Phase
+
+Q-Network
+
+Q(St,right)
+
+Q(Si,left)
+
+SS
+
+Q(si,up)
+
+Q(S1,down)
+
+Target Network
+
+Qt(S2,right)
+
+—
+
+p> Qt(S2,left)
+
+Qt(S2,up)
+
+Qt(S2,down)
+
+DQN is not supervised learning because it does not learn from labeled; instead, it learns through trial-and-error
+
+interactions with the environment using rewards as feedback.

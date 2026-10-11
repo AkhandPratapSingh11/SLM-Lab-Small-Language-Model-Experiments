@@ -1,0 +1,61 @@
+Part 1: What does SFT Loss do?
+
+SFTtellsthe model: “Learn to generate the chosen answer
+
+Suppose the model assigns these scores:
+
+P(chosen) = 0.75
+
+P(rejected) = 0.25 ~
+
+This means the model assigns a 75% score to the chasen answer and a25% score to the rejeetec’answer—
+
+The probability of the chosen answer is good.
+
+=
+
+Remember only this:
+
+Chosen probability high ~ SFT loss low
+
+Chosen probability low >-SETass-bigh.
+
+SFT loss teaches the model to write the chosen answer.
+
+Part 2: What are Odds?
+
+This is the most confusing part. But It is very simple.
+
+Probabitity-P-=0:75—
+
+This means:
+
+Chance of the answer occurring = 75
+
+Chance of the answer not occurring = 25
+
+Odds ask:
+
+“How much greater is the chance of occurring than the chance of not occurring?”
+
+=
+
+Formula:
+
+odds(P) =
+
+1-P
+
+Chosen answer odds:
+
+0.75
+
+oddschosen =
+
+1-075
+
+_ 0.75
+
+~ 0.25
+
+sini On

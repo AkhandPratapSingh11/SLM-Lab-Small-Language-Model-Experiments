@@ -1,0 +1,37 @@
+Interview Question:
+
+&® Are DPO and Su
+
+pervised Fine Tuning the Same?’
+
+l Normal SFT _
+
+“
+
+DPO
+
+© Prompt
+
+‘Chosen Answer
+
+Ss =
+
+(lected Answer — =
+
+qs
+
+The model simply
+
+The model learns:
+
+The chosen answer is better
+
+©
+
+imitates the correct answer.
+
+@
+
+than the rejected answer.
+
+®) Therefore, DPO performs comparative learning. Gi

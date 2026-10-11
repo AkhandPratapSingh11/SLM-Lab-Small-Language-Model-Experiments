@@ -1,0 +1,10 @@
+flowchart TD
+    X["One prompt"] --> G["Sample G completions from old policy"]
+    G --> R["Reward function or reward model scores each"]
+    R --> N["Group mean and standard deviation"]
+    N --> A["Normalized relative advantages"]
+    A --> P["Token ratios and clipped policy surrogate"]
+    F["Reference token probabilities"] --> K["Optional explicit KL loss in library variants"]
+    P --> U["Policy update; no learned critic in original GRPO"]
+    K --> U
+    U --> X

@@ -1,0 +1,45 @@
+Step 3: PPO Begins
+
+At this stage, PPO has access to:
+
+Policy Model (LLM)
+
+Reward Model(LLM)
+
+Value Model(LLM)
+
+Prompt:
+
+“What is Machine Learning?"
+
+The Policy Model generates a response:
+
+“Machine Learning is a subset of Al
+
+The Policy Model, Reward Model, and Value Model are usually transformer-based models. The Policy Model
+
+generates text, the Reward Model predicts a reward score, and the Value Model predicts the expected future reward
+
+used for advantage estimation.
+
+Policy Model = Full LLM
+
+Reward Model = Smaller LLM + Reward Head
+
+Value Model = Policy Model + Value Head
+
+Super Important Interview Question
+
+Question: "Does PPO directly use Human Feedback?"
+
+Answer: No.
+
+Human Feedback is not directly used inside PPO.
+
+Human Feedback is first used to train the Reward Model.
+
+Then PPO uses the Reward Model's scores as rewards.
+
+One-Line Summary: The "HF" in RLHF is used to train the Reward Model. PPO never interacts with humans directly; it
+
+only receives reward scores from a Reward Model that has learned human preferences.

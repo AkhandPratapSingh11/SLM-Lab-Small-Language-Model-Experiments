@@ -1,0 +1,119 @@
+Instead of learning Q-values like DQN, PPO directly learns a policy:
+
+State — Best Action Probability
+
+Data Store
+
+1. Policy Network (Actor)
+
+(state,
+
+‘ction,
+
+Reward,
+
+(0 Action Probability)
+
+Policy Network
+
+Prob of taking al in state
+
+state —>»>
+
+— > Prob of taking a2 in state
+
+o
+
+Prob of taking a3 in state
+
+Prob of taking a4 in state
+
+Proximal: The most important idea:
+
+Don't change the policy too much at once.
+
+Bad approach: 70% + 100%
+
+Good PPO approach:b70% ~ 75%
+
+Small safe updates.
+
+This makes training stable.
+
+Data Store
+
+(state,
+
+(S1, Right, -1, 0.51)
+
+‘action,
+
+(S2, Down, +2, 0.70)
+
+‘01d Action Probability)
+
+(S3, Left, +10, 0.85)
+
+2. Value Network (Critic)
+
+Value Network (Critic) in PPO
+
+Predicts V(s) = Expected future reward from state s
+
+Input: State (s)
+
+Value Network (Critic)
+
+5,
+
+RO
+
+Output: Vis)
+
+%
+
+O&
+
+RO*
+
+SO [ve=247 |
+
+Estimated value of tate
+
+(erpectea tuture
+
+)
+
+ntaton
+
+Ae
+
+ampere
+
+Example:
+
+Predicted by Vale Newer
+
+"0
+
+Frome =
+
+‘Actual Ratu age
+
+vate
+
+Seaget ewes
+
+=
+
+A
+
+:
+
+Reve
+
+Vee) = 247
+
+- { G=320
+
+aoe

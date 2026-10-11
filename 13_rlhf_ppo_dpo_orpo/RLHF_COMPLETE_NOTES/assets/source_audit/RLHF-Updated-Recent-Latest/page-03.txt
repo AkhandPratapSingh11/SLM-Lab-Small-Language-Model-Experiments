@@ -1,0 +1,65 @@
+What is preference alignment?
+
+Preference alignment is the process of training a model to generate outputs that humans prefer.
+
+In simple terms, among many possible answers, it helps the model learn which response humans like
+
+more.
+
+Example
+
+Prompt: “How do | prepare for exams?”
+
+Possible Outputs:
+
+First Response: “Make a study plan, revise
+
+“daily, and tak
+
+‘€ proper breaks to stay consistent.
+
+roper breaks to stay consisten'
+
+Second Response: “If you're not studying 10 hours a day, you're going to fail.”
+
+——_____
+
+*
+
+@ Calm, structured advice > Preferred
+
+> Overly harsh, unsafe advice > Rejected
+
+on
+
+Come
+
+et cette fldetds
+
+nt ie = pad equnee ata, Baten
+
+toenttr = PTTotences. fren pretest 'gt2
+
+=
+
+tee
+
+Demo
+
+‘tentln.aate = torehews being tae)
+
+ee conte stents
+
+(Sratotatzes tron oretzaiel ot
+
+seen Soot
+
+eran make
+
+sro se
+
+Com
+
+esse,
+
+seton dap Sn, attention rata

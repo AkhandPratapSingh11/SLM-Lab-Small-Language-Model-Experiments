@@ -1,0 +1,11 @@
+flowchart TD
+    P["Pretraining: next-token prediction"] --> S["SFT: instruction demonstrations"]
+    S --> C["Generate candidates for prompts"]
+    C --> H["Annotators compare responses"]
+    H --> D["Chosen and rejected pairs"]
+    D --> R["Train scalar reward model"]
+    S --> A["Initialize policy and frozen reference"]
+    R --> PPO["PPO rollouts and actor-critic updates"]
+    A --> PPO
+    PPO --> E["Held-out evaluation and regression tests"]
+    E --> C

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "ppo",
+    "url": "https://arxiv.org/html/1707.06347",
+    "final_url": "https://arxiv.org/html/1707.06347",
+    "status": 200,
+    "bytes": 20823
+  },
+  {
+    "name": "dpo",
+    "url": "https://arxiv.org/html/2305.18290",
+    "final_url": "https://arxiv.org/html/2305.18290",
+    "status": 200,
+    "bytes": 411092
+  },
+  {
+    "name": "grpo",
+    "url": "https://arxiv.org/html/2402.03300",
+    "final_url": "https://arxiv.org/html/2402.03300",
+    "status": 200,
+    "bytes": 464869
+  },
+  {
+    "name": "orpo",
+    "url": "https://arxiv.org/html/2403.07691",
+    "final_url": "https://arxiv.org/html/2403.07691",
+    "status": 200,
+    "bytes": 325077
+  },
+  {
+    "name": "trl_dpo",
+    "url": "https://huggingface.co/docs/trl/dpo_trainer",
+    "final_url": "https://huggingface.co/docs/trl/dpo_trainer",
+    "status": 200,
+    "bytes": 337449
+  },
+  {
+    "name": "trl_grpo",
+    "url": "https://huggingface.co/docs/trl/grpo_trainer",
+    "final_url": "https://huggingface.co/docs/trl/grpo_trainer",
+    "status": 200,
+    "bytes": 744374
+  },
+  {
+    "name": "trl_orpo",
+    "url": "https://huggingface.co/docs/trl/experimental/orpo_trainer",
+    "final_url": "https://huggingface.co/docs/trl/experimental/orpo_trainer",
+    "status": 200,
+    "bytes": 229
+  },
+  {
+    "name": "trl_ppo",
+    "url": "https://huggingface.co/docs/trl/experimental/ppo_trainer",
+    "final_url": "https://huggingface.co/docs/trl/experimental/ppo_trainer",
+    "status": 200,
+    "bytes": 227
+  }
+]

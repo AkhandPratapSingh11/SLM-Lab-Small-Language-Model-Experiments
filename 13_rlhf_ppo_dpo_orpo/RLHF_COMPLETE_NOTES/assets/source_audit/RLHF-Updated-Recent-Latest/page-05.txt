@@ -1,0 +1,23 @@
+Pretraining means predict the next token
+
+Pretrained models are good at:
+
++ Generating fluent text
+
+In Pretraining Model learns:
+
++ Patterns in data
+
+* Grammar & language structure
+
++ General knowledge
+
+But the training data may contain:
+
+* Incorrect or misleading information
+
++ Not following instructions properly
+
+* Not Giving consistently correct or helpful answers
+
+“Pretraining makes the model knowledgeable, but not controllable and trustworthy”

@@ -1,0 +1,17 @@
+DPO Goal: Chosen score > Rejected score
+
+DPO compares how much the policy model promotes the chosen response and the rejected response relative to a
+
+frozen reference model, and trains the policy so that the chosen response receives the higher relative likelihood.
+
+DPO does not need exact reward numbers. It only needs to know whether the chosen response is better than the
+
+rejected response.
+
+DPO compares the Policy Model with the Reference Model. This comparison works like a hidden reward signal.
+
+Therefore, DPO can train the Language Model directly without using a separate Reward Model, Critic Model, or PPO
+
+training loop.
+
+Implicit reward = hidden reward signal derived from the Policy Model’s probability relative to the Reference Model.

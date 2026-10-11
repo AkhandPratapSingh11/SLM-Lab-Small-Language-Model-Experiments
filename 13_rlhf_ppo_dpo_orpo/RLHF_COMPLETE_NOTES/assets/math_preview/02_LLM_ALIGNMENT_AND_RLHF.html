@@ -1,0 +1,198 @@
+<!doctype html><html><head><meta charset="utf-8"><title>02_LLM_ALIGNMENT_AND_RLHF.md</title><link rel="stylesheet" href="../tooling/node_modules/katex/dist/katex.min.css"><style>body{max-width:1000px;margin:40px auto;padding:20px;font:16px/1.6 system-ui}.katex-display{overflow:auto}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:6px}pre{overflow:auto;background:#eee;padding:12px}</style></head><body><h1>02 — LLM alignment and RLHF</h1>
+<p><a href="README.md">Home</a> · <a href="01_REINFORCEMENT_LEARNING_FUNDAMENTALS.md">Previous: Reinforcement learning fundamentals</a> · <a href="03_PREFERENCE_DATA_AND_REWARD_MODELS.md">Next: Preference data and reward models</a></p>
+<h2>1. Why alignment follows language modeling</h2>
+<p>Pretraining teaches a model to predict text from broad corpora. It can learn syntax, facts and reasoning patterns while also learning unreliable or undesirable behavior. SFT teaches it to respond to instructions by imitating demonstrations. Preferences add information about <strong>which of several plausible responses is better under an annotation rubric</strong>.</p>
+<p>The RLHF PDF pages 3–8 uses exam preparation, politeness, and the France/Germany capital example. The DPO PDFs use “explain gravity to a 10-year-old”: both a clear explanation and an unnecessarily technical answer may be fluent, but the user prefers the age-appropriate answer. These examples motivate preference learning beyond one target response. SFT can also learn safety and tone from suitable demonstrations; it is inaccurate to claim it cannot teach human values. Its ordinary likelihood objective simply does not contain an explicit chosen-versus-rejected comparison.</p>
+<p>Alignment is a goal and ongoing evaluation process. Optimizing a proxy does not guarantee honesty, harmlessness or every user's values. The PDF statements that alignment “ensures” these properties should be read as intended outcomes, not guarantees.</p>
+<h2>2. What each training stage learns</h2>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Typical data/objective</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pretraining</td>
+<td>Next-token likelihood on broad text</td>
+<td>General language and representations</td>
+</tr>
+<tr>
+<td>SFT</td>
+<td>Prompt plus demonstrated answer; masked response NLL</td>
+<td>Instruction-following behavior</td>
+</tr>
+<tr>
+<td>Preference collection</td>
+<td>Same prompt with ranked candidate responses</td>
+<td>Dataset, not necessarily model weights</td>
+</tr>
+<tr>
+<td>Reward-model training</td>
+<td>Pairwise scalar-score comparison</td>
+<td>Reward model parameters ψ</td>
+</tr>
+<tr>
+<td>PPO RLHF</td>
+<td>Fresh policy responses and proxy rewards</td>
+<td>Policy θ and critic φ</td>
+</tr>
+<tr>
+<td>Evaluation/iteration</td>
+<td>Held-out generations and independent judgments</td>
+<td>Decisions about data, rewards and checkpoints</td>
+</tr>
+</tbody>
+</table>
+<p>These are common stages, not a mandatory universal pipeline. ORPO integrates chosen imitation and pairwise preference training in one objective. DPO avoids a separately trained reward model and rollout loop. GRPO uses group-scored rollouts. Synthetic annotation is often called reinforcement learning from AI feedback or preference learning from AI feedback depending on the optimizer; the word “human” does not prove the supplied dataset was human annotated.</p>
+<pre><code class="language-mermaid">flowchart TD
+    P["Pretraining: next-token prediction"] --> S["SFT: instruction demonstrations"]
+    S --> C["Generate candidates for prompts"]
+    C --> H["Annotators compare responses"]
+    H --> D["Chosen and rejected pairs"]
+    D --> R["Train scalar reward model"]
+    S --> A["Initialize policy and frozen reference"]
+    R --> PPO["PPO rollouts and actor-critic updates"]
+    A --> PPO
+    PPO --> E["Held-out evaluation and regression tests"]
+    E --> C
+</code></pre>
+<p>Reusable source: <a href="diagrams/01_classical_rlhf.mmd">diagram</a>.</p>
+<h2>3. Four model roles, independent of how many copies are loaded</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Input → output</th>
+<th>During reward training</th>
+<th>During PPO policy optimization</th>
+<th>Can share or reuse components?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy πθ</td>
+<td>Prefix → vocabulary logits/probabilities</td>
+<td>Usually not the object optimized by RM loss</td>
+<td>Trainable actor</td>
+<td>Can be LoRA on frozen backbone</td>
+</tr>
+<tr>
+<td>Reference πref</td>
+<td>Same tokens/prefix → reference logps</td>
+<td>Often retained from initial SFT model</td>
+<td>Frozen for regularization</td>
+<td>Can be adapter-disabled backbone or cached scores for offline pairs</td>
+</tr>
+<tr>
+<td>Reward rψ</td>
+<td>Full prompt and completed response → scalar</td>
+<td>Trained from pairwise preference labels</td>
+<td>Usually frozen scorer</td>
+<td>May use same architecture as policy with scalar head; may instead be a rule function</td>
+</tr>
+<tr>
+<td>Critic Vφ</td>
+<td>Prefix/state → expected remaining return</td>
+<td>Not trained by the pairwise RM objective as a critic</td>
+<td>Trained to rollout return targets</td>
+<td>Can share backbone with actor or be separate; may initialize from RM</td>
+</tr>
+</tbody>
+</table>
+<p>“Four roles” does not imply four independent full-size transformers in every system. Sharing saves memory but couples gradients and requires careful freezing. Offline reference caching removes repeated forward passes only for the exact tokenization and fixed pairs cached.</p>
+<h3>Reward model versus critic</h3>
+<p>The reward model learns <strong>which completed answer is preferred</strong>. The critic estimates <strong>how much shaped future reward the current policy expects from a prefix</strong>. Their objectives and conditioning differ. A reward score 8 for a final answer and critic prediction 6 yield a simple terminal advantage estimate +2 only in a one-step illustration. Real token-level PPO often uses GAE and KL-shaped returns.</p>
+<p>In your PPO notebook, <code>reward_model</code> and <code>value_model</code> both load <code>./rm_out</code>. The reward copy is frozen; the value copy trains. Initializing from the same weights does not make them the same role or keep their parameters equal.</p>
+<h3>If a role is missing or misconfigured</h3>
+<p>A policy without trainable parameters cannot learn. A reference that updates accidentally moves the regularization target. An RM scored on answer-only text can miss the prompt's intent. A critic trained to raw RM scores while the actor uses a different shaped return is inconsistent. A separate critic is absent by design in original GRPO, DPO and ORPO; that absence is not a bug in those algorithms.</p>
+<pre><code class="language-mermaid">flowchart LR
+    X["Prompt and generated prefix"] --> P["Policy: trainable token distribution"]
+    P --> Y["Sampled response"]
+    X --> V["Critic: trainable expected return"]
+    Y --> R["Frozen reward model: response score"]
+    Y --> F["Frozen reference: token log probabilities"]
+    P --> L["Policy log probabilities"]
+    L --> K["KL shaping relative to reference"]
+    F --> K
+    K --> A["Returns and advantages"]
+    R --> A
+    V --> A
+    A --> U["Actor and critic losses"]
+    U --> P
+    U --> V
+</code></pre>
+<p>Reusable source: <a href="diagrams/02_model_roles.mmd">diagram</a>.</p>
+<h2>4. Reward regularization and the proxy problem</h2>
+<p>A common response-level objective is</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><munder><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>θ</mi></munder><mtext> </mtext><msub><mi mathvariant="double-struck">E</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>∼</mo><msub><mi>π</mi><mi>θ</mi></msub></mrow></msub><mo stretchy="false">[</mo><msub><mi>r</mi><mi>ψ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo><mo>−</mo><mi>κ</mi><msub><mi mathvariant="double-struck">E</mi><mi>x</mi></msub><msub><mi>D</mi><mrow><mi>K</mi><mi>L</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>π</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><mo>⋅</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mo stretchy="false">)</mo><mi mathvariant="normal">∥</mi><msub><mi>π</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><mo stretchy="false">(</mo><mo>⋅</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\max_\theta\ \mathbb E_{x,y\sim\pi_\theta}[r_\psi(x,y)]
+-\kappa\mathbb E_x D_{KL}(\pi_\theta(\cdot|x)\|\pi_{ref}(\cdot|x)).</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5021em;vertical-align:-0.7521em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-2.3479em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">θ</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">max</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7521em;"><span></span></span></span></span></span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathbb">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span><span class="mrel mtight">∼</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ψ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">κ</span><span class="mord"><span class="mord mathbb">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0715em;">K</span><span class="mord mathnormal mtight">L</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">⋅</span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mord">∥</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.1076em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">⋅</span><span class="mord">∣</span><span class="mord mathnormal">x</span><span class="mclose">))</span><span class="mord">.</span></span></span></span></span>
+<p>x is a prompt, y a response, κ≥0 sets the relative penalty, and response KL refers to complete-response distributions. Autoregressive sampled log ratios estimate its decomposition along generated prefixes. The PPO clip ratio instead compares current and <strong>old rollout</strong> policies; those two comparisons must not be confused.</p>
+<h2>5. Challenges and practical mitigations</h2>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Mechanism</th>
+<th>Useful mitigations and remaining limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reward hacking</td>
+<td>Policy finds high-scoring text that is not useful</td>
+<td>Adversarial scorer checks, task tests, independent human review; proxies remain imperfect</td>
+</tr>
+<tr>
+<td>RM overoptimization</td>
+<td>Strong optimization exploits scorer blind spots</td>
+<td>KL monitoring, early stopping, multiple independent evaluations; KL cannot certify correctness</td>
+</tr>
+<tr>
+<td>Distribution shift</td>
+<td>Generated text differs from RM training comparisons</td>
+<td>Add policy-generated hard examples; evaluate by prompt category</td>
+</tr>
+<tr>
+<td>Inconsistent preferences</td>
+<td>Annotators disagree or criteria conflict</td>
+<td>Explicit rubric, repeat labels, uncertainty/tie handling; no unique universal preference</td>
+</tr>
+<tr>
+<td>Instability</td>
+<td>Bad scaling, noisy advantage, large update</td>
+<td>Conservative learning rate, finite checks, gradient clipping, rollout diagnostics</td>
+</tr>
+<tr>
+<td>Mode collapse</td>
+<td>Many prompts receive repetitive responses</td>
+<td>Diversity/entropy/length monitoring and broad evaluations; entropy alone is insufficient</td>
+</tr>
+<tr>
+<td>Catastrophic forgetting</td>
+<td>Specialized optimization harms prior abilities</td>
+<td>Regression suite, chosen SFT mixing when appropriate, conservative stopping</td>
+</tr>
+<tr>
+<td>Length bias</td>
+<td>Score rewards verbosity instead of substance</td>
+<td>Length-matched annotation, length stratification, reward component audit</td>
+</tr>
+<tr>
+<td>Reward calibration</td>
+<td>Reward scale shifts without stable meaning</td>
+<td>Held-out ranking calibration, documented normalization; pairwise scores have additive ambiguity</td>
+</tr>
+</tbody>
+</table>
+<p>A high reward and a good generation are separate observations. Optimizing a reward can help the intended task when the proxy generalizes, but the intended task must be evaluated independently.</p>
+<h2>6. Alternative paths in this repository</h2>
+<p><strong>PPO-based RLHF</strong> trains a reward model from pairs and optimizes fresh responses with an actor-critic loop. PPO itself is a general RL optimizer and does not inherently require a learned preference scorer or an SFT reference.</p>
+<p><strong>DPO</strong> trains directly on offline pairs using policy-versus-reference likelihood differences. It has an implicit reward interpretation, not a separately fitted scalar reward network.</p>
+<p><strong>GRPO</strong> samples multiple answers for each prompt and uses relative rewards as advantages. A rule-based reward is a legitimate scorer; a learned RM is also legitimate. The original DeepSeekMath paper includes learned reward models and process supervision, so the later reasoning-notebook rule demo should not be treated as the entire original method.</p>
+<p><strong>ORPO</strong> jointly imitates chosen answers and optimizes chosen/rejected odds without a separate reference. Both ORPO notebook paths begin from an instruction-tuned model; the ability to integrate SFT does not require beginning from raw pretrained weights.</p>
+<p>The root README mentions <strong>KTO</strong>, which uses desirable/undesirable judgments rather than necessarily paired comparisons, and the ORPO PDF mentions <strong>SimPO</strong>, a reference-free preference method with its own score/margin objective. Neither has an implemented trainer in these seven notebooks. See <a href="EXTERNAL_REFERENCES.md">external references</a> for scope and supporting papers.</p>
+<h2>Revision</h2>
+<p>Distinguish training stages, model roles and physical model copies. RM scores responses; critic predicts returns. The classical pipeline is one alignment workflow. Reference regularization, offline pairwise objectives and group-relative rollouts solve different engineering problems and retain different failure modes.</p></body></html>

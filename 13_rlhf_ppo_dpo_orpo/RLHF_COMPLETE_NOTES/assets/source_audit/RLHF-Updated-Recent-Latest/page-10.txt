@@ -1,0 +1,83 @@
+What is RL?
+
+It is a way of building intelligent systems(Al systems).
+
+Reinforcement Learning (RL) is a learning method where a model learns througt{ trial nerror.
+
+Achon
+
+‘An agent learns by interacting with its environment and receiving rewards or penalties.
+
+Over time, it learns to choose the best possible actions.
+
+One Line Definition: "Reinforcement Learning is about learning optimal behavior thr
+
+rough rewards and penalties.”
+
+“Take action — get feedback - improve decision over time”
+
+——
+
+What is Reinforcement Learning (RL)?
+
+“Reinforcement Learning is a type of Machine Learning where an agent learns by interacting with an environment and
+
+receiving rewards or penalties for its actions.
+
+The learner (model)
+
+—2-enuronment
+
+Where the agent acts (game, chatbot, etc.)
+
+YY
+
+3 Action
+
+Ryw- a
+
+ond
+
+pa
+
+be.
+
+What the agent does
+
+4. State
+
+Current situation
+
+5. Reward
+
+Feedback (good or bad)
+
+_She whole idea of:
+
+‘State — Action Environment — Reward — Update > Repeat
+
+can be appliseranywhere.
+
+simple Example (Game): Imagine a game
+
++ Agent = Player
+
+Action = Move left/right
+
++ Reward:
+
+—o+10 > wir
+
+© -10 = lose
+
+ward
+
+AE
+
+read ead
+
+rere
+
+This example explains Reinforcement Learning using a simple real-life analogy.
+
+Will understand it programmatically with a coding example also.

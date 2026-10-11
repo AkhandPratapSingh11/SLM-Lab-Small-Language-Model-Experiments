@@ -1,0 +1,31 @@
+TermMeaning
+
+Reward Model A model that judges an output and gives a score.
+
+Reward Signal The actual score/value used to train the model.
+
+Example:
+
+Prompt: “Explain Al simply.”
+
+Model output A: clear answer
+
+Model output B: confusing answer
+
+Areward model checks both answers and gives scores:
+
+A>48
+
+—12
+
+These numbers 4.8 and 1.2 are the reward signals.
+
+So simple line:
+
+Reward model is the judge. Reward signal is the score given by the judge.
+
+Important: Reward signal does not always need a reward model. It can also come from rules, humans, tests, or
+
+environment feedback. In GRPO/DeepSeekMath style training, rewards are used to compare multiple answers and
+
+improve the policy model.

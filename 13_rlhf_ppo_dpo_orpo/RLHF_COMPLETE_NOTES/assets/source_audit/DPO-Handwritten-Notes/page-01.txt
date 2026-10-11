@@ -1,0 +1,43 @@
+DPO
+
+Direct Preference Optimiztion
+
+LLM Fine-Tuning Pipeline
+
+@ stage:
+
+Base Model
+
+Pre-training
+
+*
+
+v
+
+Stage 2:
+
+Supervised
+
+Instruction-following Model
+
+Fine-Tuning
+
+vv
+
+@ Stage 3:
+
+Preference
+
+Optimization
+
+Aligned Language Model
+
+Ne
+
+@=
+
+@
+
+0B
+
+ae

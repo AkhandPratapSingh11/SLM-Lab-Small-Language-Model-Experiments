@@ -1,0 +1,49 @@
+Benefit and Limitations of ORPO
+
+06 August 2026
+
+re
+
+Top 5 Major Benefits of ORPO
+
+1
+
+. No Separate Reward Model ~~
+
+2. No PPO or Reinforcement Learning Loop —
+
+—_
+
+3
+
+. No Frozen Reference Model
+
+4. Single Training Stage
+
+5
+
+. Lower Memory Requirement Than DPO
+
+Top 5 Important Limitations of ORPO
+
+Ny
+
+Not Validated Beyond 7B in the Original Paper
+
+Limited Comparison with Other Preference-Optimization Methods
+
+Limited Domain and Dataset Generalization Evidence
+
+=
+
+=
+
+Sensitive to Noisy or Low-Quality Preference Data <=
+
+SimPO: Simple Preference Optimization with a Reference-Free Reward
+
+Not Consistently Better Than Newer Methods such as SimPO
+
+https://arxiv.org/html/2405.14734v:
+
+LLM-Finetuning-ORPO Page 17

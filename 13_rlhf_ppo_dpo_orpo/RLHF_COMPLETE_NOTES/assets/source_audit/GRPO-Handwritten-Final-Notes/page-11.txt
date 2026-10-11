@@ -1,0 +1,21 @@
+DeepSeek-R1 Example
+
+For reasoning tasks like math and coding, DeepSeek used rule-based rewards.
+
+Examples:
+
+Math = Is the final answer correct?
+
+Coding + Does the solution pass test cases?
+
+Format = Is the reasoning/output in the expected format?
+
+This means the model was not learning blindly from itself.
+
+It was generating multiple answers, and those answers were judged using reward rules or reward signals.
+
+But GRPO does not mean “no reward”. It still needs a scoring signal.
+
+In DeepSeek-style reasoning training, that signal often comes from rule-based rewards like math correctness, code
+
+test cases, and format checks.

@@ -1,0 +1,570 @@
+
+CELL 1 markdown
+# Direct Preference Optimization (DPO) with Qwen2.5-0.5B-Instruct
+
+This notebook provides a clean, end-to-end DPO training pipeline using:
+
+- **TRL `DPOTrainer`**
+- **Qwen2.5-0.5B-Instruct**
+- **LoRA / optional 4-bit QLoRA**
+- A small inline preference dataset, a local JSON file, or UltraFeedback
+- Train/evaluation split
+- Correct CUDA, BF16, and FP16 handling
+- Correct PEFT adapter loading for inference
+- Before/after evaluation and generation
+
+> **Important:** The four inline examples are useful for demonstrating the pipeline, but they are far too small for meaningful model alignment. Use a larger, carefully reviewed preference dataset for a real project.
+
+CELL 2 markdown
+## What was wrong or incomplete in the original code?
+
+1. The inline list of four examples was displayed but never assigned to a dataset, so it was not used.
+2. `bf16=torch.cuda.is_available()` is unsafe because not every CUDA GPU supports BF16.
+3. `fp16=not torch.cuda.is_available()` incorrectly enables FP16 on CPU.
+4. The entire 63K-row UltraFeedback dataset was trained for three epochs, which is heavy for a teaching notebook.
+5. There was no evaluation split or pre/post-training evaluation.
+6. A LoRA checkpoint should be loaded as a PEFT model for reliable inference.
+7. The inference cell decoded the prompt together with the generated answer instead of decoding only newly generated tokens.
+8. `bitsandbytes` was installed but the original model was not actually loaded in 4-bit.
+
+CELL 3 markdown
+## 1. Install dependencies
+
+CELL 4 code
+%pip install -q -U transformers datasets trl peft accelerate bitsandbytes sentencepiece
+
+CELL 5 markdown
+> After the installation cell finishes, restart the Colab runtime once if Colab asks you to do so. Then continue from the imports cell.
+
+CELL 6 markdown
+## 2. Imports and reproducibility
+
+CELL 7 code
+import gc
+import json
+import os
+import random
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import torch
+import transformers
+import datasets
+import trl
+import peft
+
+from datasets import Dataset, load_dataset
+from peft import LoraConfig, AutoPeftModelForCausalLM
+from transformers import AutoTokenizer, BitsAndBytesConfig, set_seed
+from trl import DPOConfig, DPOTrainer
+
+SEED = 42
+set_seed(SEED)
+random.seed(SEED)
+np.random.seed(SEED)
+
+print("PyTorch:", torch.__version__)
+print("Transformers:", transformers.__version__)
+print("Datasets:", datasets.__version__)
+print("TRL:", trl.__version__)
+print("PEFT:", peft.__version__)
+
+CELL 8 markdown
+## 3. Configuration
+
+CELL 9 code
+MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
+OUTPUT_DIR = "outputs/qwen2_5_0_5b_dpo_lora"
+
+# Dataset options:
+#   "inline"        -> uses the four examples included below
+#   "json"          -> loads a local JSON file containing prompt/chosen/rejected
+#   "ultrafeedback" -> loads a subset of trl-lib/ultrafeedback_binarized
+DATA_SOURCE = "inline"
+
+JSON_PATH = "preference_data.json"
+ULTRAFEEDBACK_MAX_SAMPLES = 2_000
+
+# 4-bit QLoRA is enabled automatically on a CUDA GPU.
+USE_4BIT_IF_CUDA = True
+
+MAX_LENGTH = 512
+TRAIN_BATCH_SIZE = 1
+EVAL_BATCH_SIZE = 1
+GRADIENT_ACCUMULATION_STEPS = 8
+LEARNING_RATE = 5e-5
+BETA = 0.1
+INLINE_MAX_STEPS = 40
+
+print("Model:", MODEL_NAME)
+print("Dataset source:", DATA_SOURCE)
+print("Output directory:", OUTPUT_DIR)
+
+CELL 10 markdown
+## 4. Detect hardware and select numerical precision
+
+CELL 11 code
+HAS_CUDA = torch.cuda.is_available()
+SUPPORTS_BF16 = HAS_CUDA and torch.cuda.is_bf16_supported()
+
+USE_BF16 = SUPPORTS_BF16
+USE_FP16 = HAS_CUDA and not SUPPORTS_BF16
+USE_4BIT = HAS_CUDA and USE_4BIT_IF_CUDA
+
+if USE_BF16:
+    COMPUTE_DTYPE = torch.bfloat16
+elif USE_FP16:
+    COMPUTE_DTYPE = torch.float16
+else:
+    COMPUTE_DTYPE = torch.float32
+
+if HAS_CUDA:
+    print("GPU:", torch.cuda.get_device_name(0))
+else:
+    print("GPU: not available; CPU training will be slow.")
+
+print("BF16:", USE_BF16)
+print("FP16:", USE_FP16)
+print("4-bit QLoRA:", USE_4BIT)
+print("Compute dtype:", COMPUTE_DTYPE)
+
+CELL 12 markdown
+## 5. Build or load the preference dataset
+
+CELL 13 code
+INLINE_DATA = [
+    {
+        "prompt": "Explain what machine learning is in simple words.",
+        "chosen": "Machine learning is a way to teach computers to learn patterns from data and make predictions or decisions without being explicitly programmed for every case.",
+        "rejected": "Machine learning is a machine that automatically learns everything without data.",
+    },
+    {
+        "prompt": "What is overfitting in machine learning?",
+        "chosen": "Overfitting happens when a model memorizes the training data too closely and performs poorly on new unseen data.",
+        "rejected": "Overfitting means the model becomes perfect for all types of data.",
+    },
+    {
+        "prompt": "What is the difference between classification and regression?",
+        "chosen": "Classification predicts categories or labels, while regression predicts continuous numerical values.",
+        "rejected": "Classification and regression are exactly the same thing.",
+    },
+    {
+        "prompt": "What is the purpose of a loss function?",
+        "chosen": "A loss function measures how far a model's predictions are from the true values, guiding the model during training.",
+        "rejected": "A loss function increases model size and does not affect training.",
+    },
+]
+
+
+def convert_plain_text_to_conversational(example):
+    """Convert plain prompt/chosen/rejected strings into chat messages."""
+    if isinstance(example.get("prompt"), str):
+        return {
+            "prompt": [{"role": "user", "content": example["prompt"]}],
+            "chosen": [{"role": "assistant", "content": example["chosen"]}],
+            "rejected": [{"role": "assistant", "content": example["rejected"]}],
+        }
+    return example
+
+
+if DATA_SOURCE == "inline":
+    dataset = Dataset.from_list(INLINE_DATA)
+    dataset = dataset.map(convert_plain_text_to_conversational)
+
+elif DATA_SOURCE == "json":
+    json_path = Path(JSON_PATH)
+    if not json_path.exists():
+        raise FileNotFoundError(
+            f"{JSON_PATH!r} was not found. Upload the file or change JSON_PATH."
+        )
+
+    dataset = load_dataset("json", data_files=str(json_path), split="train")
+    required_columns = {"prompt", "chosen", "rejected"}
+    missing = required_columns - set(dataset.column_names)
+    if missing:
+        raise ValueError(f"The JSON file is missing columns: {sorted(missing)}")
+
+    dataset = dataset.map(convert_plain_text_to_conversational)
+
+elif DATA_SOURCE == "ultrafeedback":
+    dataset = load_dataset(
+        "trl-lib/ultrafeedback_binarized",
+        split="train",
+    )
+    dataset = dataset.shuffle(seed=SEED)
+    sample_count = min(ULTRAFEEDBACK_MAX_SAMPLES, len(dataset))
+    dataset = dataset.select(range(sample_count))
+
+else:
+    raise ValueError(
+        "DATA_SOURCE must be 'inline', 'json', or 'ultrafeedback'."
+    )
+
+print(dataset)
+print("\nColumns:", dataset.column_names)
+print("\nFirst example:")
+print(json.dumps(dataset[0], indent=2, ensure_ascii=False))
+
+CELL 14 markdown
+## 6. Validate and split the dataset
+
+CELL 15 code
+required_columns = {"chosen", "rejected"}
+missing_columns = required_columns - set(dataset.column_names)
+
+if missing_columns:
+    raise ValueError(
+        f"DPO requires chosen and rejected columns. Missing: {missing_columns}"
+    )
+
+if len(dataset) < 2:
+    raise ValueError("At least two preference examples are required.")
+
+test_size = 1 if len(dataset) < 20 else 0.05
+
+split_dataset = dataset.train_test_split(
+    test_size=test_size,
+    seed=SEED,
+)
+
+train_dataset = split_dataset["train"]
+eval_dataset = split_dataset["test"]
+
+print("Training examples:", len(train_dataset))
+print("Evaluation examples:", len(eval_dataset))
+
+CELL 16 markdown
+## 7. Load and configure the tokenizer
+
+CELL 17 code
+tokenizer = AutoTokenizer.from_pretrained(
+    MODEL_NAME,
+    trust_remote_code=True,
+)
+
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+tokenizer.padding_side = "left"
+
+print("Pad token:", tokenizer.pad_token)
+print("EOS token:", tokenizer.eos_token)
+print("Padding side:", tokenizer.padding_side)
+
+CELL 18 markdown
+## 8. Configure optional 4-bit QLoRA
+
+CELL 19 code
+quantization_config = None
+
+if USE_4BIT:
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=COMPUTE_DTYPE,
+        bnb_4bit_use_double_quant=True,
+    )
+
+print("Quantization configuration:")
+print(quantization_config)
+
+CELL 20 markdown
+## 9. Configure LoRA
+
+CELL 21 code
+peft_config = LoraConfig(
+    r=16,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+    target_modules="all-linear",
+)
+
+print(peft_config)
+
+CELL 22 markdown
+## 10. Configure DPO training
+
+CELL 23 code
+model_init_kwargs = {
+    "dtype": COMPUTE_DTYPE,
+    "trust_remote_code": True,
+    "attn_implementation": "sdpa",
+}
+
+is_tiny_inline_demo = DATA_SOURCE == "inline"
+
+training_args = DPOConfig(
+    output_dir=OUTPUT_DIR,
+    num_train_epochs=1.0,
+    max_steps=INLINE_MAX_STEPS if is_tiny_inline_demo else -1,
+    per_device_train_batch_size=TRAIN_BATCH_SIZE,
+    per_device_eval_batch_size=EVAL_BATCH_SIZE,
+    gradient_accumulation_steps=GRADIENT_ACCUMULATION_STEPS,
+    learning_rate=LEARNING_RATE,
+    warmup_ratio=0.1,
+    lr_scheduler_type="cosine",
+    optim="paged_adamw_8bit" if USE_4BIT else "adamw_torch",
+    max_grad_norm=1.0,
+    beta=BETA,
+    loss_type="sigmoid",
+    max_length=MAX_LENGTH,
+    truncation_mode="keep_start",
+    bf16=USE_BF16,
+    fp16=USE_FP16,
+    gradient_checkpointing=True,
+    gradient_checkpointing_kwargs={"use_reentrant": False},
+    use_cache=False,
+    eval_strategy="steps",
+    eval_steps=10,
+    logging_steps=1,
+    logging_first_step=True,
+    save_strategy="steps",
+    save_steps=20,
+    save_total_limit=2,
+    report_to="none",
+    seed=SEED,
+    data_seed=SEED,
+    model_init_kwargs=model_init_kwargs,
+)
+
+print(training_args)
+
+CELL 24 markdown
+## 11. Create the DPO trainer
+
+`ref_model=None` is intentional. TRL uses the initial policy—the model state before DPO updates—as the reference policy. With PEFT, this avoids loading a separate full trainable copy.
+
+CELL 25 code
+trainer = DPOTrainer(
+    model=MODEL_NAME,
+    ref_model=None,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
+    processing_class=tokenizer,
+    peft_config=peft_config,
+    quantization_config=quantization_config,
+)
+
+trainer.model.print_trainable_parameters()
+
+CELL 26 markdown
+## 12. Evaluate before training
+
+CELL 27 code
+initial_metrics = trainer.evaluate()
+print("Initial evaluation metrics:")
+for key, value in initial_metrics.items():
+    print(f"{key}: {value}")
+
+CELL 28 markdown
+## 13. Train the model
+
+CELL 29 code
+train_result = trainer.train()
+
+print("Training completed.")
+print("Global steps:", trainer.state.global_step)
+print("Training loss:", train_result.training_loss)
+
+CELL 30 markdown
+## 14. Evaluate after training
+
+CELL 31 code
+final_metrics = trainer.evaluate()
+
+print("Final evaluation metrics:")
+for key, value in final_metrics.items():
+    print(f"{key}: {value}")
+
+CELL 32 markdown
+## 15. Inspect the training log
+
+CELL 33 code
+history = pd.DataFrame(trainer.state.log_history)
+display(history.tail(20))
+
+loss_history = history.dropna(subset=["loss"]) if "loss" in history.columns else pd.DataFrame()
+if not loss_history.empty:
+    ax = loss_history.plot(
+        x="step",
+        y="loss",
+        title="DPO Training Loss",
+        grid=True,
+        figsize=(8, 4),
+    )
+    ax.set_ylabel("Loss")
+
+CELL 34 markdown
+## 16. Save the LoRA adapter and tokenizer
+
+CELL 35 code
+trainer.save_model(OUTPUT_DIR)
+tokenizer.save_pretrained(OUTPUT_DIR)
+
+print(f"Saved DPO LoRA adapter and tokenizer to: {OUTPUT_DIR}")
+print("Saved files:")
+for file_name in sorted(os.listdir(OUTPUT_DIR)):
+    print(" -", file_name)
+
+CELL 36 markdown
+## 17. Release training memory
+
+CELL 37 code
+del trainer
+gc.collect()
+
+if torch.cuda.is_available():
+    torch.cuda.empty_cache()
+
+print("Training objects released.")
+
+CELL 38 markdown
+## 18. Load the trained PEFT adapter for inference
+
+CELL 39 code
+inference_load_kwargs = {
+    "torch_dtype": COMPUTE_DTYPE,
+}
+
+if HAS_CUDA:
+    inference_load_kwargs["device_map"] = "auto"
+
+if quantization_config is not None:
+    inference_load_kwargs["quantization_config"] = quantization_config
+
+model = AutoPeftModelForCausalLM.from_pretrained(
+    OUTPUT_DIR,
+    **inference_load_kwargs,
+)
+model.eval()
+
+tokenizer = AutoTokenizer.from_pretrained(
+    OUTPUT_DIR,
+    trust_remote_code=True,
+)
+
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+tokenizer.padding_side = "left"
+
+print("DPO adapter loaded successfully.")
+
+CELL 40 markdown
+## 19. Generate a response
+
+CELL 41 code
+def generate_response(
+    prompt: str,
+    max_new_tokens: int = 150,
+    temperature: float = 0.7,
+    top_p: float = 0.9,
+) -> str:
+    messages = [{"role": "user", "content": prompt}]
+
+    formatted_prompt = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+
+    inputs = tokenizer(
+        formatted_prompt,
+        return_tensors="pt",
+    ).to(model.device)
+
+    prompt_token_count = inputs["input_ids"].shape[1]
+
+    generation_kwargs = {
+        "max_new_tokens": max_new_tokens,
+        "pad_token_id": tokenizer.pad_token_id,
+        "eos_token_id": tokenizer.eos_token_id,
+    }
+
+    if temperature > 0:
+        generation_kwargs.update(
+            {
+                "do_sample": True,
+                "temperature": temperature,
+                "top_p": top_p,
+            }
+        )
+    else:
+        generation_kwargs["do_sample"] = False
+
+    with torch.inference_mode():
+        outputs = model.generate(
+            **inputs,
+            **generation_kwargs,
+        )
+
+    new_tokens = outputs[0, prompt_token_count:]
+    return tokenizer.decode(
+        new_tokens,
+        skip_special_tokens=True,
+    ).strip()
+
+
+prompt = "Explain overfitting in machine learning in simple words."
+response = generate_response(prompt)
+
+print("Prompt:")
+print(prompt)
+print("\nDPO response:")
+print(response)
+
+CELL 42 markdown
+## 20. Test several prompts
+
+CELL 43 code
+test_prompts = [
+    "Explain machine learning in simple words.",
+    "What is overfitting?",
+    "How are classification and regression different?",
+    "What does a loss function do?",
+]
+
+for current_prompt in test_prompts:
+    print("=" * 80)
+    print("PROMPT:", current_prompt)
+    print("RESPONSE:", generate_response(current_prompt, temperature=0.3))
+
+CELL 44 markdown
+## 21. Download the trained adapter from Colab
+
+CELL 45 code
+import shutil
+
+archive_path = shutil.make_archive(
+    base_name="qwen2_5_0_5b_dpo_lora",
+    format="zip",
+    root_dir=OUTPUT_DIR,
+)
+
+print("Created:", archive_path)
+
+# Uncomment in Google Colab:
+# from google.colab import files
+# files.download(archive_path)
+
+CELL 46 markdown
+## Notes for real training
+
+- Four examples only demonstrate that the pipeline runs; they cannot produce a generally aligned model.
+- Prefer thousands of high-quality, diverse, correctly labeled preference pairs.
+- Keep the prompt distribution close to the model's SFT distribution.
+- Evaluate preference accuracy, reward margins, response quality, safety, and held-out generalization.
+- A lower DPO loss alone does not prove that the resulting model is better.
+- Inspect chosen and rejected responses for label noise, formatting differences, response-length bias, and data leakage.
+
+CELL 47 markdown
+## Official references
+
+- TRL DPO Trainer: https://huggingface.co/docs/trl/dpo_trainer
+- TRL PEFT integration: https://huggingface.co/docs/trl/peft_integration
+- PEFT AutoPeftModel: https://huggingface.co/docs/peft/package_reference/auto_class
+- Transformers bitsandbytes quantization: https://huggingface.co/docs/transformers/quantization/bitsandbytes

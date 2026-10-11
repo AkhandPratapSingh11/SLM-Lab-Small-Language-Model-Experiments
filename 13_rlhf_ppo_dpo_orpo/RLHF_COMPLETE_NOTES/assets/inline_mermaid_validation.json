@@ -1,0 +1,127 @@
+[
+  {
+    "file": "01_REINFORCEMENT_LEARNING_FUNDAMENTALS.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "02_LLM_ALIGNMENT_AND_RLHF.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "02_LLM_ALIGNMENT_AND_RLHF.md",
+    "block": 2,
+    "valid": true
+  },
+  {
+    "file": "03_PREFERENCE_DATA_AND_REWARD_MODELS.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "04_PPO_IN_DEPTH.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "04_PPO_IN_DEPTH.md",
+    "block": 2,
+    "valid": true
+  },
+  {
+    "file": "05_DPO_IN_DEPTH.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "05_DPO_IN_DEPTH.md",
+    "block": 2,
+    "valid": true
+  },
+  {
+    "file": "06_GRPO_IN_DEPTH.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "07_ORPO_IN_DEPTH.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "08_ALGORITHM_COMPARISON.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "09_PRACTICAL_IMPLEMENTATION_GUIDE.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 1,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 2,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 3,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 4,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 5,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 6,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 7,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 8,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 9,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 10,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 11,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 12,
+    "valid": true
+  },
+  {
+    "file": "diagrams/README.md",
+    "block": 13,
+    "valid": true
+  }
+]

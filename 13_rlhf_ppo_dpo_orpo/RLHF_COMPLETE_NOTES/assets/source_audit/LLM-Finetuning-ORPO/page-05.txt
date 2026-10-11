@@ -1,0 +1,47 @@
+* OPT models from 125M to 1.3B
+
+© Phi-2 2.7B
+
+¢ Llama-2 7B
+
+¢ Mistral 7B
+
+* Researchers publicly released the Mistral-ORPO-Alpha and Mistral-ORPO-Beta checkpoints.
+
+* Publicly documented ORPO usage is currently seen mainly in:
+
+© Open-source models ~
+
+o Research models ~
+
+© Domain-specific experiments -
+
+© custom or internal fine-tuning use cases -
+
+* ORPO has also been used in actual projects and publicly released models, so it is not limited to the research
+
+experiments.
+
+A strong example is Hugging Face H4’s Zephyr-ORPO-141B-A35B. It was built from the Mixtral-8x22B base model
+
+and aligned with ORPO to create a helpful assistant. According to its model card, it was trained on 7,000
+
+preference examples using 32 H100 GPUs for approximately 1.3 hours.
+
+* ORPO has also been applied to large models and domain-specific applications: ~
+
+© ORPO has been used in biomedical research, Pharma research , 32B web-navigation model(web navigation /
+
+web-agent tasks).
+
+>
+
+-
+
+=
+
+But For general commercial preference fine-tuning, DPO has stronger publicly available production evidence. For
+
+example, OpenAl’s Preference Fine-Tuning API officially uses DPO.
+
+Lat Fincaning ORPO Page $

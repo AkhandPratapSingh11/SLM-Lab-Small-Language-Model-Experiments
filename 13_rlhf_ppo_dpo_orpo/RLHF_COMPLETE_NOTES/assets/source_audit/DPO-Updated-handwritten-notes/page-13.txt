@@ -1,0 +1,85 @@
+DPO mathematics:
+
+og Tel2)
+
+ro(yilz)
+
+Lomo = -E [log (
+
+ret (Yoo!)
+
+Fret(yilz)
+
+)]
+
+‘Students, do not stat with this complicated equation directly. Fist, let's understand its simplified version.
+
+The easiest version of the DPO equation
+
+First, create two scores forthe chosen and rejected responses:
+
+Seronen = B [log r0(Yulz) — log *ret(Yel2))
+
+Srejctea = B (log 7o(yilz) — log “ree(vilz)]
+
+Then:
+
+Lovo
+
+= 10K 7 (Semen ~ Seated)
+
+‘Students, just remember this:
+
+PO wants the relative score of the chosen response to be higher than the relative score of
+
+the rejected response.
+
+a
+
+Seronen > Srejected
+
+aici
+
+Step 1: Trait
+
+ing data
+
+Each sample contains three things:
+
+x = Prompt
+
+yw
+
+Chosen / preferred response
+
+yl = Rejected / dispreferred response
+
+Example:
+
+Prompt:
+
+Explain Al simply.
+
+Chosen:
+
+Al enables machines to learn patterns and perform intelligent tasks.
+
+Rejected:
+
+Al means machines are completely conscious like humans.
+
+Step 2: There are two models
+
+nO
+
+Policy model, which needs to be trained
+
+mre!
+
+Frozen reference model
+
+The reference model represents the original behaviour.
+
+DPO does not look at how much absolute probability the policy model assigns to an answer. It looks at:
+
+How much has the policy model promoted or suppressed the response compared with the reference model?

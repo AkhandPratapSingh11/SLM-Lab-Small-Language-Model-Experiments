@@ -1,0 +1,103 @@
+Difference between RLHF(PPO) vs GRPO vs DPO vs ORPO
+
+Method Reward Model/Function
+
+Critic Reference Model Multiple Generated Responses SFT Integrated
+
+PPO-RLHF
+
+yes
+
+- Yes
+
+-
+
+Yes
+
+Yes - but not multiple
+
+No
+
+GRPO
+
+Yes”
+
+Yes |
+
+No
+
+Reward function/model No separate Critic
+
+=
+
+DPO
+
+No separate RM
+
+No
+
+Yes No online generation required.
+
+No
+
+—
+
+ORPO
+
+‘No separate RM
+
+No
+
+No No online generation required
+
+Yes
+
+—
+
+—___——_
+
+—
+
+—
+
+—
+
+DPO: Remove Reward Model, Critic and PPO loop.
+
+a
+
+DPO Simplified Preference Learning
+
+ORPO: Also remove the frozen Reference Model and merge SFT with preference optimization
+
+oo
+
+However, DPO generally still uses:
+
+1. A model already trained through SFT (Poliy Model )
+
+2. A trainable A frozen Reference Model
+
+3. Aseparate preference-optimization stage
+
+/Pretrained Model_)
+
+(supenisedFine-Taring)
+
+f Typo YrRTereneE DVR Preference Optimization
+
+ORPO asks: Can we perform supervised fine-tuning and preference alignment together, without using a Reference Model?
+
+The answer is yes.
+
+_
+
+DPO -> Policy Model + Reference Model
+
+—
+
+ORPO > Policy Model only
+
+_—_—___————
+
+LAA Finn ORR Pas

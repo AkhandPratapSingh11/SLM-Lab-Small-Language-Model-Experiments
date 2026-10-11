@@ -1,0 +1,43 @@
+Interview Question
+
+05 august 2026
+
+nas
+
+Why Were Preference Optimization Algorithms Like DPO and ORPO Introduced, and What Limitations
+
+of Standard SFT Do They Address?
+
+In normal SFT, the model is trained only on the correct or chosen response.
+
+Example:
+
+Prompt:
+
+How should | treat a mild fever?
+
+Target Response:
+
+Rest, stay hydrated, monitor your temperature,
+
+and contact a doctor if symptoms become severe.
+
+The SFT objective increases the probability of the target response.
+
+However, SFT does not explicitly tell the model:
+
+This response is preferred.
+
+This other response is rejected.
+
+The ORPO researchers observed that while SFT increases the probability of chosen responses, it may also
+
+increase the probability of rejected responses because both responses can contain similar language,
+
+tokens, topics and writing patterns.
+
+SFT has no direct mechanism for penalizing the rejected answer.
+
+ORPO solves this by adding a relatively small preference penalty to the standard SFT loss.
+
+LLM Fintuning-ORPO Page 6

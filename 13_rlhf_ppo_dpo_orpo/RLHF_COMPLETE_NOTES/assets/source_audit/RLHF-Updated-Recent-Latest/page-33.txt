@@ -1,0 +1,61 @@
+Example Game: The robot is ina grid world
+
+Actions: Left, Right, Up, Down
+
+Goal: Reach the box with a reward of +10.
+
+Step 1: Policy Network makes a decision
+
+The robot is currently in state S1.
+
+The policy network outputs:
+
+P(Left) = 0.10
+
+P(Right)
+
+0.60
+
+P(Up)
+
+0.20
+
+P(Down) = 0.10
+
+This means: The robot thinks that moving Right has the highest probability.
+
+The robot chooses: Action = Right
+
+Important: Store the old probability of the chosen action.
+
+Old probability of Right = 0.60
+
+Step 2: Environment gives a reward
+
+The robot moves Right.
+
+The environment returns:
+
+Reward = +5
+
+Next State = S2
+
+The following data is stored: (S1, Right, +5, old_prob = 0.60)
+
+Step 3: Value Network makes a prediction
+
+The job of the Value Network is to estimate:
+
+“How much future reward can be obtained from this state?"
+
+Suppose the Value Network predicts:
+
+Vist) = 3
+
+This means:
+
+The model expected a future reward of 3 from state S1.
+
+However, the actual return obtained was:
+
+Actual Return = 5

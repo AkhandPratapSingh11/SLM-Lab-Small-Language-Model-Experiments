@@ -1,0 +1,63 @@
+Reinforcement Learning is a learning method where an agent learns by interacting with an environment and
+
+receiving rewards or penalties for its actions.
+
+gent = Self-driving car
+
+‘Action = Brake / accelerate / turn
+
+Environment = Road traffic
+
+Reward = Safe driving
+
+Simple Example (Game): Imagine a game
+
++ Agent = Player
+
++ Action
+
+Move left/right
+
++ Reward:
+
+0 +10 > win—
+
+© -10 > lose —
+
+Simple Real-Life Example
+
+Suppose a baby is learning walking.
+
+Baby walks correctly + parents clap + positive reward
+
+Baby falls > pain ~ negative reward
+
+Slowly baby learns:
+
+Which actions are good
+
+Which actions are bad
+
+This is Reinforcement Learning.
+
+Componant of RL.
+
+Agent
+
+he learner (model)
+
+2. Environment
+
+== Where the agent acts (game, chatbot, etc.)
+
+3. Action
+
+<= What the agent does
+
+4, State
+
+*" Current situation
+
+5. Reward
+
+@ Feedback (good or bad)

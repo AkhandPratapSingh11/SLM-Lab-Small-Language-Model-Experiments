@@ -1,0 +1,12 @@
+flowchart TD
+    W["Chosen completion"] --> PW["Policy sum of completion logps"]
+    W --> RW["Reference sum of completion logps"]
+    L["Rejected completion"] --> PL["Policy sum of completion logps"]
+    L --> RL["Reference sum of completion logps"]
+    PW --> SW["Chosen relative score"]
+    RW --> SW
+    PL --> SL["Rejected relative score"]
+    RL --> SL
+    SW --> M["Margin = beta times score difference"]
+    SL --> M
+    M --> LOSS["softplus of negative margin"]

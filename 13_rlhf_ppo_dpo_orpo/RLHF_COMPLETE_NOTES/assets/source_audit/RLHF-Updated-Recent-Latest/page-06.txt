@@ -1,0 +1,29 @@
+Supervised Fine-Tuning teaches the model:
+
++ How to follow instructions
+
++» The expected format of answers
+
+SFT teaches:
+
+* “This is a good answer"
+
+But it does NOT explicitly say:
+
++ "This answer is bad, avoid it”
+
+What SFT does not guarantee
+
+SFT does not explicitly teach:
+
++ Which answers are better than others
+
++ Which answers are unacceptable
+
++ Human values like politeness, safety, tone, or helpfulness
+
+So during SFT:
+
++ Probability of good answers increases
+
++ Probability of bad answers can also increase accidentally

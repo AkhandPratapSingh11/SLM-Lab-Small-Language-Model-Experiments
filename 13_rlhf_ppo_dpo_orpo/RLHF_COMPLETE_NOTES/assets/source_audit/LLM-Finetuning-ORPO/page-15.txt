@@ -1,0 +1,81 @@
+Log = 0.105,
+
+Suppose:
+
+A= 0d
+
+Then:
+
+Lorro =-8:288 + Q4 (@405)
+
+= 0288-+-6-0105
+
+a
+
+What does Lambda do?
+
+Think of A as a volume button.
+
+Lorro = User + ALor
+
+Lambda small > mere-focus-on-generating the choser-answer—
+
+Lamibda large > more-focus-on- comparing tire chroserrancrejected-answers
+
+Lambda-decides how loud the preferencealearning signal will-be—
+
+What happens if the model ranks them differently?
+
+Now suppose the values are reversed:
+
+-
+
+~P(chosen) =0.25—
+
+P{rejected)—0-75—
+
+Now the rejected answer receives the higher score.
+
+Chosen odds:
+
+0.25
+
+1
+
+075° 3
+
+Rejected odds:
+
+0.75
+
+=3
+
+0.25
+
+Odds ratio:
+
+1
+
+1/3
+
+=
+
+3
+
+9
+
+Log:
+
+log(1/9) ~ -2.197
+
+Sigmoid:
+
+o(-2.197) = 0.1
+
+OR loss:
+
+x
+
+—log(0.1) ~
+
+sting OPO Pape

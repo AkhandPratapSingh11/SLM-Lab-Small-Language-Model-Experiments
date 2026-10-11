@@ -1,0 +1,29 @@
+‘Step 1: Collect Human Preferences
+
+Humans are given a prompt:
+
+“Explain Machine Learning."
+
+The LLM generates two responses.
+
+Response A: "Machine Learning is a subset of Al..."
+
+Response B: "ML is a thing that does stuff..."
+
+The human evaluator says: "A is better than B"
+
+We store:
+
+Prompt
+
+Chosen
+
+=A
+
+Rejected = B
+
+This is Human Feedback (HF).
+
+and here we are preparing a data
+
+https://huggingface.co/datasets/Anthropic/hh-rihf

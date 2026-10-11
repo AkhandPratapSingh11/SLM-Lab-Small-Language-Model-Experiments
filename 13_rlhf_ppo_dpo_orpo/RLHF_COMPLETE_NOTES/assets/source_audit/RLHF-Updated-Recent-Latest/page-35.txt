@@ -1,0 +1,57 @@
+Example: Training ChatGPT using RLHF + PPO
+
+Step 1: User Prompt
+
+State:
+
+User: "What is Machine Learning?"
+
+This is the current state for PPO.
+
+Step 2: Policy Network Generates Response
+
+The policy model, which is the LLM, gives token probabilities.
+
+Example:
+
+Response A:
+
+“Machine Learning is a field of Al that enables systems to learn from data.”
+
+Suppose according to the policy model:
+
+Probability(Response A) = 0.60
+
+Store:
+
+old_prob = 0.60
+
+Step 3: Reward Model Scores the Response
+
+The Reward Model evaluates it.
+
+Prompt:
+
+What is Machine Learning?
+
+Response:
+
+Machine Learning is a field of Al that enables systems to learn from data.
+
+The Reward Model says:
+
+Reward = +8
+
+Meaning:
+
+Good response.
+
+Step 4: Value Model Prediction
+
+The Value Model predicts beforehand:
+
+Expected Reward = 6
+
+Meaning:
+
+V(State) = 6

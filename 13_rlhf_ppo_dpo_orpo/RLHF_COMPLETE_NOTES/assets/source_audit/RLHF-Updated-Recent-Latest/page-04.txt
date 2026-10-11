@@ -1,0 +1,27 @@
+Why do we need Preference Alignment?
+
+Problem with only SFT (Supervised Fine-Tuning)
+
+Because Supervised Fine-Tuning (SFT) improves task performance
+
+But it does not ensure that the model's behavior aligns with human values, safety, and expectations.
+
+Alignment techniques like RLHF, DPO, and ORPO ensure that LLMs not only generate correct outputs
+
+but also produce responses that are safe, helpful, and aligned with human preferences.
+
+Preference alignment (also called preference learning) is now a critical part of modern LLM training—
+
+it is no longer optional.
+
+Modern LLMs are used in real-world systems such as:
+
++ Healthcare assistants
+
++ Finance tools
+
++ Education platforms
+
++ Enterprise copilots
+
+In these environments, behavior matters just as much as correctness.

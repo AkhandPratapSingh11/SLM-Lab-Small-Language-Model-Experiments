@@ -1,0 +1,71 @@
+Before understanding preference tuning or any of its methods, let's first understand the LLM training
+
+pipeline and where preference tuning fits within it.
+
+vPretraining
+
+(Train the model on a massive dataset to learn general knowledge and language patterns)
+
+4
+
+Supervised Fine-Tuning (Instruction Tuning)
+
+(Instruction-based tuning to teach the model how to follow user instructions)
+
+1
+
+Preference Tuning / Preference Alignment(Behavior control)
+
+(Preference-based tuning to align model outputs with human preferences)
+
+Methods: RLHF (PPO), GRPO, DPO, ORPO
+
+What all methods are there for this?
+
+Method Uses RL? Reward Model?
+
+‘Complexity
+
+René — ofenrt
+
+eet Al Al
+
+@ Very High <—
+
+‘RPO
+
+High <——— Deeeseee
+
+DPO
+
+x
+
+X (implicit preference objective) @ Medium
+
+ge x x
+
+@ Low
+
+}
+
+RLHF(PPO) and GRPO.
+
++ Complex
+
++ Expensive
+
++ Multiple models needed: Base model , Reward model , RL trai
+
+\g loop
+
+DPO (MODERN ALTERNATIVE)
+
+Directly train model:
+
+Chosen > Rejected
+
+ORPO (LATEST METHOD)
+
+SFT + Preference learning in one loss
+
+————S=

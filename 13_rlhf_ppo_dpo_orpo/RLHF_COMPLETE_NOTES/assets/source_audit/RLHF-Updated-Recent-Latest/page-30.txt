@@ -1,0 +1,39 @@
+State S1
+
+T
+
+Policy Network gives action probabilities
+
+Action Right selected
+
+4
+
+#2.
+
+Environment gives reward +5
+
+T
+
+S-
+
+Store: (S1, Right, +5, old_prob=0.60)
+
+Value Network predicts V(S1)=3
+
+Advantage = 5 - 3 = +2
+
+—
+
+Positive advantage means Right was good
+
+T
+
+Increase probability of Right slightly
+
+1
+
+Use clipping so update is not too large
+
+PPO (Proximal Policy Optimization) is a Reinforcement Learning algorithm that learns how to make better decisions
+
+over time.

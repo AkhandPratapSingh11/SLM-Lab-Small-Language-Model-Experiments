@@ -1,0 +1,49 @@
+DPO Limitations and Future Work
+
+DPO is simple and effective, but the original paper provides promising experimental evidence—not proof that it will
+
+work perfectly across every model scale, domain, evaluator, and modality.
+
+1. Limited Out-of-Distribution Testing
+
+DPO was evaluated on only a limited number of unseen data distributions. More testing is required across different
+
+datasets, domains, and distribution shifts.
+
+3. Over-Optimization May Reduce Quality
+
+Aggressively optimizing for a particular preference may degrade overall response quality. Improving one desired
+
+behaviour too much can negatively affect other useful capabilities.
+
+4, Evaluated Only Up to 6B Parameters
+
+The original paper evaluated models with up to approximately 6 billion parameters. Its behaviour and effectiveness
+
+on much larger models were not established in the paper.
+
+5. GPT-4 Is Not a Perfect Evaluator
+
+Some experiments used GPT-4 as a judge. Its decisions may be influenced by the evaluation prompt and may not
+
+always perfectly match human preferences. Therefore, LLM-based evaluation should not completely replace human
+
+evaluation.
+
+6. Extension Beyond Text Remained Future Work
+
+The original experiments mainly focused on language-model tasks. Applying DPO to other areas remained an
+
+important future research direction, including:
+
++ Image generation
+
++ Multimodal models
+
++ Other preference-based policy-learning systems
+
+DPO is simpler than PPO-based RLHF, but the original paper tested it only under limited conditions. Therefore, we
+
+should say that DPO performed well in the tested experiments—not that it will always work perfectly in every
+
+situation.

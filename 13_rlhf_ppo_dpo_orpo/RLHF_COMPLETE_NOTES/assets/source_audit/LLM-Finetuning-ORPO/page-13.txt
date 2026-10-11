@@ -1,0 +1,95 @@
+This means: The odds of the chosen answer are 3-1.
+
+Rejected answer odds:
+
+0.25
+
+Odds rejected =
+
+25
+
+0.25
+
+1
+
+=
+
+“075.3
+
+ae)
+
+This means the rejected answer has a much lower score.
+
+Part 3: Comparing the Chosen and Rejected Answers
+
+Now ORPO asks: How much greater are the odds of the chosen answer than the odds of the rejected
+
+answer?
+
+-
+
+Chosen Odds
+
+Odds Ratio
+
+Rejected Odds
+
+-
+
+-
+
+3
+
+a)
+
+“7B
+
+This means: The odds of the chosen response are 9 times the odds of the rejected response.
+
+Remember: this does not mean the probability is 9 times greater. It is the ratio of the odds.
+
+Part 4: Why do we apply Log?
+
+Instead of directly using the large ratio, ORPO takes its log:
+
+log(9) = 2.197
+
+The simple purpose of log:
+
+Convert large ratios into manageable numbers.
+
+Log also converts division into subtraction:
+
+Chosen Odds
+
+oe
+
+Rejected Odds
+
+)
+
+= log(Chosen Odds) — log( Rejected Odds)
+
+Therefore, we write:
+
+Scnosen = 1og(Chosen Odds)
+
+Srejetea = log( Rejected Odds)
+
+Then:
+
+Aor = Schosen —
+
+Ss,
+
+Prefer
+
+cted
+
+In our example:
+
+Dor = 2:197
+
+Maanina of Malta:
+
+stim O8PO Pape

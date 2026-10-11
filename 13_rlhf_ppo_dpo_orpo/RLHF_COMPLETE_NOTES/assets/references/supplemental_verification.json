@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ppo",
+    "url": "https://arxiv.org/pdf/1707.06347",
+    "bytes": 2923532,
+    "status": "downloaded and text extracted"
+  },
+  {
+    "name": "gae",
+    "url": "https://arxiv.org/pdf/1506.02438",
+    "bytes": 1798117,
+    "status": "downloaded and text extracted"
+  },
+  {
+    "name": "instructgpt",
+    "url": "https://arxiv.org/pdf/2203.02155",
+    "bytes": 1797405,
+    "status": "downloaded and text extracted"
+  },
+  {
+    "name": "kto",
+    "url": "https://arxiv.org/pdf/2402.01306",
+    "bytes": 929595,
+    "status": "downloaded and text extracted"
+  },
+  {
+    "name": "simpo",
+    "url": "https://arxiv.org/pdf/2405.14734",
+    "bytes": 1315763,
+    "status": "downloaded and text extracted"
+  }
+]

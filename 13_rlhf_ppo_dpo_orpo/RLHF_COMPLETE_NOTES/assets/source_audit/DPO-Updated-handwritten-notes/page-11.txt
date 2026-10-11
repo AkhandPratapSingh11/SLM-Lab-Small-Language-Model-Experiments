@@ -1,0 +1,21 @@
+Suppose human tells us that Response A is better than Response B. Traditional RLHF first trains a Reward Model to
+
+assign scores and then uses PPO to optimize the Language Model. DPO asks whether we can avoid both steps.
+
+DPO compares the Policy Model with a frozen Reference Model. If the Policy Model increases the probability of a
+
+response compared with the Reference Model, that response receives a higher implicit reward. If it decreases the
+
+probability, the implicit reward becomes lower.
+
+Human preferences depend only on reward differences, not absolute reward values. For example, rewards 8 and 3
+
+produce the same preference as 108 and 103. Therefore, we do not need to recover one exact reward function.
+
+The paper proves that the policy-to-reference probability ratio can represent the required reward differences. That is
+
+why the Language Model itself acts as an implicit Reward Model. DPO then directly increases the relative likelihood
+
+of the chosen response and decreases the relative likelihood of the rejected response, without a separate Reward
+
+Model, Critic, or PPO.

@@ -1,0 +1,63 @@
+Step 5: Advantage Calculation
+
+Formula: Advantage = Actual Reward - Expected Reward
+
+Numbers: Advantage = 8 - 6 = +2
+
+Meaning: The response was better than expected.
+
+Step 6: PPO Updates the Policy
+
+Old probability: 0.60
+
+New probability after training: 0.72
+
+Ratio: 0.72 / 0.60 = 1.2
+
+Meaning: The model is now more likely to generate similar helpful responses in the future.
+
+Step 7: PPO Clipping
+
+Suppose the probability becomes: 0.95
+
+Ratio: 0.95 / 0.60 = 1.58
+
+PPO says: Too much change.
+
+Clip it.
+
+Because PPO wants:
+
+Small and stable updates.
+
+What Happens After Thousands of Examples?
+
+Example prompts:
+
+“What is Machine Learning?"
+
+“Explain Python."
+
+“How does a car engine work?"
+
+“Write a polite email.”
+
+For every prompt:
+
+Generate Response
+
+1
+
+Reward Model Scores It
+
+1
+
+Value Model Predicts Expected Reward
+
+1
+
+Advantage Is Computed
+
+1
+
+PPO Updates the Policy

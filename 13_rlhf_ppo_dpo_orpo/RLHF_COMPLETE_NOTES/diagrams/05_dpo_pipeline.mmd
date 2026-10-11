@@ -1,0 +1,8 @@
+flowchart LR
+    D["Offline prompt, chosen, rejected"] --> T["Shared template and completion masks"]
+    T --> P["Policy forward passes with gradients"]
+    T --> R["Frozen reference scoring or cached logps"]
+    P --> M["Beta times chosen-minus-rejected log-ratio margin"]
+    R --> M
+    M --> L["Negative log sigmoid of margin"]
+    L --> U["Update policy or LoRA adapter"]

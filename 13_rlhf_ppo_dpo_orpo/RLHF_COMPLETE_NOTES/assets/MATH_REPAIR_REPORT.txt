@@ -1,0 +1,22 @@
+MATH RENDERING REPAIR — 2026-10-11
+Inspected 320 Markdown files recursively, including root README, raw extracts and tooling dependencies.
+Modified Markdown files:
+  01_REINFORCEMENT_LEARNING_FUNDAMENTALS.md
+  02_LLM_ALIGNMENT_AND_RLHF.md
+  03_PREFERENCE_DATA_AND_REWARD_MODELS.md
+  04_PPO_IN_DEPTH.md
+  05_DPO_IN_DEPTH.md
+  06_GRPO_IN_DEPTH.md
+  07_ORPO_IN_DEPTH.md
+  12_GLOSSARY_AND_FORMULA_CHEATSHEET.md
+  README.md
+  CORRECTIONS_AND_LIMITATIONS.md
+  QA_REPORT.md
+Converted 65 display equations to separate $$ delimiter lines with blank boundaries. Five inline expressions use $...$.
+All65 formula bodies survived conversion exactly; one subsequent TD residual clarification consistently uses the fixed rollout critic for GAE and return targets. All literal/code regions preserved.
+PPO/GRPO/DPO/ORPO/RLHF, reward-policy derivation, critic/value, TD, GAE and returns reviewed. No other objective changes required.
+Validated all formulas with a GFM-aware Markdown parser and strict KaTeX0.16.47: zero errors, paired delimiters and correct block spacing.
+Table/list/blockquote/inline/display context checks passed; literal LaTeX/code excluded. Eight pre-rendered chapter HTML previews generated using local KaTeX CSS/fonts.
+Remaining backslash matches are escaped vendor URLs/arrays, reference syntax, code or literal LaTeX examples, not broken learning equations.
+Actual app renderer unknown: use GitHub math support, MathJax/KaTeX-enabled Markdown preview, or assets/math_preview/*.html.
+461 authored local links resolve; all15 original hashes unchanged.

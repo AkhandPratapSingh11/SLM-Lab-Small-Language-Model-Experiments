@@ -1,0 +1,29 @@
+Step 3: Chosen ka relative score
+
+S_"chosen" =Blog|
+
+Co (y_wix))/(mt_"ref" (y_wlx) ))
+
+simple meaning:
+
+Policy model chosen response ko reference model ke comparison mein kitna prefer kar raha hai?
+
+Step 4: Rejected ka relative score
+
+S "rejected" =Blog
+
+Cor_8 (ylxy)/(_"ref* (yx) )]
+
+simple meaning:
+
+Policy model rejected response ko reference model ke comparison mein kitna prefer kar raha hai?
+
+Step 5: Dono scores compare karo
+
+S_"chosen" -S "rejected"
+
+DPO chahta hai ki ye difference positive aur bada ho:
+
+Chosen relative score
+
+Rejected relative score |

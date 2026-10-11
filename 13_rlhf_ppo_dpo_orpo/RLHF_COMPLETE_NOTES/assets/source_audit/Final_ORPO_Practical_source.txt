@@ -1,0 +1,811 @@
+
+CELL 1 code
+del trainer
+del model
+
+gc.collect()
+
+if torch.cuda.is_available():
+    torch.cuda.empty_cache()
+
+CELL 2 code
+!pip uninstall -y torchao
+
+CELL 3 code
+!pip install -U "torchao>=0.16.0"
+
+CELL 4 code
+# Install once.
+# ORPO is currently under TRL's experimental module,
+# so pinning TRL improves notebook reproducibility.
+!pip install -q -U "trl==1.9.2" transformers datasets accelerate peft
+
+
+CELL 5 code
+import gc
+import torch
+from datasets import load_dataset
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import LoraConfig
+from trl.experimental.orpo import ORPOConfig, ORPOTrainer
+
+CELL 6 code
+# ---------------------------------------------------------
+# 1. Configuration
+# ---------------------------------------------------------
+model_name = "Qwen/Qwen2-0.5B-Instruct"
+dataset_name = "trl-lib/ultrafeedback_binarized"
+output_dir = "./qwen2_orpo_demo"
+
+CELL 7 code
+# ---------------------------------------------------------
+# 2. Select correct training precision
+# ---------------------------------------------------------
+use_cuda = torch.cuda.is_available()
+use_bf16 = (
+    use_cuda
+    and torch.cuda.is_bf16_supported()
+)
+use_fp16 = (
+    use_cuda
+    and not use_bf16
+)
+
+if use_bf16:
+    compute_dtype = torch.bfloat16
+elif use_fp16:
+    compute_dtype = torch.float16
+else:
+    compute_dtype = torch.float32
+print(f"CUDA available: {use_cuda}")
+print(f"BF16 training: {use_bf16}")
+print(f"FP16 training: {use_fp16}")
+print(f"Model dtype: {compute_dtype}")
+
+
+CELL 8 code
+# ---------------------------------------------------------
+# 3. Load tokenizer
+# ---------------------------------------------------------
+
+tokenizer = AutoTokenizer.from_pretrained(
+    model_name,
+    use_fast=True,
+)
+
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+tokenizer.padding_side = "right"
+
+CELL 9 code
+# ---------------------------------------------------------
+# 4. Load model
+# ---------------------------------------------------------
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=compute_dtype,
+)
+
+# Required during gradient-checkpointed training.
+model.config.use_cache = False
+
+model.config.pad_token_id = tokenizer.pad_token_id
+
+CELL 10 code
+# ---------------------------------------------------------
+# 5. Load preference dataset
+# ---------------------------------------------------------
+
+dataset = load_dataset(
+    dataset_name,
+    split="train",
+)
+
+dataset = dataset.shuffle(seed=42)
+
+number_of_samples = min(100, len(dataset))
+
+dataset = dataset.select(
+    range(number_of_samples)
+)
+
+print("Dataset columns:", dataset.column_names)
+print("Number of training samples:", len(dataset))
+print("First sample:", dataset[0])
+
+CELL 11 code
+# # ---------------------------------------------------------
+# # 6. ORPO training configuration
+# # ---------------------------------------------------------
+
+# orpo_args = ORPOConfig(
+#     output_dir=output_dir,
+
+#     # Optimization
+#     learning_rate=8e-6,
+#     beta=0.1,
+#     num_train_epochs=1,
+
+#     # Batch settings
+#     per_device_train_batch_size=1,
+#     gradient_accumulation_steps=4,
+
+#     # Precision
+#     bf16=use_bf16,
+#     fp16=use_fp16,
+
+#     # Memory
+#     gradient_checkpointing=True,
+#     max_length=768,
+
+#     # Logging and saving
+#     logging_steps=10,
+#     save_strategy="epoch",
+#     report_to="none",
+
+#     # Reproducibility
+#     seed=42,
+# )
+
+CELL 12 code
+# Reduce total training time.
+dataset = dataset.select(
+    range(min(100, len(dataset)))
+)
+
+CELL 13 code
+orpo_args = ORPOConfig(
+    output_dir=output_dir,
+    learning_rate=8e-6,
+    beta=0.1,
+    num_train_epochs=1,
+
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=4,
+
+    bf16=use_bf16,
+    fp16=use_fp16,
+
+    gradient_checkpointing=True,
+
+    # Main OOM-reduction setting
+    max_length=512,
+
+    logging_steps=10,
+    save_strategy="epoch",
+    report_to="none",
+    seed=42,
+)
+
+CELL 14 code
+# ---------------------------------------------------------
+# 7. LoRA configuration
+# ---------------------------------------------------------
+
+peft_config = LoraConfig(
+    r=8,
+    lora_alpha=16,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+
+    target_modules=[
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+    ],
+)
+
+CELL 15 code
+# ---------------------------------------------------------
+# 8. Create ORPO trainer
+# ---------------------------------------------------------
+
+trainer = ORPOTrainer(
+    model=model,
+    args=orpo_args,
+    train_dataset=dataset,
+    processing_class=tokenizer,
+    peft_config=peft_config,
+)
+
+
+# ---------------------------------------------------------
+# 9. Start training
+# ---------------------------------------------------------
+
+train_result = trainer.train()
+
+print(train_result)
+
+CELL 16 code
+# ---------------------------------------------------------
+# 10. Save trained LoRA adapter
+# ---------------------------------------------------------
+
+trainer.save_model(output_dir)
+tokenizer.save_pretrained(output_dir)
+
+print(f"Model adapter saved at: {output_dir}")
+
+CELL 17 code
+# ---------------------------------------------------------
+# 11. Test the trained model
+# ---------------------------------------------------------
+
+# Use trainer.model so that the trained LoRA adapter is active.
+trained_model = trainer.model
+trained_model.eval()
+
+# Cache can be enabled again for faster generation.
+trained_model.config.use_cache = True
+
+prompt = "Explain reinforcement learning in simple terms."
+
+messages = [
+    {
+        "role": "user",
+        "content": prompt,
+    }
+]
+
+text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+)
+
+inputs = tokenizer(
+    text,
+    return_tensors="pt",
+).to(trained_model.device)
+
+with torch.no_grad():
+    outputs = trained_model.generate(
+        **inputs,
+        max_new_tokens=150,
+        do_sample=True,
+        temperature=0.7,
+        top_p=0.9,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id,
+    )
+
+# Remove input tokens and decode only newly generated tokens.
+input_length = inputs["input_ids"].shape[1]
+
+generated_tokens = outputs[0][input_length:]
+
+response = tokenizer.decode(
+    generated_tokens,
+    skip_special_tokens=True,
+)
+
+print("Model response:")
+print(response)
+
+CELL 18 markdown
+# with unsloth
+
+CELL 19 code
+# Run this in a fresh Google Colab runtime.
+
+!pip install -q -U unsloth
+!pip install -q -U \
+    "transformers==4.56.2" \
+    "trl==0.22.2" \
+    "datasets==4.3.0" \
+    accelerate \
+    peft \
+    bitsandbytes
+
+CELL 20 code
+import gc
+import torch
+
+from datasets import load_dataset
+from unsloth import (
+    FastLanguageModel,
+    PatchDPOTrainer,
+    is_bfloat16_supported,
+)
+
+CELL 21 code
+model_name = "Qwen/Qwen2-0.5B-Instruct"
+dataset_name = "trl-lib/ultrafeedback_binarized"
+output_dir = "./qwen2_orpo_unsloth"
+
+max_seq_length = 512
+
+# True = lower GPU memory usage.
+load_in_4bit = True
+
+CELL 22 code
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name=model_name,
+    max_seq_length=max_seq_length,
+    dtype=None,            # Unsloth automatically selects FP16 or BF16.
+    load_in_4bit=load_in_4bit,
+)
+
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+tokenizer.padding_side = "right"
+model.config.use_cache = False
+
+CELL 23 code
+model = FastLanguageModel.get_peft_model(
+    model,
+
+    # LoRA rank
+    r=8,
+
+    # Apply LoRA to attention and MLP projection layers.
+    target_modules=[
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj",
+    ],
+
+    lora_alpha=16,
+
+    # Unsloth recommends zero dropout for its optimized path.
+    lora_dropout=0,
+
+    bias="none",
+
+    # More memory-efficient gradient checkpointing.
+    use_gradient_checkpointing="unsloth",
+
+    random_state=42,
+    use_rslora=False,
+    loftq_config=None,
+)
+
+CELL 24 code
+dataset = load_dataset(
+    dataset_name,
+    split="train",
+)
+
+dataset = dataset.shuffle(seed=42)
+
+# Small classroom/demo dataset.
+number_of_samples = min(500, len(dataset))
+
+dataset = dataset.select(
+    range(number_of_samples)
+)
+
+print("Original columns:", dataset.column_names)
+print("Number of samples:", len(dataset))
+print(dataset[0])
+
+CELL 25 code
+def format_preference_example(example):
+    """
+    Convert conversational UltraFeedback rows into:
+
+    {
+        "prompt": "...",
+        "chosen": "...",
+        "rejected": "..."
+    }
+    """
+
+    chosen_messages = example["chosen"]
+    rejected_messages = example["rejected"]
+
+    if len(chosen_messages) < 2 or len(rejected_messages) < 2:
+        raise ValueError(
+            "Each chosen/rejected conversation must contain "
+            "a prompt and an assistant response."
+        )
+
+    # All messages before the final assistant answer form the prompt.
+    prompt_messages = chosen_messages[:-1]
+
+    # Last message is the chosen assistant response.
+    chosen_response = chosen_messages[-1]["content"]
+
+    # Last message is the rejected assistant response.
+    rejected_response = rejected_messages[-1]["content"]
+
+    # Convert prompt messages using Qwen's own chat template.
+    formatted_prompt = tokenizer.apply_chat_template(
+        prompt_messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+
+    return {
+        "prompt": formatted_prompt,
+        "chosen": chosen_response + tokenizer.eos_token,
+        "rejected": rejected_response + tokenizer.eos_token,
+    }
+
+
+dataset = dataset.map(
+    format_preference_example,
+    remove_columns=dataset.column_names,
+)
+
+print("Formatted columns:", dataset.column_names)
+print("\nPrompt:\n", dataset[0]["prompt"])
+print("\nChosen:\n", dataset[0]["chosen"][:500])
+print("\nRejected:\n", dataset[0]["rejected"][:500])
+
+CELL 26 code
+# Unsloth's preference-trainer optimization patch.
+PatchDPOTrainer()
+
+CELL 27 code
+from trl import ORPOConfig, ORPOTrainer
+
+
+orpo_args = ORPOConfig(
+    output_dir=output_dir,
+
+    # ORPO optimization
+    learning_rate=8e-6,
+    beta=0.1,
+
+    # Train for one complete epoch.
+    num_train_epochs=1,
+
+    # Batch configuration
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=4,
+
+    # Sequence configuration
+    max_length=max_seq_length,
+    max_prompt_length=max_seq_length // 2,
+    max_completion_length=max_seq_length // 2,
+
+    # Precision
+    fp16=not is_bfloat16_supported(),
+    bf16=is_bfloat16_supported(),
+
+    # 8-bit optimizer saves memory.
+    optim="adamw_8bit",
+
+    lr_scheduler_type="linear",
+    warmup_ratio=0.1,
+
+    logging_steps=10,
+
+    save_strategy="epoch",
+    save_total_limit=1,
+
+    # Required by preference trainers in this pinned setup.
+    remove_unused_columns=False,
+
+    report_to="none",
+    seed=42,
+)
+
+CELL 28 code
+trainer = ORPOTrainer(
+    model=model,
+    args=orpo_args,
+    train_dataset=dataset,
+
+    # For the pinned TRL version used by Unsloth.
+    tokenizer=tokenizer,
+)
+
+CELL 29 code
+train_result = trainer.train()
+
+print(train_result)
+
+CELL 30 code
+model.save_pretrained(output_dir)
+tokenizer.save_pretrained(output_dir)
+
+print(f"LoRA adapter saved at: {output_dir}")
+
+CELL 31 code
+FastLanguageModel.for_inference(model)
+
+model.config.use_cache = True
+model.eval()
+
+prompt = "Explain reinforcement learning in simple terms."
+
+messages = [
+    {
+        "role": "user",
+        "content": prompt,
+    }
+]
+
+input_ids = tokenizer.apply_chat_template(
+    messages,
+    tokenize=True,
+    add_generation_prompt=True,
+    return_tensors="pt",
+).to(model.device)
+
+with torch.no_grad():
+    output_ids = model.generate(
+        input_ids=input_ids,
+        max_new_tokens=150,
+        do_sample=True,
+        temperature=0.7,
+        top_p=0.9,
+        use_cache=True,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id,
+    )
+
+# Remove the original input tokens.
+generated_ids = output_ids[0][input_ids.shape[1]:]
+
+response = tokenizer.decode(
+    generated_ids,
+    skip_special_tokens=True,
+)
+
+print("Model response:")
+print(response)
+
+CELL 32 code
+merged_output_dir = "./qwen2_orpo_merged_16bit"
+
+model.save_pretrained_merged(
+    merged_output_dir,
+    tokenizer=tokenizer,
+    save_method="merged_16bit",
+)
+
+print(f"Merged model saved at: {merged_output_dir}")
+
+CELL 33 code
+# # Run in a fresh Colab runtime.
+
+# !pip install -q -U unsloth
+# !pip install -q -U \
+#     "transformers==4.56.2" \
+#     "trl==0.22.2" \
+#     "datasets==4.3.0" \
+#     accelerate peft bitsandbytes
+
+
+# import torch
+
+# from datasets import load_dataset
+# from unsloth import (
+#     FastLanguageModel,
+#     PatchDPOTrainer,
+#     is_bfloat16_supported,
+# )
+# from trl import ORPOConfig, ORPOTrainer
+
+
+# # ---------------------------------------------------------
+# # 1. Configuration
+# # ---------------------------------------------------------
+
+# model_name = "Qwen/Qwen2-0.5B-Instruct"
+# dataset_name = "trl-lib/ultrafeedback_binarized"
+# output_dir = "./qwen2_orpo_unsloth"
+
+# max_seq_length = 512
+
+
+# # ---------------------------------------------------------
+# # 2. Load model
+# # ---------------------------------------------------------
+
+# model, tokenizer = FastLanguageModel.from_pretrained(
+#     model_name=model_name,
+#     max_seq_length=max_seq_length,
+#     dtype=None,
+#     load_in_4bit=True,
+# )
+
+# if tokenizer.pad_token is None:
+#     tokenizer.pad_token = tokenizer.eos_token
+
+# tokenizer.padding_side = "right"
+# model.config.use_cache = False
+
+
+# # ---------------------------------------------------------
+# # 3. Add LoRA
+# # ---------------------------------------------------------
+
+# model = FastLanguageModel.get_peft_model(
+#     model,
+#     r=8,
+#     target_modules=[
+#         "q_proj",
+#         "k_proj",
+#         "v_proj",
+#         "o_proj",
+#         "gate_proj",
+#         "up_proj",
+#         "down_proj",
+#     ],
+#     lora_alpha=16,
+#     lora_dropout=0,
+#     bias="none",
+#     use_gradient_checkpointing="unsloth",
+#     random_state=42,
+#     use_rslora=False,
+#     loftq_config=None,
+# )
+
+
+# # ---------------------------------------------------------
+# # 4. Load and format dataset
+# # ---------------------------------------------------------
+
+# dataset = load_dataset(
+#     dataset_name,
+#     split="train",
+# )
+
+# dataset = (
+#     dataset
+#     .shuffle(seed=42)
+#     .select(range(500))
+# )
+
+
+# def format_preference_example(example):
+#     chosen_messages = example["chosen"]
+#     rejected_messages = example["rejected"]
+
+#     prompt_messages = chosen_messages[:-1]
+
+#     formatted_prompt = tokenizer.apply_chat_template(
+#         prompt_messages,
+#         tokenize=False,
+#         add_generation_prompt=True,
+#     )
+
+#     return {
+#         "prompt": formatted_prompt,
+#         "chosen": (
+#             chosen_messages[-1]["content"]
+#             + tokenizer.eos_token
+#         ),
+#         "rejected": (
+#             rejected_messages[-1]["content"]
+#             + tokenizer.eos_token
+#         ),
+#     }
+
+
+# dataset = dataset.map(
+#     format_preference_example,
+#     remove_columns=dataset.column_names,
+# )
+
+# print(dataset[0])
+
+
+# # ---------------------------------------------------------
+# # 5. Patch preference trainer
+# # ---------------------------------------------------------
+
+# PatchDPOTrainer()
+
+
+# # ---------------------------------------------------------
+# # 6. ORPO configuration
+# # ---------------------------------------------------------
+
+# orpo_args = ORPOConfig(
+#     output_dir=output_dir,
+#     learning_rate=8e-6,
+#     beta=0.1,
+#     num_train_epochs=1,
+
+#     per_device_train_batch_size=1,
+#     gradient_accumulation_steps=4,
+
+#     max_length=max_seq_length,
+#     max_prompt_length=max_seq_length // 2,
+#     max_completion_length=max_seq_length // 2,
+
+#     fp16=not is_bfloat16_supported(),
+#     bf16=is_bfloat16_supported(),
+
+#     optim="adamw_8bit",
+#     lr_scheduler_type="linear",
+#     warmup_ratio=0.1,
+
+#     logging_steps=10,
+#     save_strategy="epoch",
+#     save_total_limit=1,
+
+#     remove_unused_columns=False,
+#     report_to="none",
+#     seed=42,
+# )
+
+
+# # ---------------------------------------------------------
+# # 7. Trainer
+# # ---------------------------------------------------------
+
+# trainer = ORPOTrainer(
+#     model=model,
+#     args=orpo_args,
+#     train_dataset=dataset,
+#     tokenizer=tokenizer,
+# )
+
+
+# # ---------------------------------------------------------
+# # 8. Train
+# # ---------------------------------------------------------
+
+# train_result = trainer.train()
+
+# print(train_result)
+
+
+# # ---------------------------------------------------------
+# # 9. Save LoRA
+# # ---------------------------------------------------------
+
+# model.save_pretrained(output_dir)
+# tokenizer.save_pretrained(output_dir)
+
+
+# # ---------------------------------------------------------
+# # 10. Inference
+# # ---------------------------------------------------------
+
+# FastLanguageModel.for_inference(model)
+
+# model.config.use_cache = True
+# model.eval()
+
+# messages = [
+#     {
+#         "role": "user",
+#         "content": (
+#             "Explain reinforcement learning "
+#             "in simple terms."
+#         ),
+#     }
+# ]
+
+# input_ids = tokenizer.apply_chat_template(
+#     messages,
+#     tokenize=True,
+#     add_generation_prompt=True,
+#     return_tensors="pt",
+# ).to(model.device)
+
+# with torch.no_grad():
+#     output_ids = model.generate(
+#         input_ids=input_ids,
+#         max_new_tokens=150,
+#         do_sample=True,
+#         temperature=0.7,
+#         top_p=0.9,
+#         pad_token_id=tokenizer.pad_token_id,
+#         eos_token_id=tokenizer.eos_token_id,
+#     )
+
+# generated_ids = output_ids[0][input_ids.shape[1]:]
+
+# response = tokenizer.decode(
+#     generated_ids,
+#     skip_special_tokens=True,
+# )
+
+# print(response)

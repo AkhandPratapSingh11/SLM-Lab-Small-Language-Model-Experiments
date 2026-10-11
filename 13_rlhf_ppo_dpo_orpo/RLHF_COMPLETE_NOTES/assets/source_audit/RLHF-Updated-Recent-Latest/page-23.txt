@@ -1,0 +1,55 @@
+State S1
+
+1
+
+Q-Network predicts Q-values
+
+Choose action Right
+
+T
+
+Environment gives reward +5 and next state S2
+
+a
+
+Store (S1, Right, +5, S2) €—————
+
+=
+
+T
+
+During training, sample this experience
+
+T
+
+Q-Network predicts current value Q(S1, Right)
+
+Target Network predicts future value from S2
+
+————————————————
+
+‘eward + gamma x best future value ¢-
+
+d
+
+taanny,
+
+Targe
+
+T
+
+Loss = target - current prediction
+
+n
+
+Update Q-Network
+
+—
+
+>
+
+DV
+
+é
+
+Phony

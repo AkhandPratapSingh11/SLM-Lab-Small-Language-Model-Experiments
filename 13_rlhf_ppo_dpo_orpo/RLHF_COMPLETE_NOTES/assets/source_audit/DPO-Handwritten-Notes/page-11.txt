@@ -1,0 +1,69 @@
+hs 0 minting putin Egution he FOL nh:
+
+ping a)
+
+[eoro=2|e (2h
+
+aati)
+
+ei)
+
+))
+
+‘Sant ec compte tio aa st al an a iglind eon en.
+
+DPO equation ka easiest version
+
+Pde de ical do er barc
+
+Sane = 8 else) ~ loge
+
+Srna ~ ot late) oe a
+
+i
+
+[Eore= =e (Same Berl]
+
+Stato bt sana a
+
+chen pease cd pr an ba an ca
+
+Sim > Sa
+
+Step 1: Training data
+
+Har sample mein teen cheezein hoti hain:
+
+x = Prompt
+
+yw
+
+Chosen / preferred response
+
+yl = Rejected / dispreferred response
+
+Example:
+
+Prompt:
+
+Explain Al simply.
+
+Chosen:
+
+Al enables machines to learn patterns and perform intelligent tasks.
+
+Rejected:
+
+‘Al means machines are completely conscious like humans.
+
+Step 2: Do models hote hain
+
+m6 = Policy model, jise train karna hai
+
+trref = Frozen reference model
+
+Reference model original behaviour ko represent karta hai.
+
+DPO ye nahi dekhta ki policy model ne answer ko kitni absolute probability di. Ye dekhta hai:
+
+Policy model ne reference model ke comparison mein response ko kitna promote ya suppress kiya?

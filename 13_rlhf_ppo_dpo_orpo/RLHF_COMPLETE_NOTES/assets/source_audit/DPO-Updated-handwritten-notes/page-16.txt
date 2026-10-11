@@ -1,0 +1,31 @@
+Meaning of each symbol in the equation
+
+Symbol
+
+Meaning
+
+2
+
+Prompt
+
+Choser/preferred response
+
+Rejected response
+
+™
+
+Trainable policy mode!
+
+Tech
+
+Frozen reference model
+
+Reference constraint/preference strength control
+
+‘Sigmoid, which converts the score into a probability between O and 1
+
+loga(y | z)
+
+Log probability of response y given prompt x
+
+‘Average over all examples in the dataset

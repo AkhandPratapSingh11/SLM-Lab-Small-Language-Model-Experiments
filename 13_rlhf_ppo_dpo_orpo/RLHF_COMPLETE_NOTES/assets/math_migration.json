@@ -1,0 +1,58 @@
+[
+  {
+    "file": "01_REINFORCEMENT_LEARNING_FUNDAMENTALS.md",
+    "display_equations": 15,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "2efa62100b0a574486d042646348806f9f0df7a69773e82f56b1420b85489881"
+  },
+  {
+    "file": "02_LLM_ALIGNMENT_AND_RLHF.md",
+    "display_equations": 1,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "1d7d21e3ed36c77280a6afca68aba2df45de706d049eeccd65b3e4e0520fc656"
+  },
+  {
+    "file": "03_PREFERENCE_DATA_AND_REWARD_MODELS.md",
+    "display_equations": 2,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "19e9a59d4d25f9bd86710bee6e17b163e23a40a1b3fd926927bb2df23fec94d7"
+  },
+  {
+    "file": "04_PPO_IN_DEPTH.md",
+    "display_equations": 7,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "768baf7650552755620f1a8169f27ac7ae308d59dd2d911a67cd58b7a0867d73"
+  },
+  {
+    "file": "05_DPO_IN_DEPTH.md",
+    "display_equations": 8,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "8604c8f517f9f825a2aea887c5b9f6fc18792bd93ccba06e8511004c4a0361d9"
+  },
+  {
+    "file": "06_GRPO_IN_DEPTH.md",
+    "display_equations": 4,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "598e47c4b7e3585a5de720e867f6ce210e246130df10e4204971d7d4101ec6fc"
+  },
+  {
+    "file": "07_ORPO_IN_DEPTH.md",
+    "display_equations": 5,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "3a89e5050fc0dd57e0f76349fef80b0a71d9751bdb2d54158c0eaafea8d6ad6c"
+  },
+  {
+    "file": "12_GLOSSARY_AND_FORMULA_CHEATSHEET.md",
+    "display_equations": 23,
+    "formula_bodies_unchanged_by_delimiter_conversion": true,
+    "literal_code_preserved": true,
+    "before_sha256": "0c232d721a8aa8fb509f6419973c95510892f52031bdab49213adadabe13315e"
+  }
+]

@@ -1,0 +1,97 @@
+How PPO Works in RLHF (Training ChatGPT) — Step
+
+by Stey
+
+Example
+
+0»
+
+on
+
+=
+
+et
+
+=
+
++ ¢
+
+be
+
+=
+
+On
+
+5
+
+°
+
+=
+
+a-
+
+at
+
+> - al
+
+*
+
+|
+
+rad
+
+all
+
+Sosa pe
+
+be
+
+wt
+
+©
+
+DeepSeek used GRPO because PPO is expensive for large LLMs due to the extra value/critic model
+
+GRPO removes that critic model and compares multiple answers generated for the same question.
+
+The better answers are reinforced, and weaker answers are discouraged.
+
+GRPO trains the LLM by comparing multiple responses within the same group using a reward signal.
+
+PPO
+
+GRPO
+
+4 Value/Critic PPO uses an extra Value(Critic) model to
+
+GRPO removes the Value model and uses group
+
+(anor
+
+Model
+
+—tstimateemeced coward
+
+-Tuctage reward as basen
+
+‘—_—
+
+Calculation
+
+2. Advantage
+
+PPO advantage = actual reward - value model _GRPO advantage = response reward compared with
+
+prediction
+
+“other responses in the same group.
+
+3.
+
+PPO is more memory-heavy because it needs
+
+HBO eTigiter because Kremoves the ciel
+
+ute Cost
+
+Memory/Comp Poly + Reference + Reward? Value model — model, so training is more memory efficient.

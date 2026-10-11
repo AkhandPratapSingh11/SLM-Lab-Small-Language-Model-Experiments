@@ -1,0 +1,19 @@
+Second Stage: Supervised Training — SFT
+
+pre-trained language model is trained using Supervised Fine-Tuning.
+
+In SFT, the model is trained on high-quality prompt-and-answer(1/O)
+
+Example
+
+Prompt: “Explain gravity to a 10-year-old.”
+
+Target answer: Gravity is a force that pulls objects toward each other. It is the reason why things fall toward the
+
+ground.
+
+The model becomes better at following instructions.
+
+However, SFT usually provides only one good answer.
+
+It does not explicitly teach the model why one response is better than another response.

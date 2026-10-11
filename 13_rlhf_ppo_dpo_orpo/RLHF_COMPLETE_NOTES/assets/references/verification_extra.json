@@ -1,0 +1,61 @@
+[
+  {
+    "name": "trl_orpo_official",
+    "url": "https://huggingface.co/docs/trl/orpo_trainer",
+    "bytes": 227773,
+    "status": 200
+  },
+  {
+    "name": "trl_ppo_official",
+    "url": "https://huggingface.co/docs/trl/ppo_trainer",
+    "bytes": 201,
+    "status": 200
+  },
+  {
+    "name": "orpo_code",
+    "url": "https://raw.githubusercontent.com/huggingface/trl/main/trl/experimental/orpo/orpo_trainer.py",
+    "bytes": 50188,
+    "status": 200
+  },
+  {
+    "name": "reward_code",
+    "url": "https://raw.githubusercontent.com/huggingface/trl/main/trl/trainer/reward_trainer.py",
+    "bytes": 43677,
+    "status": 200
+  },
+  {
+    "name": "dpo_code",
+    "url": "https://raw.githubusercontent.com/huggingface/trl/main/trl/trainer/dpo_trainer.py",
+    "bytes": 99470,
+    "status": 200
+  },
+  {
+    "name": "grpo_code",
+    "url": "https://raw.githubusercontent.com/huggingface/trl/main/trl/trainer/grpo_trainer.py",
+    "bytes": 194595,
+    "status": 200
+  },
+  {
+    "name": "ppo_code",
+    "url": "https://raw.githubusercontent.com/huggingface/trl/main/trl/experimental/ppo/ppo_trainer.py",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "gae",
+    "url": "https://arxiv.org/abs/1506.02438",
+    "bytes": 45252,
+    "status": 200
+  },
+  {
+    "name": "instructgpt",
+    "url": "https://arxiv.org/abs/2203.02155",
+    "bytes": 44863,
+    "status": 200
+  },
+  {
+    "name": "orpo_acl",
+    "url": "https://aclanthology.org/2024.emnlp-main.626/",
+    "bytes": 42179,
+    "status": 200
+  }
+]

@@ -1,0 +1,77 @@
+1. Q(Quality)-Learning
+
+Type: Value-Based~
+
+Storage: Table
+
+Stores:
+
+(5, a) in a lookup table
+
+Works well for:
+
+‘Small / discrete state spaces
+
+Problem:
+
+State space becomes large ~ table size explodes
+
+2. DQN (Deep Q-Network)
+
+Type: Value-Based
+
+Upgrade
+
+-Learning(tabluar)
+
+Key Idea:
+
+Replace Q-table with Neural Network
+
+Input: State
+
+Output: values for all actions
+
+Solve:
+
+Targe state space (images, games, high-dimensional input)
+
+Limitation:
+
+Works mainly for discrete action spaces with continues values training can be unstable
+
+3. PPO (Proximal Policy Optimization)
+
+Type: Policy-Based (Actor-Crtic
+
+Meaning: probability of taking action a given state s
+
+Advantages:
+
+Works with continuous actions (robotics, control systems)
+
+Stable training (compared to vanilla policy gradient)
+
+Widely used in robotics, games, and RLHF (e.g., ChatGPT training)
+
+PPO is not purely policy-based
+
+It is Actor-Critic (learns both policy and value function)
+
+Actor
+
+nls)
+
+eatitic
+
+Me)
+
+‘ection
+
+state Vale
+
+SoS
+
+=
+
+—

@@ -1,0 +1,49 @@
+Assume you are training a model using Supervised Fine-Tuning (SFT).
+
+Training Data (SFT)
+
+—_ 5
+
+ye
+
+oP
+
+User:
+
+:
+
+“What is the capital of France’
+
+Model is taught:
+
+“Paris is the capital of France.”
+
+2
+
+That is all the model sees — only the correct answer.
+
+Where is the problem?
+
+Now in the real world:
+
+User:
+
+“What is the capital of Germany
+
+The model could generate two possible outputs:
+
+_Paris is the capital of Germany." (incorrect)
+
+Ly "Berlin is the capital of Germany.” (correct)
+
+What does SFT actually do?
+
+SFT only teaches:
+
+“Paris is correct for France."
+
+But it does NOT teach:
+
+“Paris is wrong for Germany
+
+eK

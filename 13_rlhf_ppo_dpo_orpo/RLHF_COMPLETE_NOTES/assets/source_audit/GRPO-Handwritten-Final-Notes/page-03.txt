@@ -1,0 +1,37 @@
+The core idea of the DeepSeekMath paper is to show that a small 7B open-source model can become strong at
+
+mathematical reasoning,
+
+They started with DeepSeek-Coder-Base-v1.5 78 because code models already have good logical and structured
+
+reasoning ability. Then they continued pre-training it using a large math-focused dataset, including a 120B-token
+
+math corpus and other useful data like code, arXiv, and natural language.(DeepSeekMath-Base was trained for 500B
+
+tokens, where a major part came from the 120B-token DeepSeekMath math corpus, along with code, arXiv, and
+
+natural language data.)
+
+After pre-training, they applied math instruction tuning using step-by-step solution data. Finally, they used GRPO.
+
+teinforcement learning, w
+
+reinforcement learning, where the model generates multiple answers, compares them, and improves based on the
+
+{
+
+better ones.
+
+The final model, DeepSeekMath-RL 7B, achieved 51.7% on the MATH benchmark without external tools or voting. This,
+
+showed that with good data, instruction tuning, and GRPO, even a 7B open-source model can become very strong in
+
+math reasoning.
+
+Its main idea is to remove the separate critic/value model used in PPO and instead calculate the baseline using
+
+multiple sampled answers for the same question. This makes RL training more memory-efficient and improve
+
+mathematical reasoning.
+
+hy (Ger s)

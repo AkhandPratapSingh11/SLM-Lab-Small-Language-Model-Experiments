@@ -1,0 +1,27 @@
+Complete RLHF Pipeline
+
+Humans
+
+t
+
+Preference Data
+
+J
+
+Reward Model Training
+
+t
+
+Reward Model
+
+1
+
+PPO Training
+
+t
+
+Policy Update
+
+1
+
+Better LLM

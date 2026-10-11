@@ -1,0 +1,39 @@
+What is ORPO?
+
+7
+
+Monolithic Preference Optimization technique without Reference Model
+
+ORPO is a single-stage preference optimization method
+
+@ fe
+
+monolithic preference optimization or Single Stage preference optimization method
+
+meaning is instruction learning and preference learning are integrated into one objective and in one training
+
+process.
+
+ORPO combines Supervised Fine-Tuning & Preference Alignment into a single training stage
+
+Instruction-Following and Preference-Aligned Model
+
+ORPO directly trains Pretrained Model using chosen and rejected responses.
+
+preference data for ORPO:
+
+Prompt | Chosen Response | Rejected Response
+
+It teaches the same model to
+
+ORPO
+
+1. Learn the chosen response through normal SFT loss.
+
+2. Prefer the chosen response over the rejected response through an Odds Ratio loss.
+
+WH
+
+j
+
+Lt Fincanng ORPO Page 3

@@ -1,0 +1,15 @@
+DPO compares how much the policy model promotes the chosen response and the rejected response relative to a
+
+frozen reference model, and trains the policy so that the chosen response receives the higher relative likelihood.
+
+Reward values themselves are not uniq
+
+; only the reward difference between chosen and rejected responses
+
+matters. DPO represents reward as Blog;
+
+(t_8/m_"ref" ). Therefore, the Language Model's relative probabilities act
+
+as an implicit Reward Model. This allows DPO to optimize preferences directly without a separate Reward Model,
+
+Critic, or PPO training loop.

@@ -1,0 +1,71 @@
+Step 1 Supervised Fine-Tuning,
+
+Step 2 Training a Reward Model
+
+Step 3 Optimize Policy
+
+La
+
+La
+
+o
+
+e
+
+e
+
+L]
+
+‘me
+
+mm,
+
+_
+
+ron
+
+=a
+
+Policy
+
+Collect human
+
+SFT
+
+o
+
+demonstration data
+
+Collect human prefer
+
+ata
+
+=
+
+Reward
+
+G
+
+Supervised
+
+&
+
+Supervised
+
+jne-tune
+
+Fine-tune
+
+s
+
+RM
+
+uM
+
+SFT
+
+Base LLM
+
+RM
+
+PPO

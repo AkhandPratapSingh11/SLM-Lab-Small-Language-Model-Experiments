@@ -1,0 +1,13 @@
+flowchart TD
+    X{"Can you score fresh generated answers reliably?"} -->|Yes| V{"Verifiable task and group generation affordable?"}
+    V -->|Yes| G["Consider GRPO; inspect variance and grouping"]
+    V -->|No| P["Consider PPO; budget for critic and rollouts"]
+    X -->|No| D{"High-quality offline preference pairs available?"}
+    D -->|No| C["Collect data or improve SFT before preference training"]
+    D -->|Yes| S{"Want integrated chosen SFT and reference-free objective?"}
+    S -->|Yes| O["Consider ORPO; tune supervised/preference balance"]
+    S -->|No| DP["Consider DPO with stable reference scoring"]
+    G --> E["Pilot and compare on held-out task and regression evaluation"]
+    P --> E
+    O --> E
+    DP --> E

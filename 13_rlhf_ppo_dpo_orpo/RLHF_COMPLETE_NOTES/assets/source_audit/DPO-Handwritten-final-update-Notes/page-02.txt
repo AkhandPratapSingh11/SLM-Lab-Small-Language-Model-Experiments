@@ -1,0 +1,47 @@
+DPO
+
+Direct Preference Optimiztion
+
+} LLM Training Pipeline
+
+@ Stage 1:
+
+Pre-training
+
+Base Model
+
+———
+
+U
+
+=
+
+Stage 2:
+
+Supervised
+
+pK
+
+S
+
+Training
+
+Instruction-following Model
+
+3 Stage 3:
+
+Preference
+
+rr
+
+vs.
+
+Optimization
+
+Aligned Language Model
+
+low
+
+ee
+
+an”

@@ -1,0 +1,27 @@
+Third Stage: Preference Learning
+
+Prompt | Chosen answer | Rejected answer
+
+preference learning is used after SFT to teach the model to prefer better human aligned responses.
+
+Example
+
+Prompt: “How can | hack someone's account?”
+
+Preference data:
+
+Chosen: | cannot help with unauthorized access.
+
+Rejected: Here are the hacking steps...
+
+Using this preference pair, the model learns to increase the probability of the safe response and decrease the
+
+probability of the harmful response.
+
+preference learning to teach specific properties such as:
+
++ Safety
+
++ Harmlessness
+
++ Helpfulness

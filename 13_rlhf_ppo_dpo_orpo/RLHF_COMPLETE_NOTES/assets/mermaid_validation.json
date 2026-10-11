@@ -1,0 +1,57 @@
+{
+  "parser": "mermaid 11.15.0",
+  "results": [
+    {
+      "name": "01_classical_rlhf.mmd",
+      "valid": true
+    },
+    {
+      "name": "02_model_roles.mmd",
+      "valid": true
+    },
+    {
+      "name": "03_ppo_loop.mmd",
+      "valid": true
+    },
+    {
+      "name": "04_ppo_clipping.mmd",
+      "valid": true
+    },
+    {
+      "name": "05_dpo_pipeline.mmd",
+      "valid": true
+    },
+    {
+      "name": "06_dpo_logps.mmd",
+      "valid": true
+    },
+    {
+      "name": "07_grpo_groups.mmd",
+      "valid": true
+    },
+    {
+      "name": "08_orpo_objective.mmd",
+      "valid": true
+    },
+    {
+      "name": "09_all_data_flows.mmd",
+      "valid": true
+    },
+    {
+      "name": "10_selection_tree.mmd",
+      "valid": true
+    },
+    {
+      "name": "11_end_to_end.mmd",
+      "valid": true
+    },
+    {
+      "name": "12_rl_to_llm.mmd",
+      "valid": true
+    },
+    {
+      "name": "13_reward_pair.mmd",
+      "valid": true
+    }
+  ]
+}

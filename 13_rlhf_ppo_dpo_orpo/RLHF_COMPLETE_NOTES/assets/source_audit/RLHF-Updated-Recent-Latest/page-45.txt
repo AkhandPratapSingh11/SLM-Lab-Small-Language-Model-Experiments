@@ -1,0 +1,29 @@
+Real Intuition
+
+Without Clipping:
+
+0.60
+
+t
+
+0.95
+
+Huge jump.
+
+With PPO Clipping:
+
+0.60
+
+1
+
+0.68
+
+J
+
+0.72
+
+1
+
+0.75
+
+Gradual learning.

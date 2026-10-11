@@ -1,0 +1,39 @@
+Problems with GRPO
+
+GRPO simplifies PPO by removing the separate Value/Critic Model. It generates a group of responses for the same
+
+prompt and calculates each response’s advantage relative to the group.
+
+Prompt
+
+L
+
+Generate a Group of Responses(Policy Model)
+
+4
+
+Calculate a Reward for Each Response(Reward Model or Reward Function)
+
+L
+
+Compare Each Reward with the Group Baseline
+
+4
+
+Update the Policy
+
+However, GRPO still has some limitations:
+
++ It must generate multiple responses for every prompt.
+
++ More generations increase computation, memory usage, and training time.
+
++ Its performance depends heavily on the quality of the reward function.
+
++ It can also suffer from reward hacking.
+
++ Incorrect or noisy rewards may teach the model the wrong behavior.
+
++ Long response generation makes the rollout phase expensive.
+
+Unlike DPO, GRPO is still an online reinforcement-learning method with a rollout and reward-evaluation loop.

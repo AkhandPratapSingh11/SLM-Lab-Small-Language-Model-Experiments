@@ -1,0 +1,31 @@
+Important Note
+
+Do not say:
+
+“DPO is always better than PPO.”
+
+Say:
+
+“DPO performed similarly to or better than PPO on the tasks evaluated in the original paper.”
+
+DPO Limitations and Future Work
+
+DPO is simple and effective, but the original paper provides promising experimental evidence—not proof that it wil
+
+I
+
+work perfectly across every model scale, domain, evaluator, and modality.
+
+1. Limited Out-of-Distribution Testing
+
+2. Over-Optimization May Reduce Quality
+
+3. Evaluated Only Up to 6B Parameters
+
+4. Extension Beyond Text Remained Future Work
+
+DPO is simpler than PPO-based RLHF, but the original paper tested it only under limited conditions. Therefore, we
+
+should say that DPO performed well in the tested experiments—not that it will always work perfectly in every
+
+situation.

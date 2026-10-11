@@ -1,0 +1,11 @@
+flowchart TD
+    D["Audit data and deduplicate prompts"] --> S["Split by prompt or topic"]
+    S --> M["Choose base model, tokenizer and dependency versions"]
+    M --> T["Apply template once; inspect lengths and masks"]
+    T --> A["Select algorithm and explicit configuration"]
+    A --> B["One-batch forward/backward sanity check"]
+    B --> R["Baseline evaluation"]
+    R --> F["Training with finite-loss checks and checkpoints"]
+    F --> E["Held-out preference and generation evaluation"]
+    E --> C["Save configuration, adapter, tokenizer and full resume state"]
+    C --> L["Fresh-process reload and compare with baseline"]

@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant D as Preference dataset
+    participant RM as Scalar reward model
+    participant O as Optimizer
+    D->>RM: Same prompt plus chosen full response
+    RM-->>O: Chosen score
+    D->>RM: Same prompt plus rejected full response
+    RM-->>O: Rejected score
+    O->>O: Negative log sigmoid of reward difference
+    O->>RM: Gradient update to reward parameters

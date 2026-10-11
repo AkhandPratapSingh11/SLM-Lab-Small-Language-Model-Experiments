@@ -1,0 +1,75 @@
+"
+
+.
+
+Let’s Revise RLHF_
+
+}) RLHF generally requires
+
+{ EF {11} Human Preference Data
+
+a
+
+J
+
+@
+
+‘multiple components:
+
+[ S¢ (2) Train a Separate Reward Model
+
+A) & Reterence Mods
+
+2D Peotcy Mode
+
+{ EyD (3) retncase nad caerter Revie |
+
+8) D reward Mose
+
+Eos Tero Gere |
+
+(@) |Z Value/Ceitic Mode!
+
+5
+
+2)
+
+aa
+
+“The Value Model Generates the Expected Score
+
+PPO / Reinforcement Learning
+
+© i rrotalangtoop
+
+ar
+
+ws
+
+o
+
+(
+
+6
+
+Upaiates the Language Model
+
+RLHF uses multiple models and a reinforcement learning loop to align
+
+S
+
+the language model with human preferences.
+
+©)
+
+Problems with RLHF Using PPO
+
++ It is complex.
+
++ It is computationally expensive.
+
++ Training can be unstable.
+
++ Multiple models must be loaded, trained, and managed.
+
++ Poor Reward Model or Critic estimates can produce noisy or incorrect updates.

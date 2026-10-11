@@ -1,0 +1,368 @@
+
+CELL 1 code
+# RL basic form
+
+CELL 2 code
+import random
+
+actions = ["left", "right"]
+
+# Q-table (memory)
+Q = {
+    "left": 0,
+    "right": 0
+}
+
+CELL 3 code
+# reward system
+def get_reward(action):
+    if action == "right":
+        return 1
+    else:
+        return -1
+
+CELL 4 code
+# learning rate
+alpha = 0.1
+
+for i in range(50):
+
+    # choose action (exploration)
+    action = random.choice(actions)
+
+    reward = get_reward(action)
+
+    # update Q value (learning happens here)
+    Q[action] = Q[action] + alpha * (reward - Q[action])
+
+    print(f"Step {i}, Action: {action}, Reward: {reward}, Q: {Q}")
+
+CELL 5 code
+Q[action] = Q[action] + alpha * (reward - Q[action])
+
+CELL 6 code
+Q
+
+CELL 7 code
+# # Initially:
+# Q(left) = 0
+# Q(right) = 0
+
+# # After training:
+# Q(right) → higher (good)
+# Q(left) → lower (bad)
+
+# # RESULT:
+# Agent learns:
+# "right is better"
+
+# # Greedy policy:
+# action = max(Q, key=Q.get)
+
+# # FINAL TRUTH:
+# RL = interaction + reward + update
+
+# # SUPER SIMPLE:
+# No update → No learning
+# Update + feedback → RL
+
+CELL 8 markdown
+Have you ever wondered…
+
+how a machine learns without anyone telling it the correct answer?
+
+No one says:
+
+“Right is correct”
+
+Still… the model learns. How?
+
+Let’s break it down.
+
+---
+
+**Concept Start**
+
+Imagine a very simple world.
+
+You have only two actions:
+Left
+Right
+
+Initially, the model knows nothing.
+
+So internally:
+
+Q(left) = 0
+Q(right) = 0
+
+Both are equal. No intelligence yet.
+
+---
+
+**Learning Begins**
+
+Now the model starts taking actions randomly.
+
+Suppose:
+
+It goes Right → gets reward +1
+It goes Left → gets reward -1
+
+Important point:
+No one told the model what is correct.
+
+It only gets feedback.
+
+---
+
+**Update Happens (THIS IS THE MAGIC)**
+
+The model updates its memory:
+
+Q(right) becomes positive
+Q(left) becomes negative
+
+Now something interesting happens…
+
+---
+
+**Emerging Intelligence**
+
+The agent starts realizing:
+
+“Right is better than Left”
+
+No teacher.
+No labeled data.
+Only experience.
+
+---
+
+**Decision Phase**
+
+Now if we make the model greedy:
+
+action = max(Q, key=Q.get)
+
+It will always choose:
+
+Right
+
+---
+
+**Final Truth (MOST IMPORTANT)**
+
+Reinforcement Learning is NOT randomness.
+
+RL = interaction + reward + update
+
+Without update → no learning
+With feedback + update → intelligence
+
+---
+
+**Super Simple Line (Mic Drop)**
+
+The model is not told what is right.
+It discovers what is right.
+
+---
+
+**Outro**
+
+And this simple idea…
+is what powers everything from game-playing AI
+to ChatGPT training using PPO.
+
+In the next video,
+we’ll see how this small idea scales to Deep Q Networks and PPO.
+
+
+CELL 9 code
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Q Network
+class DQN(nn.Module):
+    def __init__(self, state_size, action_size):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_size, 128),
+            nn.ReLU(),
+            nn.Linear(128, action_size)
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+state_size = 4
+action_size = 2
+
+CELL 10 code
+model = DQN(state_size, action_size)
+target_model = DQN(state_size, action_size)
+
+# Copy weights from main model to target model
+target_model.load_state_dict(model.state_dict())
+
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+
+CELL 11 code
+# Dummy batch
+state = torch.randn(32, state_size)
+next_state = torch.randn(32, state_size)
+
+CELL 12 code
+reward = torch.randn(32)
+done = torch.randint(0, 2, (32,)).float()
+action = torch.randint(0, action_size, (32,))
+
+CELL 13 code
+# Predicted Q values for current state
+q_values = model(state)
+
+CELL 14 code
+# Pick Q-value of the action actually taken
+q_value = q_values.gather(1, action.unsqueeze(1)).squeeze(1)
+
+CELL 15 code
+# Compute target Q value
+with torch.no_grad():
+    next_q = target_model(next_state).max(1)[0]
+    target = reward + 0.99 * next_q * (1 - done)
+
+CELL 16 code
+# Compute loss
+loss = loss_fn(q_value, target)
+
+CELL 17 code
+# Update model weights
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()
+
+CELL 18 markdown
+No one explicitly tells the model:
+
+“Right is correct”
+
+Instead, it only gets signals like:
+
+Right → +1
+Left → -1
+
+The model learns on its own
+
+Random action → reward feedback
+
+CELL 19 code
+!pip install stable-baselines3
+
+CELL 20 code
+!pip install swig
+
+CELL 21 code
+!pip install "gymnasium[box2d]"
+
+CELL 22 code
+import gymnasium as gym
+from stable_baselines3 import PPO
+
+CELL 23 code
+# Create environment (real RL env)
+env = gym.make("CarRacing-v3", render_mode="human")
+
+CELL 24 code
+# Create RL model (agent)
+model = PPO(
+    "CnnPolicy",
+    env,
+    verbose=1,
+    learning_rate=0.0003,
+    n_steps=2048,
+    batch_size=64
+)
+
+CELL 25 code
+# Train agent
+model.learn(total_timesteps=100)
+
+CELL 26 code
+# Test agent
+obs, _ = env.reset()
+
+CELL 27 code
+for _ in range(1000):
+    action, _ = model.predict(obs)
+    obs, reward, done, truncated, info = env.step(action)
+
+    if done or truncated:
+        obs, _ = env.reset()
+
+CELL 28 markdown
+This code shows the core training step of DQN
+
+DQN uses a neural network instead of a Q-table
+
+The neural network takes the state as input
+
+The network outputs Q-values for all possible actions
+
+model is the main network that is being trained
+
+target_model is a separate network used to create stable targets
+
+target_model.load_state_dict(model.state_dict()) copies the main model weights into the target model
+
+The optimizer is used to update neural network weights
+
+The loss function measures how far the predicted Q-value is from the target Q-value
+
+state represents the current state
+
+next_state represents the next state after taking an action
+
+reward is the feedback received from the environment
+
+done tells whether the episode has ended or not
+
+action tells which action was actually taken
+
+q_values = model(state) predicts Q-values for all actions for each state in the batch
+
+gather(...) selects the Q-value of the action that was actually taken
+
+q_value represents the predicted value of the chosen action
+
+target_model(next_state) predicts Q-values for the next state
+
+.max(1)[0] selects the best possible future Q-value from the next state
+
+target = reward + 0.99 * next_q * (1 - done) computes the target using the
+Bellman equation
+
+If done = 1, future reward is ignored
+
+The loss compares the current predicted Q-value with the target Q-value
+
+optimizer.zero_grad() clears old gradients
+
+loss.backward() computes gradients
+
+optimizer.step() updates the network weights
+
+This is how the neural network gradually learns better Q-values
+
+In Q-learning, values are stored in a table
+
+In DQN, values are learned by a neural network
+
+This code is not the full DQN pipeline
+
+It only shows the core learning/update step
+
+Full DQN also includes replay buffer, epsilon-greedy exploration, environment
+interaction, and periodic target network updates

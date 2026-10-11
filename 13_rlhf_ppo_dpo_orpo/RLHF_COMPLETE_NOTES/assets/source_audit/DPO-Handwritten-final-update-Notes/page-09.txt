@@ -1,0 +1,63 @@
+What is DPO
+
+Direct Preference Optimization
+
++ Direct: The Language Model(SFT Model) is trained directly using preference data.
+
++ Preference: Which response the human considers better.
+
++ Optimization: Updating the probabilities of the model.
+
+DPO uses the same human preference data, but removes the separate Reward Model and PPO.
+
+Prompt: Question+Chosen Answer+Rejected Answer
+
+1
+
+Train the Language Model Directly
+
+1
+
+Probability of Chosen Answer t
+
+Probability of Rejected Answer |
+
+simple Example
+
+Prompt:
+
+What should | do if | have a fever?
+
+Human preference data:
+
+Chosen:
+
+Rest, stay hydrated, monitor your temperature,
+
+and contact a doctor if symptoms are severe.
+
+Rejected:
+
+Ignore it. Fever is never dangerous.
+
+DPO roughly teaches the model:
+
+P(Chosen Answer) T Increase
+
+P(Rejected Answer) | Decrease
+
+Therefore, instead of asking humans to write complete answers, researchers started collecting preference data.
+
+writing a perfect answer for every prompt using an expert could be:
+
++ Expensive
+
++ Slow
+
++ Difficult
+
+However, it is relatively easy for humans to compare two existing answers.
+
+One more option is Al-Generated Preference Data(This is also known as: Synthetic Preference Data)
+
+It can be useful when human labeling is expensive.

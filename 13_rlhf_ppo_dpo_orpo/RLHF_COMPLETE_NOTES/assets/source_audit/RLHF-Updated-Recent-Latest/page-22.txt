@@ -1,0 +1,57 @@
+Neural Ne
+
+rk entry
+
+DQN)
+
+Instead of creating a table: “We have a function(Neural Network) that predicts Q values”
+
+Q-table lookup[Q(s,a)] = Neural Network(s)
+
+Input: Image (state)
+
+Output: Q values for actions
+
+Input: Car camera image
+
+Outpae——_—
+
+Left = 21 —
+
+Right = 5.6
+
+Brake = 3.0 —
+
+Learning
+
+pan
+
+Stores table
+
+teams function
+
+Generaizes
+
+Memory heavy
+
+Exact values
+
+Approximate values
+
+= QNetwork
+
+Q-Value
+
+Gus
+
+Achon
+
+qrnese
+
+Ri2,8
+
+ok 84
+
+ae’
+
+Dan

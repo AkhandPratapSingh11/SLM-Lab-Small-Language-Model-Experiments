@@ -1,0 +1,81 @@
+DQN (Deep Q-Network) predicts a Q-value for every possible action and then selects the action with the highest Q-
+
+value.
+
+works very well with Discrete Action Space
+
+Actions:
+
+- Left ~~
+
+- Right
+
+- Jump ~
+
+- Shoot —
+
+DQN Output:
+
+Q(Left) =10 —
+
+Q(Right) = 50 ~
+
+QUump) = 20 ~%
+
+Q(Shoot) = 30
+
+The agent simply chooses the action with the highest Q-value (Right).
+
+Since there are only a few actions, the neural network only needs a few output nodes.
+
+Continuous Action Space
+
+In many real-world problems, actions are continuous rather than fixed.
+
+Example: Sel
+
+9 car steering angle
+
+o=
+
+0.19
+
+0.11
+
+one
+
+There are effectively infinitely many possible steering angles.
+
+Since DQN must estimate a Q-value for every possible action, it would need:
+
+Qo")
+
+Q(0.001°)
+
+240.002"
+
+for an
+
+ite number of actions.
+
+Thi
+
+is computationally impossible because the neural network cannot produce an infinite number of outputs.
+
+ppg = DGN
+
+DQN works well for discrete action spaces because the number of actions is finite. It struggles with continuous action
+
+spaces because it would need to estimate Q-values for infinitely many possible actions. Therefore, algorithms such as
+
+PPO, DDPG, TD3, and SAC are typically used for continuous control problems like robotics and self-driving cars.
+
+RL
+
+DON ae
+
+' f ee
+
+PPO asks:
+
+“How should | slightly adjust my behavior to get higher rewards?"

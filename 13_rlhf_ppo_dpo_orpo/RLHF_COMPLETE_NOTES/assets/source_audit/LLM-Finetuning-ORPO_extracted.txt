@@ -1,0 +1,568 @@
+Topics for the video
+21 August 2026   13:13
+
+
+
+
+First, we will understand the background of ORPO.
+Second, we will discuss what ORPO is and why it was introduced.
+Third, we will compare ORPO with techniques like DPO, PPO, and GRPO.
+Fourth, we will understand the mathematics behind ORPO in a simple way.
+Fifth, we will discuss the limitations of ORPO.
+finally, we will move to the practical implementation
+
+
+
+
+                         LLM-Finetuning-ORPO Page 1
+Quick Background of ORPO
+06 August 2026   13:14
+
+
+
+
+ • ORPO: Odd Ratio Preference optimization
+
+ • Research paper of ORPO: https://arxiv.org/pdf/2403.07691
+
+ • ORPO was introduced by Jiwoo Hong, Noah Lee, and James Thorne in 2024
+
+ • It was introduced in Korea Advanced Institute of Science and Technology(KAIST AI) it is a
+   research university in South Korea
+
+ • Jiwoo Hong currently: AI Engineer at LinkedIn
+ • James Thorne: faculty member at KAIST’s
+
+ • The ORPO paper first appeared on arXiv in March 2024 and was later published at EMNLP
+   2024.
+
+ • EMNLP stands for the Conference on Empirical Methods in Natural Language Processing. It is a
+   major international research conference in the fields of NLP and Large Language Models.
+
+ • EMNLP 2024 was held in Miami, USA, from November 12 to 16, 2024.
+
+ • The Main Conference acceptance rate approximately 20%, roughly one out of every five
+   submitted papers accepting.
+
+
+
+
+                         LLM-Finetuning-ORPO Page 2
+What is ORPO?
+06 August 2026   13:15
+
+
+
+
+Monolithic Preference Optimization technique without Reference Model
+
+ORPO is a single-stage preference optimization method
+
+monolithic preference optimization or Single Stage preference optimization method
+meaning is instruction learning and preference learning are integrated into one objective and in one training
+process.
+
+ORPO combines Supervised Fine-Tuning & Preference Alignment into a single training stage.
+
+Pretrained Model
+     ↓
+SFT Training + Preference Training - ORPO
+     ↓
+Instruction-Following and Preference-Aligned Model
+
+ORPO directly trains Pretrained Model using chosen and rejected responses.
+
+preference data for ORPO:
+Prompt | Chosen Response | Rejected Response
+
+It teaches the same model to:
+1. Learn the chosen response through normal SFT loss.
+2. Prefer the chosen response over the rejected response through an Odds Ratio loss.
+
+
+
+
+                         LLM-Finetuning-ORPO Page 3
+ORPO Training Flow
+Prompt + Chosen Response + Rejected Response
+            ↓
+       Single Policy Model
+            ↓
+   Calculate Chosen Response Probability
+            ↓
+   Calculate Rejected Response Probability
+            ↓
+   SFT Loss on the Chosen Response
+            +
+Odds Ratio Loss between Chosen and Rejected
+            ↓
+        Combined ORPO Loss
+            ↓
+       Update the Same Model
+
+ORPO does not require:
+• Separate Reward Model
+• Value/Critic Model
+• PPO or reinforcement learning
+• Frozen Reference Model
+
+
+
+
+ORPO: Research Results and Real-World Usage
+The original ORPO experiments trained several models, including:
+ • OPT models from 125M to 1.3B
+                 LLM-Finetuning-ORPO Page 4
+• OPT models from 125M to 1.3B
+• Phi-2 2.7B
+• Llama-2 7B
+• Mistral 7B
+• Researchers publicly released the Mistral-ORPO-Alpha and Mistral-ORPO-Beta checkpoints.
+• Publicly documented ORPO usage is currently seen mainly in:
+  ○ Open-source models
+  ○ Research models
+  ○ Domain-specific experiments
+  ○ custom or internal fine-tuning use cases
+
+• ORPO has also been used in actual projects and publicly released models, so it is not limited to the research
+  experiments.
+• A strong example is Hugging Face H4’s Zephyr-ORPO-141B-A35B. It was built from the Mixtral-8×22B base model
+  and aligned with ORPO to create a helpful assistant. According to its model card, it was trained on 7,000
+  preference examples using 32 H100 GPUs for approximately 1.3 hours.
+• ORPO has also been applied to large models and domain-specific applications:
+  ○ ORPO has been used in biomedical research, Pharma research , 32B web-navigation model(web navigation /
+     web-agent tasks).
+
+But For general commercial preference fine-tuning, DPO has stronger publicly available production evidence. For
+example, OpenAI’s Preference Fine-Tuning API officially uses DPO.
+
+
+
+
+                 LLM-Finetuning-ORPO Page 5
+Interview Question
+06 August 2026   13:16
+
+
+
+
+Why Were Preference Optimization Algorithms Like DPO and ORPO Introduced, and What Limitations
+of Standard SFT Do They Address?
+
+In normal SFT, the model is trained only on the correct or chosen response.
+Example:
+
+Prompt:
+How should I treat a mild fever?
+Target Response:
+Rest, stay hydrated, monitor your temperature,
+and contact a doctor if symptoms become severe.
+The SFT objective increases the probability of the target response.
+
+However, SFT does not explicitly tell the model:
+This response is preferred.
+This other response is rejected.
+The ORPO researchers observed that while SFT increases the probability of chosen responses, it may also
+increase the probability of rejected responses because both responses can contain similar language,
+tokens, topics and writing patterns.
+SFT has no direct mechanism for penalizing the rejected answer.
+ORPO solves this by adding a relatively small preference penalty to the standard SFT loss.
+
+
+
+
+                         LLM-Finetuning-ORPO Page 6
+Difference between RLHF(PPO) vs GRPO vs DPO vs ORPO
+
+
+
+Method Reward Model/Function               Critic Reference Model Multiple Generated Responses SFT Integrated
+PPO-RLHF                   yes               Yes              Yes          Yes - but not multiple          No
+GRPO     Reward function/model No separate Critic             Yes                            Yes           No
+DPO            No separate RM                No               Yes No online generation required            No
+ORPO           No separate RM                No               No No online generation required            Yes
+
+DPO: Remove Reward Model, Critic and PPO loop.
+
+DPO Simplified Preference Learning
+
+ORPO: Also remove the frozen Reference Model and merge SFT with preference optimization.
+
+However, DPO generally still uses:
+1. A model already trained through SFT (Policy Model )
+2. A trainable A frozen Reference Model
+3. A separate preference-optimization stage
+
+Pretrained Model
+    ↓
+Supervised Fine-Tuning
+    ↓
+DPO Preference Optimization
+
+ORPO asks: Can we perform supervised fine-tuning and preference alignment together, without using a Reference Model?
+The answer is yes.
+
+
+
+
+DPO → Policy Model + Reference Model
+ORPO → Policy Model only
+
+What Does “Reference-Model-Free” Mean?
+                 LLM-Finetuning-ORPO Page 7
+What Does “Reference-Model-Free” Mean?
+In DPO, two models are used:
+Policy Model → Trainable
+Reference Model → Frozen
+
+The Reference Model acts as a baseline and limits how far the Policy Model moves from its original behavior.
+
+A Reward Model does not directly provide a score; instead, the reward signal is automatically derived by comparing the
+probabilities of the Policy Model and the Reference Model.
+
+Chosen implicit reward high
+Rejected implicit reward low
+    ↓
+Loss low
+
+Rejected implicit reward high
+Chosen implicit reward low
+    ↓
+Loss high
+    ↓
+Model is corrected
+
+
+ORPO uses only one trainable Policy Model. It does not require an additional frozen Reference Model during preference
+training.
+
+Therefore, ORPO requires less memory and computation than DPO.
+
+ORPO does not use a Reward Model or a Reference Model. The preference signal is derived by comparing the odds of
+chosen and rejected responses from the same Policy Model, while SFT loss trains the chosen response.
+
+Chosen odds high
+Rejected odds low
+    ↓
+OR loss low
+
+Rejected odds high
+Chosen odds low
+    ↓
+OR loss high
+    ↓
+Model is corrected
+
+
+
+
+                 LLM-Finetuning-ORPO Page 8
+In the current industry and open-source ecosystem, DPO is the most widely used and safest for preference tuning.
+For reasoning models, GRPO/GSPO/RLVR are more relevant and rapidly growing techniques.
+ORPO is conceptually simple, but its adoption is significantly behind DPO.
+
+Rank Technique              Real-world position
+1    DPO                    Most common offline pairwise preference tuning
+2    GRPO/RLVR/GSPO         Very popular for reasoning and verifiable tasks
+3    PPO-based RLHF         Still important in advanced and hybrid frontier pipelines
+4    KTO/SimPO and variants Used for specific data or training requirements
+5    ORPO                   Simple and reference-free, but comparatively behind
+
+Companies such as Meta, Alibaba, Microsoft, Mistral AI and Hugging Face have publicly used DPO in the post -training of
+models such as Llama 3, Qwen2.5-VL, Phi-3, Mixtral Instruct and Zephyr.
+
+Organization               Model                 How DPO was used
+Meta                       Llama 3.1 / Llama 3.2 Post-training used multiple rounds of SFT + Rejection Sampling + DPO. (Meta
+                           Instruct              AI)
+Alibaba Cloud –            Qwen2.5-VL            Used offline DPO for preference alignment, followed by online GRPO.
+Qwen Team                                        (Qwen)
+Microsoft                  Phi-3-mini / Phi-3.5- Post-training included SFT followed by DPO for chat, reasoning, safety and
+                           Vision                multimodal alignment. (arXiv)
+Mistral AI                 Mixtral 8×7B Instruct Optimized through SFT and DPO for better instruction following. (Mistral AI)
+Hugging Face H4            Zephyr-7B-beta        Mistral-7B was fine-tuned using preference data with DPO. (Hugging Face)
+
+
+
+
+                  LLM-Finetuning-ORPO Page 9
+LLM-Finetuning-ORPO Page 10
+ Mathematics Behind the ORPO
+ 06 August 2026   13:18
+
+
+
+
+ Question: What is 2 + 2?
+
+ Two answers were given:
+ Chosen answer: 4
+ Rejected answer: 5
+
+ ORPO teaches the model two things:
+ Learn to write the correct answer “4”
+ Understand that “4” is better than “5”
+
+ That is why:
+
+ In ORPO, the SFT loss teaches the model to generate the chosen answer, while the Odds Ratio loss teaches
+ it to rank the chosen answer higher than the rejected answer.
+
+
+
+•     : Teaches the model to generate the chosen response.
+•    : Teaches the model to prefer the chosen response over the rejected response.
+• : Controls how much importance is given to the preference loss.
+     controls how much importance preference learning receives.
+
+  • Chosen score higher → OR loss small
+  • Rejected score higher → OR loss large
+
+
+
+
+ Probability is converted into odds:
+
+
+
+
+ Loss is small → the model is performing well
+ Loss is large → the model is performing incorrectly
+
+
+
+
+                          LLM-Finetuning-ORPO Page 11
+Part 1: What does SFT Loss do?
+SFT tells the model: “Learn to generate the chosen answer.”
+
+Suppose the model assigns these scores:
+
+
+
+This means the model assigns a 75% score to the chosen answer and a 25% score to the rejected answer.
+
+SFT loss:
+
+
+
+The probability of the chosen answer is good.
+
+Remember only this:
+Chosen probability high → SFT loss low
+Chosen probability low → SFT loss high
+
+SFT loss teaches the model to write the chosen answer.
+
+Part 2: What are Odds?
+This is the most confusing part. But It is very simple.
+
+Probability:
+
+This means:
+Chance of the answer occurring = 75
+Chance of the answer not occurring = 25
+
+Odds ask:
+“How much greater is the chance of occurring than the chance of not occurring?”
+Formula:
+
+
+
+Chosen answer odds:
+
+
+
+
+                  LLM-Finetuning-ORPO Page 12
+This means: The odds of the chosen answer are 3:1.
+
+Rejected answer odds:
+
+
+
+
+This means the rejected answer has a much lower score.
+
+Part 3: Comparing the Chosen and Rejected Answers
+Now ORPO asks: How much greater are the odds of the chosen answer than the odds of the rejected
+answer?
+
+
+
+
+This means: The odds of the chosen response are 9 times the odds of the rejected response.
+
+Remember: this does not mean the probability is 9 times greater. It is the ratio of the odds.
+
+Part 4: Why do we apply Log?
+Instead of directly using the large ratio, ORPO takes its log:
+
+
+
+The simple purpose of log:
+Convert large ratios into manageable numbers.
+Log also converts division into subtraction:
+
+
+
+
+Therefore, we write:
+
+
+
+
+Then:
+
+
+
+In our example:
+
+
+
+Meaning of Delta:
+
+                  LLM-Finetuning-ORPO Page 13
+Meaning of Delta:
+Delta positive → chosen is better
+Delta zero → both are equal
+Delta negative → rejected is better
+
+Part 5: What does Sigmoid do?
+Now we have:
+
+
+
+Sigmoid converts any number into a value between 0 and 1:
+
+
+
+
+Think of sigmoid as a judge meter:
+Value close to 1 → chosen is strongly better
+Value 0.5 → both are equal
+Value close to 0 → rejected is better
+In our example:
+This means the ORPO objective strongly prefers the chosen answer.
+It is not necessary to call this calibrated real-world confidence; it is better to understand it as a preference
+score.
+
+Part 6: What does OR Loss do?
+OR loss:
+
+
+In our example, the sigmoid value was 0.9:
+
+
+
+
+The loss is small because the model is correctly ranking the chosen answer above the rejected answer.
+
+Simple rule of negative log:
+Sigmoid close to 1 → loss close to 0
+Sigmoid close to 0 → loss becomes very large
+
+This means:
+Small punishment for correct ranking, large punishment for wrong ranking.
+
+Part 7: Final ORPO Loss
+Now we combine both losses:
+
+
+
+We have:
+
+
+
+
+                  LLM-Finetuning-ORPO Page 14
+Suppose:
+
+
+
+Then:
+
+
+
+
+What does Lambda do?
+Think of as a volume button.
+
+
+
+Lambda small → more focus on generating the chosen answer
+Lambda large → more focus on comparing the chosen and rejected answers
+Lambda decides how loud the preference-learning signal will be.
+
+What happens if the model ranks them differently?
+Now suppose the values are reversed:
+
+
+
+
+Now the rejected answer receives the higher score.
+Chosen odds:
+
+
+
+Rejected odds:
+
+
+
+Odds ratio:
+
+
+
+
+Log:
+
+
+
+
+Sigmoid:
+
+
+
+OR loss:
+
+
+
+
+                 LLM-Finetuning-ORPO Page 15
+OR loss:
+
+
+
+Now the loss is very large.
+This means the model will receive a strong correction:
+“You ranked the rejected answer as better. Correct it.”
+
+
+
+
+                 LLM-Finetuning-ORPO Page 16
+Benefit and Limitations of ORPO
+06 August 2026   13:17
+
+
+Top 5 Major Benefits of ORPO
+1. No Separate Reward Model
+2. No PPO or Reinforcement Learning Loop
+3. No Frozen Reference Model
+4. Single Training Stage
+5. Lower Memory Requirement Than DPO
+
+
+Top 5 Important Limitations of ORPO
+1. Not Validated Beyond 7B in the Original Paper
+2. Limited Comparison with Other Preference-Optimization Methods
+3. Limited Domain and Dataset Generalization Evidence
+4. Sensitive to Noisy or Low-Quality Preference Data
+5. SimPO: Simple Preference Optimization with a Reference-Free Reward
+   Not Consistently Better Than Newer Methods such as SimPO
+     https://arxiv.org/html/2405.14734v1
+
+
+
+
+                                  LLM-Finetuning-ORPO Page 17
+

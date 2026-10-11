@@ -1,0 +1,19 @@
+Topics for the video
+
+21 August 2026
+
+13:13
+
+First, we will understand the background of ORPO.
+
+Second, we will discuss what ORPO is and why it was introduced.
+
+Third, we will compare ORPO with techniques like DPO, PPO, and GRPO.
+
+Fourth, we will understand the mathematics behind ORPO in a simple way
+
+Fifth, we will discuss the limitations of ORPO.
+
+finally, we will move to the practical implementation
+
+LLM-Finetuning-ORPO Page |

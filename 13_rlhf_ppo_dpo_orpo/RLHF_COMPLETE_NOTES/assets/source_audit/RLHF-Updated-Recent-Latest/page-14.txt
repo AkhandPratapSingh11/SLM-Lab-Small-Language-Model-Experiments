@@ -1,0 +1,85 @@
+Difference between Deep Learning and Reinforcement Learning(Deep RL)
+
+Classical RL
+
+Concept
+
+Deep Learning (DL)
+
+Deep Reinforcement Learning (Deep RL)
+
+Input
+
+State (discrete)
+
+Input data (image, text, etc.) State (high-dimensional, continuous)
+
+Action
+
+Prediction
+
+Action
+
+Output
+
+Core Idea
+
+Qtable / Policy table
+
+‘Neural network learning
+
+RL + Neural Network
+
+Feedback Signal
+
+Reward
+
+Loss
+
+Reward-based loss
+
+Objective
+
+Maximize cumulative reward
+
+Minimize loss
+
+Maximize reward
+
+Learning Type
+
+Trial & Error
+
+Supervised / Unsupervised Trial & Error + NN
+
+Representation
+
+Tabular (Q-table)
+
+Neural Network
+
+Neural Network (Q(s,a), Policy)
+
+Training Process
+
+Update Q-table
+
+Forward -> Loss -> Backprop Forward -> Reward -> Loss -> Backprop
+
+Algorithms
+
+Qlearning, SARSA
+
+CNN, RNN, Transformers
+
+DQN, PPO
+
+Data Requirement Environment interaction
+
+Dataset (labeled/unlabeled) Environment interaction
+
+Use Case
+
+‘Simple games, small problems Vision, NLP
+
+Robotics, Games, LLM alignment

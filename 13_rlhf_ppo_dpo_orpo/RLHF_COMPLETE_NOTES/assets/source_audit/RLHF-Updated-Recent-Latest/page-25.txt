@@ -1,0 +1,223 @@
+DQN (Deep Q-! — Example - Step by Step
+
+OQ sep
+
+1h pre
+
+© sie 3: 00
+
+inpue 3;
+
+0
+
+eto
+
+‘ation
+
+ats,
+
+210) AB Rena
+
+se
+
+tw
+
+em
+
+2) he
+
+ioe
+
+ny
+
+un
+
+Doe hob Rite
+
+>:
+
+> te
+
+to»
+
+ply tr
+
+Ty
+
+ON need oes
+
+a)
+
+Gt
+
+$00
+
+(5, Ro
+
+so
+
+wat
+
+sive
+
+ret
+
+ar
+
+ad)
+
+vale of tal
+
+tacton
+
+} Robot choo
+
+n= Right
+
+ine
+
+"
+
+6: Tag
+
+front pedi
+
+‘ation
+
+Input 5
+
+Com)
+
+Input
+
+ward +» Be Fr oe
+
+cur
+
+ut
+
++ ue
+
+wou
+
+5 +09%6
+
+ass,
+
+Pred
+
+na
+
+vs
+
+roe
+
+> one
+
+> Rae
+
+s4
+
+tw
+
+tw
+
+10.4
+
+$ Dom
+
++ bo
+
+ein The corect ae king
+
+Error
+
+dea
+
+arnt Prediction
+
+© Pan scr sates UR oR
+
+(Underestimateo)
+
+Cre
+
+seprosimately 10.4
+
+bo
+
+seat
+
+rye
+
+© S10 10: oer
+
+ator
+
+on
+
+(at
+
+—
+
+rg
+
+fwriay
+
+Target Prado?
+
+en
+
+dete
+
+eten
+
+a5.)
+
+‘en
+
+Ee
+
+sam)
+
+4-4)
+
+eet pate
+
+un
+
+lt
+
+ut
+
+ue
+
+104
+
+> ne
+
+> hoe
+
+age
+
+ne
+
+joa*
+
+(Corect vate
+
+0.9
+
+ofS
+
+r
+
+ow
+
+ow
+
+w
+
+te coe
+
+=

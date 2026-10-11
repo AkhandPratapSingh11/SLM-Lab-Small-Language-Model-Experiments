@@ -1,0 +1,9 @@
+flowchart LR
+    S["State: prompt plus generated prefix"] --> P["Agent policy: LLM next-token distribution"]
+    P --> A["Action: sampled next token"]
+    A --> E["Transition: append token to prefix"]
+    E --> S
+    E --> T{"EOS or stopping condition?"}
+    T -->|Yes| R["Sequence reward plus possible token shaping"]
+    R --> U["Estimate advantages and update policy"]
+    U --> P

@@ -1,0 +1,149 @@
+e-
+
+wy,
+
+w,
+
+(input
+
+w,
+
+_|
+
+f
+
+vy
+
+(Activation function)
+
+ia
+
+x)
+
+Q Posvvens < tabulay
+
+a
+
+ef
+
+Deep RL =
+
+RL + neural networks
+
+Deep Learning learns patterns from data using neural networks, Reinforcement Learning learns optimal actions using
+
+reward signals and Deep Reinforcement Learning combines both To solve complex decision-making problems using
+
+neural networks.
+
+Deep RL ~ RL powered by neural networks
+
+AlphaGo (Google)
+
+Se.) — tebe
+
+ChatGPT (Open Al)
+
+~ eG)
+
+iC)
+
+Del | Roma | Realebly
+
+Bw
+
+“A
+
+Concept
+
+Supervised Le
+
+ning
+
+Re
+
+jeinforcement Learniny
+
+Data
+
+Labeled data
+
+No labels
+
+Feedback
+
+co
+
+Immediate (correct/incorrect) Delayed reward
+
+Goal
+
+Predict correct output
+
+Maximize reward _
+
+Learning Style Direct learning
+
+Trial & Error
+
+Example
+
+=
+
+Image classification
+
+Game playing / ChatGPT alignment
+
+7
+
+\&
+
+Supervised Learning = Teacher present
+
+RL
+
+No teacher, only reward system
+
+te
+
+oP
+
+YW wld
+
+a
+
+Pe Actus
+
+orhmizey
+
+dew }]
+
+Be
+
+|
+
+What is “learning” in RL
+
+‘orget theory. Think like this:
+
+Learning = changing behaviour based on feedback
+
+What actually Changes?
+
+In ML/ DL: Learning = updating parameters (weights)
+
+In RL
+
+\
+
+Model has: Policy n(a | s)
+
+Meanin
+
+Probability of taking action
+
+Learning = change this probability:
+
+Good action= probability 1
+
+Bad action + probability |

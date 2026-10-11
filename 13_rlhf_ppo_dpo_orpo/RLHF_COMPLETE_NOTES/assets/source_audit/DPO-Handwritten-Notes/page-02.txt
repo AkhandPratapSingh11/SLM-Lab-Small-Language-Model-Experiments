@@ -1,0 +1,47 @@
+‘irst Stage: Pretraining
+
+A LLM is pretrained on a very large amount of internet data.
+
+Therefore, it has a lot of knowledge, but its behavior may not always as human expectations.
+
+Example
+
+Prompt: “Explain gravity to a 10-year-old.”
+
+The model generates two answers:
+
++ Answer A: Simple, clear, and correct
+
++ Answer B: Very technical, confusing, and unnecessarily long
+
+Then human:
+
+Chosen answer
+
+=A
+
+Rejected answer = B
+
+So, we want to teach the model that, in the future, it should increase the probability of answers like A and decrease
+
+the probability of answers like B.
+
+Second Stage: Supervised Fine-Tuning — SFT
+
+pre-trained language model is trained using Supervised Fine-Tuning.
+
+In SFT, the model is trained on high-quality prompt-and-answer(I/O).
+
+Example
+
+Prompt: “Explain gravity to a 10-year-old.”
+
+Target answer: Gravity is a force that pulls objects toward each other. It is the reason why things fall toward the
+
+ground.
+
+The model becomes better at following instructions.
+
+However, SFT usually provides only one good answer.
+
+It does not explicitly teach the model why one response is better than another response.

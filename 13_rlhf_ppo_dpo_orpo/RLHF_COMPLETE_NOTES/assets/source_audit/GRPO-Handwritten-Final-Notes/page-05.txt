@@ -1,0 +1,31 @@
+Simple flow for GRPO:
+
+(Fomor!
+
+(Generate multiple Tesponses|
+
+> RS[LRI
+
+\'Score each response
+
+\
+
+Compare responses inside the group
+
+Ce Grae 7}
+
+T
+
+Increase probability of better responses
+
+T
+
+Decrease probability of weaker responses
+
+So GRPO asks:
+
+“Which answer is better compared to other answers for the same question?”
+
+Instead of PPO-style:
+
+“Was this answer better than what thi (value model dixpected?”

@@ -1,0 +1,37 @@
+Meaning of each symbol in the equation
+
+‘symbol
+
+Meaning
+
+2
+
+Prompt
+
+ve
+
+CChosen/preferred response
+
+uw
+
+Rejected response
+
+™
+
+Trainable policy model
+
+Tet
+
+Frozen reference model
+
+Reference constraint/preference strength control
+
+‘Sigmoid, which converts the score into a probability between O and 1
+
+loga(y | 2)
+
+Log probability of response y given prompt
+
+Average over al
+
+-xamples in the dataset

@@ -1,0 +1,8 @@
+{
+  "ppo_positive_clip": 2.4,
+  "ppo_negative_clip": -1.6,
+  "dpo_zero_margin": 0.6931471805599453,
+  "orpo_example_total": 0.29821812401756354,
+  "gae_example_first": 0.575,
+  "grpo_equal_group_advantage": 0
+}

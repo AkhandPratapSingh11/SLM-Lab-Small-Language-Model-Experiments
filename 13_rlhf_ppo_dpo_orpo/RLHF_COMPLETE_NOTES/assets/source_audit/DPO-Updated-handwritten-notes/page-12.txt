@@ -1,0 +1,41 @@
+Chosen score
+
+= Policy chosen log-prob ~ Reference chosen log-prob
+
+Rejected score
+
+= Policy rejected log-prob ~ Reference rejected log-prob
+
+Phir:
+
+DPO Goal:
+
+Chosen score > Rejected score
+
+Tew 1x)
+
+pl ENED)
+
+on 1x)
+
+Lopo = — logo le (18
+
+Trot Yw | 2)
+
+Tret(¥e 1 2),
+
+)
+
+DPO compares how much the policy model promotes the chosen response and the rejected response relative to a
+
+frozen reference model, and trains the policy so that the chosen response receives the higher relative likelihood.
+
+Reward values themselves are not unique; only the reward difference between chosen and rejected responses
+
+matters. DPO represents reward as Blog
+
+(n_O/nt_"ref" ). Therefore, the Language Model's relative probabilities act
+
+as an implicit Reward Model. This allows DPO to optimize preferences directly without a separate Reward Model,
+
+Critic, or PPO training loop.

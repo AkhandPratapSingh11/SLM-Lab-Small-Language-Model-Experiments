@@ -1,0 +1,45 @@
+{
+  "records": 20,
+  "schema": {
+    "prompt": [
+      "str"
+    ],
+    "chosen": [
+      "str"
+    ],
+    "rejected": [
+      "str"
+    ]
+  },
+  "invalid_json": 0,
+  "missing_fields": 0,
+  "blank_values": 0,
+  "identical_pairs": 0,
+  "duplicate_records": 0,
+  "duplicate_prompts": 0,
+  "prompt": {
+    "characters_min": 11,
+    "characters_max": 54,
+    "characters_mean": 33.8,
+    "whitespace_words_min": 3,
+    "whitespace_words_max": 9,
+    "whitespace_words_mean": 6.1
+  },
+  "chosen": {
+    "characters_min": 75,
+    "characters_max": 131,
+    "characters_mean": 96.75,
+    "whitespace_words_min": 10,
+    "whitespace_words_max": 19,
+    "whitespace_words_mean": 14.2
+  },
+  "rejected": {
+    "characters_min": 32,
+    "characters_max": 76,
+    "characters_mean": 58.1,
+    "whitespace_words_min": 7,
+    "whitespace_words_max": 13,
+    "whitespace_words_mean": 8.8
+  },
+  "chosen_longer_in_characters": 20
+}

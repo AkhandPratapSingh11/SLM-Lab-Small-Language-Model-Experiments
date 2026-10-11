@@ -1,0 +1,15 @@
+flowchart LR
+    X["Prompt and generated prefix"] --> P["Policy: trainable token distribution"]
+    P --> Y["Sampled response"]
+    X --> V["Critic: trainable expected return"]
+    Y --> R["Frozen reward model: response score"]
+    Y --> F["Frozen reference: token log probabilities"]
+    P --> L["Policy log probabilities"]
+    L --> K["KL shaping relative to reference"]
+    F --> K
+    K --> A["Returns and advantages"]
+    R --> A
+    V --> A
+    A --> U["Actor and critic losses"]
+    U --> P
+    U --> V

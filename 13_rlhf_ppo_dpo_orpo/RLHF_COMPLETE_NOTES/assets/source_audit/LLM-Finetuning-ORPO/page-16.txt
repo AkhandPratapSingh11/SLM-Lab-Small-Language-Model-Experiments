@@ -1,0 +1,17 @@
+Un uss:
+
+—log(0.1) ~
+
+Go
+
+=
+
+=
+
+Now the loss is very large.
+
+This means the model will receive a strong correction:
+
+“You ranked the rejected answer as better. Correct it.”
+
+sting OPO Pape

@@ -1,0 +1,512 @@
+
+CELL 1 code
+# =========================================================
+# 0) INSTALLS
+# =========================================================
+!pip install -U "transformers>=4.46.0" "datasets>=3.0.0" "accelerate>=1.0.0" "trl>=1.0.0" "peft>=0.13.0" "bitsandbytes>=0.44.0"
+
+CELL 2 code
+# =========================================================
+# 1) IMPORTS
+# =========================================================
+import os
+import gc
+import random
+import torch
+import trl
+
+from datasets import Dataset
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    AutoModelForSequenceClassification,
+)
+
+from trl import RewardTrainer, RewardConfig
+from trl.experimental.ppo import PPOTrainer, PPOConfig
+
+print("TRL version:", trl.__version__)
+print("CUDA available:", torch.cuda.is_available())
+
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))
+
+CELL 3 code
+# =========================================================
+# 2) GLOBAL SETTINGS
+# =========================================================
+
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+
+SEED = 42
+random.seed(SEED)
+torch.manual_seed(SEED)
+
+if torch.cuda.is_available():
+    torch.cuda.manual_seed_all(SEED)
+
+dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+
+def clear_memory():
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+clear_memory()
+
+CELL 4 code
+# =========================================================
+# 3) MODEL NAME
+# =========================================================
+
+# model_name = "Qwen/Qwen2.5-0.5B-Instruct"
+
+model_name = "HuggingFaceTB/SmolLM2-135M-Instruct"
+
+CELL 5 code
+# =========================================================
+# 4) REWARD MODEL TOKENIZER
+# =========================================================
+
+tok_rm = AutoTokenizer.from_pretrained(model_name)
+
+if tok_rm.pad_token is None:
+    tok_rm.pad_token = tok_rm.eos_token
+
+tok_rm.padding_side = "right"
+
+CELL 6 code
+# # -----------------------------
+# # Read data from JSONL file
+# # -----------------------------
+# import json
+# from datasets import Dataset
+
+# loaded_reward_data = []
+# reward_file_path = "/content/reward_preferences_dataset.jsonl"
+
+# with open(reward_file_path, "r", encoding="utf-8") as f:
+#     for line in f:
+#         loaded_reward_data.append(json.loads(line))
+
+# raw_reward_ds = Dataset.from_list(loaded_reward_data)
+
+# print("Total reward rows loaded:", len(raw_reward_ds))
+# print("Raw sample:")
+# print(raw_reward_ds[0])
+
+CELL 7 code
+# # -----------------------------
+# # Convert raw data into RewardTrainer format
+# # -----------------------------
+# def make_chat_prompt(user_prompt):
+#     messages = [
+#         {"role": "user", "content": user_prompt}
+#     ]
+
+#     return tok_rm.apply_chat_template(
+#         messages,
+#         tokenize=False,
+#         add_generation_prompt=True,
+#     )
+
+# def make_reward_example(example):
+#     return {
+#         "prompt": make_chat_prompt(example["prompt"]),
+#         "chosen": example["chosen"] + tok_rm.eos_token,
+#         "rejected": example["rejected"] + tok_rm.eos_token,
+#     }
+
+# reward_ds = raw_reward_ds.map(
+#     make_reward_example,
+#     remove_columns=raw_reward_ds.column_names,
+# )
+
+# print("Final RewardTrainer dataset sample:")
+# print(reward_ds[0])
+
+CELL 8 code
+# =========================================================
+# 5) REWARD DATASET
+# =========================================================
+# We create explicit preference format:
+# prompt + chosen
+# prompt + rejected
+
+raw_reward_data = [
+    {
+        "prompt": "How should I prepare for exams?",
+        "chosen": "Make a schedule, revise daily, practice previous questions, and sleep well.",
+        "rejected": "Do nothing and panic at the end.",
+    },
+    {
+        "prompt": "How do I improve fitness?",
+        "chosen": "Exercise consistently, eat balanced meals, hydrate well, and recover properly.",
+        "rejected": "Starve yourself, skip sleep, and exercise randomly.",
+    },
+    {
+        "prompt": "What is AI?",
+        "chosen": "AI is the ability of machines to perform tasks that usually require human intelligence.",
+        "rejected": "AI is random magic with no real meaning.",
+    },
+    {
+        "prompt": "How can I improve my teaching skills?",
+        "chosen": "Explain concepts step by step, use examples, ask questions, and summarize key points clearly.",
+        "rejected": "Speak fast, ignore students, and make the topic unnecessarily complicated.",
+    },
+]
+
+def make_chat_prompt(user_prompt):
+    messages = [
+        {"role": "user", "content": user_prompt}
+    ]
+
+    return tok_rm.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+
+def make_reward_example(example):
+    return {
+        "prompt": make_chat_prompt(example["prompt"]),
+        "chosen": example["chosen"] + tok_rm.eos_token,
+        "rejected": example["rejected"] + tok_rm.eos_token,
+    }
+
+reward_data = [make_reward_example(x) for x in raw_reward_data]
+reward_ds = Dataset.from_list(reward_data)
+
+print("Reward dataset sample:")
+print(reward_ds[0])
+
+CELL 9 code
+# =========================================================
+# 6) LOAD REWARD MODEL
+# =========================================================
+
+rm = AutoModelForSequenceClassification.from_pretrained(
+    model_name,
+    num_labels=1,
+    torch_dtype=dtype,
+)
+
+rm.config.pad_token_id = tok_rm.pad_token_id
+rm.config.use_cache = False
+
+if hasattr(rm, "gradient_checkpointing_enable"):
+    rm.gradient_checkpointing_enable()
+
+CELL 10 code
+# 7) REWARD TRAINING CONFIG
+# =========================================================
+
+rm_args = RewardConfig(
+    output_dir="./rm_out",
+
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+
+    num_train_epochs=1,
+    learning_rate=1e-5,
+
+    logging_steps=1,
+    eval_strategy="no",
+    save_strategy="no",
+    report_to="none",
+
+    fp16=False,
+    bf16=False,
+
+    max_length=256,
+    gradient_checkpointing=True,
+    remove_unused_columns=False,
+)
+
+CELL 11 code
+# =========================================================
+# 8) TRAIN REWARD MODEL
+# =========================================================
+
+rm_trainer = RewardTrainer(
+    model=rm,
+    args=rm_args,
+    processing_class=tok_rm,
+    train_dataset=reward_ds,
+)
+
+print("=== Training Reward Model ===")
+rm_trainer.train()
+
+rm_trainer.save_model("./rm_out")
+tok_rm.save_pretrained("./rm_out")
+
+print("Reward Model saved at ./rm_out")
+
+CELL 12 code
+# =========================================================
+# 9) CLEAR MEMORY BEFORE PPO
+# =========================================================
+
+del rm
+del rm_trainer
+del tok_rm
+clear_memory()
+
+CELL 13 code
+# =========================================================
+# 10) PPO TOKENIZER
+# =========================================================
+
+tok = AutoTokenizer.from_pretrained(model_name)
+
+if tok.pad_token is None:
+    tok.pad_token = tok.eos_token
+
+tok.padding_side = "left"
+
+CELL 14 code
+# =========================================================
+# 11) LOAD PPO MODELS
+# =========================================================
+
+# Policy model - this model will be updated by PPO
+policy = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=dtype,
+)
+
+policy.config.pad_token_id = tok.pad_token_id
+policy.config.use_cache = False
+
+if hasattr(policy, "gradient_checkpointing_enable"):
+    policy.gradient_checkpointing_enable()
+
+if hasattr(policy, "enable_input_require_grads"):
+    policy.enable_input_require_grads()
+
+# Reference model - fixed copy for KL penalty
+ref_model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=dtype,
+)
+
+ref_model.config.pad_token_id = tok.pad_token_id
+ref_model.config.use_cache = False
+ref_model.eval()
+
+for param in ref_model.parameters():
+    param.requires_grad_(False)
+
+CELL 15 code
+# Reward model - trained above, fixed during PPO
+reward_model = AutoModelForSequenceClassification.from_pretrained(
+    "./rm_out",
+    num_labels=1,
+    torch_dtype=dtype,
+)
+
+reward_model.config.pad_token_id = tok.pad_token_id
+reward_model.config.use_cache = False
+reward_model.eval()
+
+for param in reward_model.parameters():
+    param.requires_grad_(False)
+
+CELL 16 code
+# Value model - trainable value head for PPO
+value_model = AutoModelForSequenceClassification.from_pretrained(
+    "./rm_out",
+    num_labels=1,
+    torch_dtype=dtype,
+)
+
+value_model.config.pad_token_id = tok.pad_token_id
+value_model.config.use_cache = False
+
+if hasattr(value_model, "gradient_checkpointing_enable"):
+    value_model.gradient_checkpointing_enable()
+
+clear_memory()
+
+
+CELL 17 code
+# =========================================================
+# 12) PPO PROMPT DATASET
+# =========================================================
+
+prompt_ds = Dataset.from_list([
+    {"prompt": "How should I prepare for exams?"},
+    {"prompt": "How do I improve fitness?"},
+    {"prompt": "What is AI?"},
+    {"prompt": "How can I improve my teaching skills?"},
+])
+
+def make_ppo_prompt(user_prompt):
+    messages = [
+        {"role": "user", "content": user_prompt}
+    ]
+
+    return tok.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+
+def tokenize_for_ppo(example):
+    prompt_text = make_ppo_prompt(example["prompt"])
+
+    encoded = tok(
+        prompt_text,
+        padding=False,
+        truncation=True,
+        max_length=128,
+    )
+
+    return {
+        "input_ids": encoded["input_ids"],
+        "length": len(encoded["input_ids"]),
+    }
+
+ppo_train_dataset = prompt_ds.map(
+    tokenize_for_ppo,
+    remove_columns=prompt_ds.column_names,
+)
+
+ppo_train_dataset = ppo_train_dataset.filter(lambda x: x["length"] <= 128)
+
+print("PPO dataset sample:")
+print(ppo_train_dataset[0])
+
+CELL 18 code
+#=========================================================
+# 13) PPO CONFIG
+# =========================================================
+
+ppo_args = PPOConfig(
+    output_dir="./ppo_out",
+
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=1,
+
+    learning_rate=1e-6,
+
+    num_mini_batches=1,
+    num_ppo_epochs=1,
+
+    total_episodes=6,
+    response_length=16,
+
+    logging_steps=1,
+    save_strategy="no",
+    report_to="none",
+
+    fp16=False,
+    bf16=False,
+
+    gradient_checkpointing=True,
+    remove_unused_columns=False,
+
+    seed=SEED,
+)
+
+
+CELL 19 code
+# =========================================================
+# 14) PPO TRAINER
+# =========================================================
+
+ppo_trainer = PPOTrainer(
+    args=ppo_args,
+    processing_class=tok,
+    model=policy,
+    ref_model=ref_model,
+    reward_model=reward_model,
+    value_model=value_model,
+    train_dataset=ppo_train_dataset,
+)
+
+print("PPOTrainer initialized successfully!")
+
+
+CELL 20 code
+# =========================================================
+# 15) TRAIN PPO
+# =========================================================
+
+print("=== Training Policy with PPO ===")
+ppo_trainer.train()
+
+CELL 21 code
+# =========================================================
+# 16) SAVE FINAL PPO POLICY MODEL
+# =========================================================
+
+ppo_trainer.save_model("./ppo_out")
+tok.save_pretrained("./ppo_out")
+
+print("Training completed and final policy model saved to ./ppo_out")
+
+
+CELL 22 code
+# =========================================================
+# 17) INFERENCE FROM FINAL PPO MODEL
+# =========================================================
+
+clear_memory()
+
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+final_model_path = "./ppo_out"
+
+infer_tok = AutoTokenizer.from_pretrained(final_model_path)
+
+if infer_tok.pad_token is None:
+    infer_tok.pad_token = infer_tok.eos_token
+
+infer_tok.padding_side = "left"
+
+infer_model = AutoModelForCausalLM.from_pretrained(
+    final_model_path,
+    torch_dtype=dtype,
+    device_map="auto" if torch.cuda.is_available() else None,
+)
+
+infer_model.eval()
+
+test_prompt = "How should I prepare for exams?"
+
+messages = [
+    {"role": "user", "content": test_prompt}
+]
+
+formatted_prompt = infer_tok.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True,
+)
+
+inputs = infer_tok(
+    formatted_prompt,
+    return_tensors="pt",
+    padding=True,
+    truncation=True,
+).to(infer_model.device)
+
+with torch.no_grad():
+    generated_ids = infer_model.generate(
+        **inputs,
+        max_new_tokens=80,
+        do_sample=True,
+        temperature=0.7,
+        top_p=0.9,
+        pad_token_id=infer_tok.pad_token_id,
+        eos_token_id=infer_tok.eos_token_id,
+    )
+
+output = infer_tok.decode(generated_ids[0], skip_special_tokens=True)
+
+print("=== Final Model Output ===")
+print(output)
+
+CELL 23 code

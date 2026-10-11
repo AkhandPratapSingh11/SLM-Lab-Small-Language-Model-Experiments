@@ -1,0 +1,63 @@
+Q-Table Explosion Problem
+
+For small problems, Q-learning works fine:
+
+Q=
+
+“left": 0, —
+
+"right": 0 ~
+
+}
+
+This is manageable.
+
+Now think:
+
+F
+
+State
+
+image (car camera)
+
+a
+
+“mage (car camera)
+
+1 image = 1000 x 1000 pixels
+
+Possible states
+
+illions
+
+Q-table issue
+
++ A row is needed for every state
+
++ A.column is needed for every action
+
+Impossible to store
+
+al
+
+a2
+
+a3
+
+a4
+
+{o op
+
+sl
+
+isi) Jas
+
+fais 2] ais. 24)
+
+S2_|asszen
+
+3} (52,04)
+
+S3_[erssan [aissar frss, asf 153,04
+
+dJ Lh

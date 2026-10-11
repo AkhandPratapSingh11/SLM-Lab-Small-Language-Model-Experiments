@@ -1,0 +1,57 @@
+Step 4: Advantage is calculated
+
+Formula: Advantage = Actual Return - Expected Value
+
+Using the numbers: Advantage = 5 - 3 = +2
+
+Meaning: The action Right performed better than expected.
+
+Therefore, PPO decides: Increase the probability of taking Right slightly.
+
+Step 5: Policy is updated
+
+Old policy: P(Right) = 0.60
+
+After training: P(Right) = 0.72
+
+Now calculate the ratio:
+
+ratio = new_prob / old_prob
+
+ratio = 0.72 / 0.60 = 1.2
+
+Meaning: The action Right is now 20% more likely to be chosen.
+
+PPO checks whether this update is too large.
+
+Step 6: PPO Clipping
+
+The main rule of PPO is: Do not change the policy too much at once.
+
+Suppose the allowed range is:
+
+0.8 to 1.2
+
+In our case: ratio = 1.2
+
+This is allowed.
+
+If the new probability had become:
+
+P(Right) = 0.90
+
+Then: ratio = 0.90 / 0.60 = 1.5
+
+PPO would say: This update is too aggressive.
+
+Clip it.
+
+PPO overall training loop
+
+1. Compute loss for Value Function Network
+
+2. Compute loss for Policy Network
+
+3. Update both networks
+
+4, Repeat
