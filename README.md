@@ -50,7 +50,9 @@ SLM_Experiment/
 ├── 10_finetune_llm/         ← Large Language Model (7B–70B) fine-tuning at scale
 ├── 11_embedding_finetuning/ ← Embeddings & Sentence Transformers fine-tuning
 ├── 12_lora_qlora/           ← LoRA & QLoRA deep dive (DoRA, rsLoRA, PiSSA)
-└── 13_rlhf_ppo_dpo_orpo/    ← Alignment: RLHF, PPO, DPO, ORPO & GRPO
+├── 13_rlhf_ppo_dpo_orpo/    ← Alignment: RLHF, PPO, DPO, ORPO & GRPO
+├── Transcript/              ← YouTube playlist transcript dataset extractor
+└── requirements.txt         ← Project-wide dependencies (PEFT, TRL, PyTorch, HF)
 ```
 
 ---

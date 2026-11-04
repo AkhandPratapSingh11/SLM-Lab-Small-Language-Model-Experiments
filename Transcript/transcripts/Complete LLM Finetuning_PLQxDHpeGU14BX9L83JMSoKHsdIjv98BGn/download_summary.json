@@ -1,0 +1,239 @@
+{
+  "playlist_id": "PLQxDHpeGU14BX9L83JMSoKHsdIjv98BGn",
+  "playlist_title": "Complete LLM Finetuning",
+  "total_videos": 33,
+  "successful": 32,
+  "failed": 1,
+  "videos": [
+    {
+      "video_id": "9LBWncqtO8U",
+      "title": "LLM Fine-Tuning: 01 LLM Fine-Tuning From Scratch—Full Playlist Coming Your Way #aiagents #finetuning",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "_V3zqVlCACQ",
+      "title": "LLM Fine-Tuning: 02 Understanding Model Pretraining and Training in AI  #aiagents #finetuning #ai",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "oFMixPMJ6Ko",
+      "title": "LLM Fine-Tuning 03: Transfer Learning and Model Fine-Tuning #aiagents #finetuning  #ai",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "-GdWEiJsVDA",
+      "title": "LLM Fine-Tuning 04: Top 10 LLM Fine-Tuning Frameworks for 2025 | Best Tools for Finetuning AI Agents",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "5zXuUjMJc34",
+      "title": "LLM Fine-Tuning 05: Fine-Tuning vs. RAG vs. AI Agents — Which Approach Fits Your Use Case?",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "gZdS0pNuaMs",
+      "title": "LLM Fine-Tuning 06: Why Finetuning Was Difficult in RNN or LSTM – How Transformers Changed the Game",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "NED-dKEbtAQ",
+      "title": "LLM Fine-Tuning 07: LSTM vs Transformer | Why Transformers Replaced LSTM in NLP",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "SPNaP4ik9a4",
+      "title": "LLM Fine-Tuning 08: Master Hugging Face in 3 Hours | Full Crash Course 2025 #ai #huggingface #llm",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "3gj8wyZOkV8",
+      "title": "LLM Fine-Tuning 09: Fine-Tuning BERT for NLP (NER, Sentiment, QA) | Hugging Face #huggingface #llm",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "gSzv6s9X5Ak",
+      "title": "LLM Fine-Tuning 10: LLM Knowledge Distillation | How to Distill LLMs (DistilBERT & Beyond) Part 1",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "FiG72a3hGtQ",
+      "title": "LLM Fine-Tuning 11: LLM Knowledge Distillation | How to Distill LLMs (LLAMA, Phi & Beyond) Part 2",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "sLEuVm9ZdxQ",
+      "title": "LLM Fine-Tuning 12: LLM Quantization Explained( PART 1) | PTQ, QAT, GPTQ, AWQ, GGUF, GGML, llama.cpp",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "_3FctggJ9r4",
+      "title": "LLM Fine-Tuning 13: LLM Quantization Explained (PART 2) | PTQ, QAT, GPTQ, AWQ, GGUF, GGML, llama.cpp",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "OtdnFtHOu40",
+      "title": "LLM Fine-Tuning 14: Train LLMs on Your PDF/Text Data | Domain-Specific Fine-Tuning with Hugging Face",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "yOkOA_BjvX0",
+      "title": "LLM Fine-Tuning 15: Instruction Fine-Tuning Explained | Domain-Specific FineTuning with Hugging Face",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "u6G5zznD69g",
+      "title": "LLM Fine-Tuning 16: Preference Alignment & Preference Training in LLMs with RLHF, RLAIF, DPO, LoRA",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "vH5QGdvbHgY",
+      "title": "LLM Fine-Tuning Crash Course: Finetune model on PDFs, Instruction FT, Preference Training (DPO/RLHF)",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "RL38OsL5ycY",
+      "title": "LLM Fine-Tuning 17: Fine-Tune ANY LLM with LLaMA Factory | Full Guide (WebUI + CLI | LoRA + QLoRA)",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "2yZUOeIA7gE",
+      "title": "LLM Fine-Tuning 18: Unsloth Full Guide | Fine-Tune LLMs 2× to 4x Faster with Lowest GPU Memory",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "SB7m8joxp7g",
+      "title": "LLM Fine-Tuning 19: Fine-Tune Any LLM with Axolotl 🔥 Low-Code YAML Based Training (No Heavy Coding)",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "4JU3eshdu4U",
+      "title": "LLM Fine-Tuning 20: OpenAI(GPTs) Fine-Tuning Masterclass | Supervised FT | Token & Cost Analysis",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "snRg-sufUQg",
+      "title": "LLM Fine-Tuning 21: Google Gemini Fine-Tuning Masterclass using Vertex AI | Supervised Finetuning",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "CeyI2l8LkYU",
+      "title": "LLM Fine-Tuning 22: Fine-Tune Any SLM (Small Language Model) | Crash Course with Practical(Unsloth)",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "vYH_UE2-z3I",
+      "title": "LLM Fine-Tuning 23: Multimodal LLM Fine-Tuning with Unsloth (Vision + Text) | QwenVL, LLaVA, Pixtral",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "idIck_TmPTE",
+      "title": "LLM Fine-Tuning 24: Embedding & Embedding Fine-Tuning Full Guide | Train Your Own Embedding Model",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "f_4pU1WUTwo",
+      "title": "LLM Fine-Tuning 25: Improve RAG Retrieval with Finetune Embedding | Embedding Fine-Tuning Full Guide",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "cO6Ly7mIziQ",
+      "title": "LoRA & QLoRA Explained Simply | Full Fine-Tuning vs PEFT + Intuition + Practical (Complete Guide)",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "P0lxTrGjJ3Y",
+      "title": "Preference Alignment & RLHF in LLMs Explained | RLHF, PPO, DPO, ORPO, RL Basics & Practical Part-1",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "uhHn9PSP3ro",
+      "title": "Preference Alignment & RLHF in LLMs Explained | RLHF, PPO, DPO, ORPO, RL Basics & Practical Part-2",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "LNBHliec-P0",
+      "title": "Preference Alignment & RLHF in LLMs Explained with Huggingface Practical | RLHF, PPO Part-3",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "teH_nmWZdro",
+      "title": "GRPO Fine-Tuning with Practical | DeepSeekMath, PPO vs GRPO, Hugging Face & Unsloth",
+      "status": "failed",
+      "error": "\nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=teH_nmWZdro! This is most likely caused by:\n\nYouTube is blocking requests from your IP. This usually is due to one of the following reasons:\n- You have done too many requests and your IP has been blocked by YouTube\n- You are doing requests from an IP belonging to a cloud provider (like AWS, Google Cloud Platform, Azure, etc.). Unfortunately, most IPs from cloud providers are blocked by YouTube.\n\nWays to work around this are explained in the \"Working around IP bans\" section of the README (https://github.com/jdepoix/youtube-transcript-api?tab=readme-ov-file#working-around-ip-bans-requestblocked-or-ipblocked-exception).\n\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!"
+    },
+    {
+      "video_id": "rQuCz3kLE8c",
+      "title": "DPO Explained for LLM Finetuning | PPO vs GRPO vs DPO | Practical with Hugging Face & Unsloth",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    },
+    {
+      "video_id": "zjotfEINctU",
+      "title": "Fine-Tuning any LLM using ORPO | DPO vs PPO vs GRPO & Practical Implementation",
+      "status": "success",
+      "language": "en",
+      "source_type": "generated"
+    }
+  ]
+}
